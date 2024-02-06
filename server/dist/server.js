@@ -2,6 +2,7 @@
 const express = require("express");
 const PORT = process.env.PORT || 3001;
 const app = express();
+// required stuff
 const cors = require("cors");
 const corsOptions = {
     origin: "*",
