@@ -1,7 +1,15 @@
+/*
+import "./loadEnvironment.ts";
+import todos from "./routes/todos.ts";
+import express from "express";
+*/
+require("./loadEnvironment.ts");
+const todos = require("./routes/todos.ts");
 const express = require("express");
 const PORT = process.env.PORT || 3001;
 
 const app = express();
+app.use("/todos", todos);
 
 // required stuff
 const cors = require("cors");
