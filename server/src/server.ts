@@ -1,15 +1,16 @@
 /*
 import "./loadEnvironment.ts";
-import todos from "./routes/todos.ts";
+import habits from "./routes/habits.ts";
 import express from "express";
 */
-require("./loadEnvironment.ts");
-const todos = require("./routes/todos.ts");
+require("./loadEnvironment");
+const habits = require("./routes/habits");
 const express = require("express");
 const PORT = process.env.PORT || 3001;
 
 const app = express();
-app.use("/todos", todos);
+app.use("/habits", habits);
+app.use(express.json());
 
 // required stuff
 const cors = require("cors");
@@ -20,9 +21,11 @@ const corsOptions = {
 };
 app.use(cors(corsOptions));
 
-app.get("/api", (req: any, res: any) => {
+/*
+app.get("/api", async (req: any, res: any) => {
   res.json({ message: "Hello from server!" });
 });
+*/
 
 app.listen(PORT, () => {
   console.log(`Server listening on ${PORT}`);

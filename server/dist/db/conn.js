@@ -3,9 +3,9 @@ const connectionString = process.env.ATLAS_URI || "";
 // const client = new MongoClient(connectionString);
 let conn;
 let db;
-MongoClient.connect(connectionString, (client: any) => {
-  const db = client.db("sample_restaurants");
-  client.close();
+MongoClient.connect(connectionString, (client) => {
+    const db = client.db("sample_restaurants");
+    client.close();
 });
 // async () => {
 //   try {
@@ -15,5 +15,4 @@ MongoClient.connect(connectionString, (client: any) => {
 //     console.error(e);
 //   }
 // }
-
 export default db;
