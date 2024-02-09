@@ -26,4 +26,4 @@ app.get("/api", async (req: any, res: any) => {
 app.listen(PORT, () => {
     console.log(`Server listening on ${PORT}`);
 });
-export {};
+//# sourceMappingURL=server.js.map
