@@ -11,7 +11,9 @@ habitsRouter.use(express.json());
 // GET
 habitsRouter.get("/", async (_req: Request, res: Response) => {
   try {
-    const habits = (await collections.habits.find({}).toArray()) as Habit[];
+    const habits = (await collections.habits
+      .find({})
+      .toArray()) as unknown as Habit[];
     res.status(200).send(habits);
   } catch (error) {
     res.status(500).send(error.message);

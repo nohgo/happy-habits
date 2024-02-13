@@ -1,19 +1,15 @@
-/*
-import "./loadEnvironment.ts";
-import habits from "./routes/habits.ts";
+import "./loadEnvironment";
+import { habitsRouter } from "./routes/habits.route";
+import { connectToDatabase } from "./services/database.service";
 import express from "express";
-*/
-require("./loadEnvironment");
-const habits = require("./routes/habits");
-const express = require("express");
+import cors from "cors";
+
 const PORT = process.env.PORT || 3001;
 
 const app = express();
-app.use("/habits", habits);
 app.use(express.json());
 
 // required stuff
-const cors = require("cors");
 const corsOptions = {
   origin: "*",
   credentials: true,
@@ -21,12 +17,15 @@ const corsOptions = {
 };
 app.use(cors(corsOptions));
 
-/*
-app.get("/api", async (req: any, res: any) => {
-  res.json({ message: "Hello from server!" });
-});
-*/
+connectToDatabase()
+  .then(() => {
+    app.use("/habits", habitsRouter);
 
-app.listen(PORT, () => {
-  console.log(`Server listening on ${PORT}`);
-});
+    app.listen({ PORT }, () => {
+      console.log(`Server started at http://localhost:${PORT}`);
+    });
+  })
+  .catch((error: Error) => {
+    console.error("Database connection failed", error);
+    process.exit();
+  });
