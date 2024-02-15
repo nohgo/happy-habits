@@ -1,10 +1,11 @@
 import "./loadEnvironment";
 import { habitsRouter } from "./routes/habits.route";
+import { authRouter } from "./routes/auth.route";
 import { connectToDatabase } from "./services/database.service";
 import express from "express";
 import cors from "cors";
 
-const PORT = process.env.PORT || 3001;
+const port = process.env.PORT || 3001;
 
 const app = express();
 app.use(express.json());
@@ -20,9 +21,10 @@ app.use(cors(corsOptions));
 connectToDatabase()
   .then(() => {
     app.use("/habits", habitsRouter);
+    app.use("/login", authRouter);
 
-    app.listen({ PORT }, () => {
-      console.log(`Server started at http://localhost:${PORT}`);
+    app.listen({ port }, () => {
+      console.log(`Server started at http://localhost:${port}`);
     });
   })
   .catch((error: Error) => {

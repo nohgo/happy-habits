@@ -1,7 +1,10 @@
 import * as mongoDB from "mongodb";
 import * as dotenv from "dotenv";
 
-export const collections: { habits?: mongoDB.Collection } = {};
+export const collections: {
+  habits?: mongoDB.Collection;
+  users?: mongoDB.Collection;
+} = {};
 
 export async function connectToDatabase() {
   dotenv.config();
@@ -18,7 +21,12 @@ export async function connectToDatabase() {
     process.env.HABITS_COLLECTION_NAME
   );
 
+  const usersCollection: mongoDB.Collection = db.collection(
+    process.env.USERS_COLLECTION_NAME
+  );
+
   collections.habits = habitsCollection;
+  collections.users = usersCollection;
 
   console.log(
     `Successfully connected to database: ${db.databaseName} and collection: ${habitsCollection.collectionName}`

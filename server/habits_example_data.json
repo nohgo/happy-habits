@@ -1,0 +1,22 @@
+[
+  {
+    "id": 123,
+    "name": "drink more water",
+    "description": "stay hydrated",
+    "streak": 5
+  },
+
+  {
+    "id": 456,
+    "name": "Go to gym",
+    "description": "Gains4Life!",
+    "streak": 3
+  },
+
+  {
+    "id": 123,
+    "name": "Eat fruits and vegetables",
+    "description": "Nutrients",
+    "streak": 5
+  }
+]

@@ -8,14 +8,12 @@ import Habit from "../models/habit";
 export const habitsRouter = express.Router();
 habitsRouter.use(express.json());
 
-// GET
-habitsRouter.get("/", async (_req: Request, res: Response) => {
-  try {
-    const habits = (await collections.habits
-      .find({})
-      .toArray()) as unknown as Habit[];
-    res.status(200).send(habits);
-  } catch (error) {
-    res.status(500).send(error.message);
-  }
-});
+// Test GET
+// habitsRouter.get("/", async (_req: Request, res: Response) => {
+//   try {
+//     const habits = await collections.habits.find({ id: 123 }).toArray();
+//     res.status(200).send(habits);
+//   } catch (error) {
+//     res.status(500).send(error.message);
+//   }
+// });
