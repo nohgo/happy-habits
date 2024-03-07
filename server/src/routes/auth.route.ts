@@ -3,6 +3,7 @@ import { collections } from "../services/database.service";
 import { ObjectId } from "mongodb";
 import { User } from "../models/user";
 import { Habit } from "../models/habit";
+import bcrypt from "bcrypt";
 
 export const authRouter = express.Router();
 authRouter.use(express.json());
@@ -12,18 +13,26 @@ authRouter.post("/", async (req: Request, res: Response) => {
   try {
     const user: User = (await collections.users.findOne({
       username: username,
-      password: password,
     })) as User;
 
     if (!user) {
       res.status(401).json({
         message: "Login not successful",
-        error: "User not found",
+        error: "Username not found",
       });
     } else {
-      res.status(200).json({
-        message: "Login successful",
-        habits: await findHabits(user),
+      bcrypt.compare(password, user.password, async function (err, result) {
+        if (result) {
+          res.status(200).json({
+            message: "Login successful",
+            habits: await findHabits(user),
+          });
+        } else {
+          res.status(401).json({
+            message: "Login not successful",
+            error: "Password not found",
+          });
+        }
       });
     }
   } catch (error) {
@@ -33,10 +42,3 @@ authRouter.post("/", async (req: Request, res: Response) => {
     });
   }
 });
-
-const findHabits = async (user: User) => {
-  return (await collections.habits.findOne({ id: 123 })) as Habit;
-  // return user.ids.map(async (id) => {
-  //   console.log(await collections.habits.findOne({ _id: id }));
-  // });
-};

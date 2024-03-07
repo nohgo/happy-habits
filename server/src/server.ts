@@ -4,6 +4,7 @@ import { authRouter } from "./routes/auth.route";
 import { connectToDatabase } from "./services/database.service";
 import express from "express";
 import cors from "cors";
+import bcrpyt from "bcrypt";
 
 const port = process.env.PORT || 3001;
 
