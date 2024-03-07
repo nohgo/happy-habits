@@ -22,6 +22,7 @@ connectToDatabase()
   .then(() => {
     app.use("/habits", habitsRouter);
     app.use("/login", authRouter);
+    console.log(authRouter);
 
     app.listen({ port }, () => {
       console.log(`Server started at http://localhost:${port}`);

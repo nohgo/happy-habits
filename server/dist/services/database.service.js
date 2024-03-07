@@ -43,7 +43,9 @@ function connectToDatabase() {
         yield client.connect();
         const db = client.db(process.env.DB_NAME);
         const habitsCollection = db.collection(process.env.HABITS_COLLECTION_NAME);
+        const usersCollection = db.collection(process.env.USERS_COLLECTION_NAME);
         exports.collections.habits = habitsCollection;
+        exports.collections.users = usersCollection;
         console.log(`Successfully connected to database: ${db.databaseName} and collection: ${habitsCollection.collectionName}`);
     });
 }

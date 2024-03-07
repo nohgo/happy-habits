@@ -1,14 +1,11 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 class Habit {
-    constructor(address, borough, cuisine, grades, name, restaurant_id, id) {
-        this.address = address;
-        this.borough = borough;
-        this.cuisine = cuisine;
-        this.grades = grades;
+    constructor(name, description, streak, _id) {
         this.name = name;
-        this.restaurant_id = restaurant_id;
-        this.id = id;
+        this.description = description;
+        this.streak = streak;
+        this._id = _id;
     }
 }
 exports.default = Habit;
