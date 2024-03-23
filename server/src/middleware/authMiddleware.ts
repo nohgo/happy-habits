@@ -8,8 +8,8 @@ function verifyToken(req: AuthRequest, res: Response, next: Function) {
   if (!token) return res.status(401).json({ error: "Access denied" });
   try {
     token = token.substring(7);
-    const { _id } = jwt.verify(token, process.env.SECRET_KEY) as JwtPayload;
-    req.userId = _id;
+    const decoded = jwt.verify(token, process.env.SECRET_KEY) as JwtPayload;
+    req.userId = decoded._id;
     next();
   } catch (error) {
     res.status(401).json({ error: "Invalid token" });

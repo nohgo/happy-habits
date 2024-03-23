@@ -11,7 +11,7 @@ interface User extends Document {
 const UserSchema = new Schema({
   username: { type: String, unique: true, required: true },
   password: { type: String, required: true },
-  habits: { type: Array<ObjectId>, required: true },
+  habits: { type: Array<ObjectId>, default: new Array<ObjectId>() },
 });
 
 export default mongoose.model<User>("User", UserSchema);

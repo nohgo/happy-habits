@@ -3,6 +3,7 @@ import express, { Request, Response } from "express";
 import { collections } from "../services/database.service";
 import verifyToken from "../middleware/authMiddleware";
 import Habit from "../models/Habit";
+import AuthRequest from "../models/AuthRequest";
 
 // Global Config
 export const habitsRouter = express.Router();
@@ -21,18 +22,22 @@ habitsRouter.get("/", verifyToken, async (_req: Request, res: Response) => {
 habitsRouter.post(
   "/newHabit",
   verifyToken,
-  async (req: Request, res: Response) => {
+  async (req: AuthRequest, res: Response) => {
     try {
       const { name, description, days } = req.body;
+      const user = await collections.users.findOne({ username: req.userId });
+      console.log(JSON.stringify(req));
       const habit = new Habit({
         name,
         description,
         frequency: days * parseInt(process.env.DAY_MS),
       });
       await habit.save();
+      user.habits.push(habit._id);
       res.status(201).json({ message: "Habit added successfully" });
     } catch (error) {
       res.status(500).json({ error: "Failed to add habit" });
+      console.log(error);
     }
   }
 );

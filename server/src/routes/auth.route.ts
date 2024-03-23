@@ -16,7 +16,6 @@ authRouter.post("/register", async (req: Request, res: Response) => {
     const user = new User({
       username,
       password: hashedPassword,
-      habits: new Array<ObjectId>(),
     });
     await user.save();
 
@@ -30,8 +29,6 @@ authRouter.post("/register", async (req: Request, res: Response) => {
 authRouter.post("/login", async (req, res) => {
   try {
     const { username, password } = req.body;
-    console.log(req.body);
-    console.log(username, password);
 
     const user = await collections.users.findOne({ username });
     if (!user) {

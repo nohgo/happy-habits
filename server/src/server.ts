@@ -21,8 +21,8 @@ app.use(cors(corsOptions));
 
 connectToDatabase()
   .then(() => {
-    app.use("/habits", habitsRouter);
     app.use("/auth", authRouter);
+    app.use("/habits", habitsRouter);
 
     app.listen({ port }, () => {
       console.log(`Server started at http://localhost:${port}`);
