@@ -1,7 +1,5 @@
 import express, { Request, Response } from "express";
-import { collections } from "../services/database.service";
-import { ObjectId } from "mongodb";
-import User from "../models/user";
+import User from "../../models/user";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 
@@ -30,7 +28,7 @@ authRouter.post("/login", async (req, res) => {
   try {
     const { username, password } = req.body;
 
-    const user = await collections.users.findOne({ username });
+    const user = await User.findOne({ username });
     if (!user) {
       return res
         .status(401)
