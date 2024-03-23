@@ -1,7 +1,7 @@
 import express, { Request, Response } from "express";
 import { collections } from "../services/database.service";
 import { ObjectId } from "mongodb";
-import User from "../models/User";
+import User from "../models/user";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 
@@ -44,10 +44,10 @@ authRouter.post("/login", async (req, res) => {
         .json({ error: "Authentication failed - password did not match" });
     }
 
-    const token = jwt.sign({ userId: user._id }, process.env.SECRET_KEY, {
+    const token = jwt.sign({ userId: user.username }, process.env.SECRET_KEY, {
       expiresIn: "24h",
     });
-    res.status(200).json({ token });
+    res.status(200).json({ type: "Bearer", token });
   } catch (error) {
     res.status(500).json({ error: "Login failed" });
   }
