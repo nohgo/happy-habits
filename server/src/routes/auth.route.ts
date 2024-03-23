@@ -1,44 +1,57 @@
 import express, { Request, Response } from "express";
 import { collections } from "../services/database.service";
 import { ObjectId } from "mongodb";
-import { User } from "../models/user";
-import { Habit } from "../models/habit";
+import User from "../models/User";
 import bcrypt from "bcrypt";
+import jwt from "jsonwebtoken";
 
 export const authRouter = express.Router();
 authRouter.use(express.json());
 
-authRouter.post("/", async (req: Request, res: Response) => {
-  const { username, password } = req.body;
+authRouter.post("/register", async (req: Request, res: Response) => {
   try {
-    const user: User = (await collections.users.findOne({
-      username: username,
-    })) as User;
+    const { username, password } = req.body;
+    const hashedPassword = await bcrypt.hash(password, 10);
 
-    if (!user) {
-      res.status(401).json({
-        message: "Login not successful",
-        error: "Username not found",
-      });
-    } else {
-      bcrypt.compare(password, user.password, async function (err, result) {
-        if (result) {
-          res.status(200).json({
-            message: "Login successful",
-            habits: await findHabits(user),
-          });
-        } else {
-          res.status(401).json({
-            message: "Login not successful",
-            error: "Password not found",
-          });
-        }
-      });
-    }
-  } catch (error) {
-    res.status(400).json({
-      message: "An error occurred",
-      error: error.message,
+    const user = new User({
+      username,
+      password: hashedPassword,
+      habits: new Array<ObjectId>(),
     });
+    await user.save();
+
+    res.status(201).json({ message: "User registered successfully" });
+  } catch (error) {
+    res.status(500).json({ error: "Registration failed" });
+    console.log(error);
+  }
+});
+
+authRouter.post("/login", async (req, res) => {
+  try {
+    const { username, password } = req.body;
+    console.log(req.body);
+    console.log(username, password);
+
+    const user = await collections.users.findOne({ username });
+    if (!user) {
+      return res
+        .status(401)
+        .json({ error: "Authentication failed - user is null" });
+    }
+
+    const passwordMatch = await bcrypt.compare(password, user.password);
+    if (!passwordMatch) {
+      return res
+        .status(401)
+        .json({ error: "Authentication failed - password did not match" });
+    }
+
+    const token = jwt.sign({ userId: user._id }, process.env.SECRET_KEY, {
+      expiresIn: "24h",
+    });
+    res.status(200).json({ token });
+  } catch (error) {
+    res.status(500).json({ error: "Login failed" });
   }
 });

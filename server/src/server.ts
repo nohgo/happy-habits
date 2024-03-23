@@ -1,5 +1,5 @@
 import "./loadEnvironment";
-import { habitsRouter } from "./routes/habits.route";
+import habitsRouter from "./routes/habits.route";
 import { authRouter } from "./routes/auth.route";
 import { connectToDatabase } from "./services/database.service";
 import express from "express";
@@ -22,8 +22,7 @@ app.use(cors(corsOptions));
 connectToDatabase()
   .then(() => {
     app.use("/habits", habitsRouter);
-    app.use("/login", authRouter);
-    console.log(authRouter);
+    app.use("/auth", authRouter);
 
     app.listen({ port }, () => {
       console.log(`Server started at http://localhost:${port}`);
