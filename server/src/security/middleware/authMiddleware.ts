@@ -4,7 +4,7 @@ import AuthRequest from "../models/AuthRequest";
 import JwtPayload from "../models/JwtPayload";
 
 function verifyToken(req: AuthRequest, res: Response, next: Function) {
-  var token = req.header("Authorization");
+  var token = req.headers["authorization"];
   if (!token) return res.status(401).json({ error: "Access denied" });
   try {
     token = token.substring(7);
