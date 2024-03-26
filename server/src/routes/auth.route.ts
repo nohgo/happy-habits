@@ -1,7 +1,7 @@
 import express, { Request, Response } from "express";
 import { collections } from "../services/database.service";
 import { ObjectId } from "mongodb";
-import User from "../models/User";
+import User from "../models/user.model";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 
@@ -21,8 +21,8 @@ authRouter.post("/register", async (req: Request, res: Response) => {
 
     res.status(201).json({ message: "User registered successfully" });
   } catch (error) {
+    console.error(error);
     res.status(500).json({ error: "Registration failed" });
-    console.log(error);
   }
 });
 
@@ -32,16 +32,12 @@ authRouter.post("/login", async (req, res) => {
 
     const user = await collections.users.findOne({ username });
     if (!user) {
-      return res
-        .status(401)
-        .json({ error: "Authentication failed - user is null" });
+      return res.status(401).json({ error: "Authentication failed" });
     }
 
     const passwordMatch = await bcrypt.compare(password, user.password);
     if (!passwordMatch) {
-      return res
-        .status(401)
-        .json({ error: "Authentication failed - password did not match" });
+      return res.status(401).json({ error: "Authentication failed" });
     }
 
     const token = jwt.sign({ userId: user._id }, process.env.SECRET_KEY, {
@@ -49,6 +45,21 @@ authRouter.post("/login", async (req, res) => {
     });
     res.status(200).json({ token });
   } catch (error) {
+    console.error(error);
     res.status(500).json({ error: "Login failed" });
+  }
+});
+
+authRouter.post("/updatePassword", async (req, res) => {
+  try {
+    const { username, password, newPassword } = req.body;
+
+    const user = await collections.users.findOne({ username });
+    if (!user) {
+      return res.status(401).json({ error: "Failed to update password" });
+    }
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Failed to update password" });
   }
 });

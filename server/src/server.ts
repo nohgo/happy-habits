@@ -1,4 +1,4 @@
-import "./loadEnvironment";
+import "./load-environment";
 import habitsRouter from "./routes/habits.route";
 import { authRouter } from "./routes/auth.route";
 import { connectToDatabase } from "./services/database.service";
