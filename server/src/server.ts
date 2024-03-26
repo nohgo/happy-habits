@@ -1,10 +1,8 @@
 import "./load-environment";
 import habitsRouter from "./routes/habits.route";
-import { authRouter } from "./routes/auth.route";
-import { connectToDatabase } from "./services/database.service";
+import { authRouter } from "./security/routes/auth.route";
 import express from "express";
 import cors from "cors";
-import bcrpyt from "bcrypt";
 
 const port = process.env.PORT || 3001;
 
@@ -19,16 +17,14 @@ const corsOptions = {
 };
 app.use(cors(corsOptions));
 
-connectToDatabase()
-  .then(() => {
-    app.use("/auth", authRouter);
-    app.use("/habits", habitsRouter);
+try {
+  app.use("/auth", authRouter);
+  app.use("/habits", habitsRouter);
 
-    app.listen({ port }, () => {
-      console.log(`Server started at http://localhost:${port}`);
-    });
-  })
-  .catch((error: Error) => {
-    console.error("Database connection failed", error);
-    process.exit();
+  app.listen({ port }, () => {
+    console.log(`Server started at http://localhost:${port}`);
   });
+} catch (error) {
+  console.error("Database connection failed", error);
+  process.exit();
+}

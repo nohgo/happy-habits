@@ -1,5 +1,3 @@
-import { ObjectId } from "mongodb";
-
 import mongoose, { Schema, Document } from "mongoose";
 
 interface IHabit extends Document {

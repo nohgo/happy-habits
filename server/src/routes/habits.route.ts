@@ -1,18 +1,19 @@
 // External Dependencies
-import express, { Request, Response } from "express";
-import { collections } from "../services/database.service";
-import verifyToken from "../middleware/auth.middleware";
+import express, { Response } from "express";
+import verifyToken from "../security/middleware/auth.middleware";
 import Habit from "../models/habit.model";
-import AuthRequest from "../models/auth-request.model";
+import User from "../models/user.model";
+import AuthRequest from "../security/models/auth-request.model";
 
 // Global Config
 export const habitsRouter = express.Router();
 habitsRouter.use(express.json());
 
 // Test GET
-habitsRouter.get("/", verifyToken, async (_req: Request, res: Response) => {
+habitsRouter.get("/", verifyToken, async (req: AuthRequest, res: Response) => {
   try {
-    const habits = await collections.habits.find({}).toArray();
+    const user = await User.findOne({ username: req.userId });
+    const habits = await Habit.find({ _id: { $in: user.habits } });
     res.status(200).send(habits);
   } catch (error) {
     console.error(error);
@@ -26,7 +27,7 @@ habitsRouter.post(
   async (req: AuthRequest, res: Response) => {
     try {
       const { name, description, days } = req.body;
-      const user = await collections.users.findOne({ username: req.userId });
+      const user = await User.findOne({ username: req.userId });
       const habit = new Habit({
         name,
         description,
@@ -51,7 +52,7 @@ habitsRouter.post(
   async (req: AuthRequest, res: Response) => {
     try {
       const { habitId, name, description, frequency } = req.body;
-      await collections.habits.updateOne(
+      await Habit.updateOne(
         { _id: habitId },
         { $set: { name, description, frequency } }
       );
@@ -70,11 +71,11 @@ habitsRouter.post(
   async (req: AuthRequest, res: Response) => {
     try {
       const { habitId } = req.body;
-      const user = await collections.users.findOne({ username: req.userId });
+      const user = await User.findOne({ username: req.userId });
 
-      await collections.habits.deleteOne({ _id: habitId });
+      await Habit.deleteOne({ _id: habitId });
 
-      await user.habits.remove(habitId);
+      user.habits = user.habits.filter((habit) => habit !== habitId);
       await user.save();
 
       res.status(201).json({ message: "Habit deleted successfully" });
@@ -90,8 +91,8 @@ habitsRouter.post(
   verifyToken,
   async (req: AuthRequest, res: Response) => {
     try {
-      const user = await collections.users.findOne({ username: req.userId });
-      await collections.habits.deleteMany({ _id: { $in: user.habits } });
+      const user = await User.findOne({ username: req.userId });
+      await Habit.deleteMany({ _id: { $in: user.habits } });
       user.habits = [];
       await user.save();
       res.status(201).json({ message: "All habits deleted successfully" });
@@ -108,7 +109,7 @@ habitsRouter.post(
   async (req: AuthRequest, res: Response) => {
     try {
       const { habitId } = req.body;
-      const habit = await collections.habits.findOne({ _id: habitId });
+      const habit = await Habit.findOne({ _id: habitId });
 
       if (habit.lastIncrement) {
         const now = new Date();
@@ -145,7 +146,7 @@ habitsRouter.post(
   async (req: AuthRequest, res: Response) => {
     try {
       const { habitId } = req.body;
-      const habit = await collections.habits.findOne({ _id: habitId });
+      const habit = await Habit.findOne({ _id: habitId });
       habit.streak = 0;
       await habit.save();
       res.status(201).json({ message: "Habit streak reset successfully" });
@@ -163,8 +164,8 @@ habitsRouter.post(
   verifyToken,
   async (req: AuthRequest, res: Response) => {
     try {
-      const user = await collections.users.findOne({ username: req.userId });
-      await collections.habits.updateMany(
+      const user = await User.findOne({ username: req.userId });
+      await Habit.updateMany(
         { _id: { $in: user.habits } },
         { $set: { streak: 0 } }
       );
