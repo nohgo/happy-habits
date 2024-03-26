@@ -19,9 +19,10 @@ export async function addHabit(
 }
 
 export async function getHabits(userId: string) {
-  const user = await User.findOne({ username: userId });
-  const habits = await Habit.find({ _id: { $in: user.habits } });
-  return habits;
+  const user = await (
+    await User.findOne({ username: userId })
+  ).populate("habits");
+  return user.habits;
 }
 
 export async function updateHabit(
