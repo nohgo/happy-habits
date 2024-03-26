@@ -5,13 +5,13 @@ export async function addHabit(
   userId: string,
   name: string,
   description: string,
-  days: number
+  frequency: number
 ) {
   const user = await User.findOne({ username: userId });
   const habit = new Habit({
     name,
     description,
-    frequency: days * parseInt(process.env.DAY_MS),
+    frequency,
   });
   await habit.save();
   user.habits.push(habit._id);
@@ -28,7 +28,7 @@ export async function updateHabit(
   habitId: string,
   name: string,
   description: string,
-  days: number
+  frequency: number
 ) {
   await Habit.updateOne(
     { _id: habitId },
@@ -36,7 +36,7 @@ export async function updateHabit(
       $set: {
         name,
         description,
-        frequency: days * parseInt(process.env.DAY_MS),
+        frequency,
       },
     }
   );

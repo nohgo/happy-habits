@@ -16,7 +16,3 @@ if (!process.env.SECRET_KEY) {
     `SECRET_KEY=${secretKey}\n`
   );
 }
-
-if (!process.env.DAY_MS) {
-  fs.appendFileSync(path.join(__dirname + "/../", ".env"), `DAY_MS=86400000\n`);
-}

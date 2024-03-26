@@ -1,9 +1,11 @@
 import express, { Request, Response } from "express";
-import User from "../../models/user.model";
-import bcrypt from "bcrypt";
-import jwt from "jsonwebtoken";
 import verifyToken from "../middleware/auth.middleware";
-import Habit from "../../models/habit.model";
+import {
+  deleteAccount,
+  login,
+  register,
+  updatePassword,
+} from "../services/auth.service";
 
 export const authRouter = express.Router();
 authRouter.use(express.json());
@@ -11,14 +13,12 @@ authRouter.use(express.json());
 authRouter.post("/register", async (req: Request, res: Response) => {
   try {
     const { username, password } = req.body;
-    const hashedPassword = await bcrypt.hash(password, 10);
-
-    const user = new User({
-      username,
-      password: hashedPassword,
-    });
-    await user.save();
-
+    if (!username || !password) {
+      return res
+        .status(400)
+        .json({ error: "Username and password are required" });
+    }
+    await register(username, password);
     res.status(201).json({ message: "User registered successfully" });
   } catch (error) {
     console.error(error);
@@ -29,21 +29,14 @@ authRouter.post("/register", async (req: Request, res: Response) => {
 authRouter.post("/login", async (req: Request, res: Response) => {
   try {
     const { username, password } = req.body;
-
-    const user = await User.findOne({ username });
-    if (!user) {
-      return res.status(401).json({ error: "Authentication failed" });
+    if (!username || !password) {
+      return res
+        .status(400)
+        .json({ error: "Username and password are required" });
     }
-
-    const passwordMatch = await bcrypt.compare(password, user.password);
-    if (!passwordMatch) {
-      return res.status(401).json({ error: "Authentication failed" });
-    }
-
-    const token = jwt.sign({ userId: user.username }, process.env.SECRET_KEY, {
-      expiresIn: "24h",
-    });
-    res.status(200).json({ type: "Bearer", token });
+    res
+      .status(200)
+      .json({ type: "Bearer", token: await login(username, password) });
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: "Login failed" });
@@ -53,20 +46,14 @@ authRouter.post("/login", async (req: Request, res: Response) => {
 authRouter.post("/updatePassword", async (req: Request, res: Response) => {
   try {
     const { username, password, newPassword } = req.body;
-
-    const user = await User.findOne({ username });
-    if (!user) {
-      return res.status(401).json({ error: "Failed to update password" });
+    if (!username || !password || !newPassword) {
+      return res
+        .status(400)
+        .json({ error: "Username and password are required" });
     }
 
-    const passwordMatch = await bcrypt.compare(password, user.password);
-    if (!passwordMatch) {
-      return res.status(401).json({ error: "Authentication failed" });
-    }
-
-    const hashedNewPassword = await bcrypt.hash(newPassword, 10);
-    user.password = hashedNewPassword;
-    await user.save();
+    await updatePassword(username, password, newPassword);
+    res.status(200).json({ message: "Password updated successfully" });
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: "Failed to update password" });
@@ -79,15 +66,12 @@ authRouter.delete(
   async (req: Request, res: Response) => {
     try {
       const { username, password } = req.body;
-      const user = await User.findOne({ username });
-      const passwordMatch = bcrypt.compare(password, user.password);
-      if (!passwordMatch) {
-        return res.status(401).json({ error: "Authentication failed" });
+      if (!username || !password) {
+        return res
+          .status(400)
+          .json({ error: "Username and password are required" });
       }
-
-      await Habit.deleteMany({ _id: { $in: user.habits } });
-      await User.deleteOne({ username });
-
+      await deleteAccount(username, password);
       res.status(200).json({ message: "Account deleted successfully" });
     } catch (error) {
       console.error(error);

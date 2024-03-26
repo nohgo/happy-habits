@@ -41,7 +41,7 @@ habitsRouter.post(
         req.userId,
         req.body.name,
         req.body.description,
-        req.body.days
+        req.body.frequency
       );
 
       res.status(201).json({ message: "Habit added successfully" });
@@ -57,8 +57,8 @@ habitsRouter.post(
   verifyToken,
   async (req: AuthRequest, res: Response) => {
     try {
-      const { habitId, name, description, days } = req.body;
-      await updateHabit(habitId, name, description, days);
+      const { habitId, name, description, frequency } = req.body;
+      await updateHabit(habitId, name, description, frequency);
       res.status(200).json({ message: "Habit updated successfully" });
     } catch (error) {
       console.error(error);
