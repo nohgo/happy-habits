@@ -65,7 +65,7 @@ habitsRouter.post(
   }
 );
 
-habitsRouter.post(
+habitsRouter.delete(
   "/deleteHabit",
   verifyToken,
   async (req: AuthRequest, res: Response) => {
@@ -86,7 +86,7 @@ habitsRouter.post(
   }
 );
 
-habitsRouter.post(
+habitsRouter.delete(
   "/deleteAllHabits",
   verifyToken,
   async (req: AuthRequest, res: Response) => {

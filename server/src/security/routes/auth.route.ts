@@ -2,6 +2,7 @@ import express, { Request, Response } from "express";
 import User from "../../models/user.model";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
+import verifyToken from "../middleware/auth.middleware";
 
 export const authRouter = express.Router();
 authRouter.use(express.json());
@@ -68,5 +69,15 @@ authRouter.post("/updatePassword", async (req, res) => {
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: "Failed to update password" });
+  }
+});
+authRouter.delete("/deleteAccount", verifyToken, async (req, res) => {
+  try {
+    const { username } = req.body;
+    await User.deleteOne({ username });
+    res.status(200).json({ message: "Account deleted successfully" });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Failed to delete account" });
   }
 });
