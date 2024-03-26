@@ -1,4 +1,4 @@
-import "./loadEnvironment";
+import "./load-environment";
 import habitsRouter from "./routes/habits.route";
 import { authRouter } from "./security/routes/auth.route";
 import express from "express";

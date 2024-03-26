@@ -1,7 +1,7 @@
 import jwt from "jsonwebtoken";
 import { Response } from "express";
-import AuthRequest from "../models/AuthRequest";
-import JwtPayload from "../models/JwtPayload";
+import AuthRequest from "../models/auth-request.model";
+import JwtPayload from "../models/jwt-payload.model";
 
 function verifyToken(req: AuthRequest, res: Response, next: Function) {
   var token = req.headers["authorization"];

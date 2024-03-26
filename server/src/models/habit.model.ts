@@ -13,7 +13,7 @@ const HabitSchema: Schema = new Schema({
   description: { type: String, required: true },
   streak: { type: Number, default: 0 },
   frequency: { type: Number, required: true },
-  lastIncrement: { type: Date, default: 0 },
+  lastIncrement: { type: Date, default: null },
 });
 
 export default mongoose.model<IHabit>("Habit", HabitSchema);
