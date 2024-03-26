@@ -107,7 +107,7 @@ habitsRouter.delete(
   verifyToken,
   async (req: AuthRequest, res: Response) => {
     try {
-      const { userId } = req.body;
+      const userId = req.userId;
       await deleteAllHabits(userId);
       res.status(204).json({ message: "All habits deleted successfully" });
     } catch (error) {
