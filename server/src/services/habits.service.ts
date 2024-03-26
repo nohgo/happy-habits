@@ -64,7 +64,7 @@ export async function deleteAllHabits(userId: string) {
   await Habit.deleteMany({ _id: { $in: user.habits } });
   user.habits = [];
   user.save();
-
+}
 export async function incrementStreak(habitId: string) {
   const habit = await Habit.findOne({ _id: habitId });
   const now = new Date();
