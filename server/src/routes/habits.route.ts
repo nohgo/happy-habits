@@ -10,16 +10,20 @@ export const habitsRouter = express.Router();
 habitsRouter.use(express.json());
 
 // Test GET
-habitsRouter.get("/", verifyToken, async (req: AuthRequest, res: Response) => {
-  try {
-    const user = await User.findOne({ username: req.userId });
-    const habits = await Habit.find({ _id: { $in: user.habits } });
-    res.status(200).send(habits);
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ error: "Failed to fetch habits" });
+habitsRouter.get(
+  "/getAllHabits",
+  verifyToken,
+  async (req: AuthRequest, res: Response) => {
+    try {
+      const user = await User.findOne({ username: req.userId });
+      const habits = await Habit.find({ _id: { $in: user.habits } });
+      res.status(200).send(habits);
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ error: "Failed to fetch habits" });
+    }
   }
-});
+);
 
 habitsRouter.post(
   "/addHabit",
@@ -110,27 +114,15 @@ habitsRouter.post(
     try {
       const { habitId } = req.body;
       const habit = await Habit.findOne({ _id: habitId });
-
-      if (habit.lastIncrement) {
-        const now = new Date();
-        const diff = now.getTime() - habit.lastIncrement.getTime();
-        const diffDays = Math.ceil(diff / Number.parseInt(process.env.DAY_MS));
-
-        if (diffDays === habit.frequency) {
-          habit.streak++;
-        } else if (diffDays > habit.frequency) {
-          habit.streak = 1;
-        }
-      } else {
-        habit.streak = 1;
-      }
-
-      habit.lastIncrement = new Date();
+      const incremented = habit.increment();
       await habit.save();
-
-      res
-        .status(201)
-        .json({ message: "Habit streak incremented successfully" });
+      incremented
+        ? res
+            .status(201)
+            .json({ message: "Habit streak incremented successfully" })
+        : res
+            .status(400)
+            .json({ message: "Habit streak not incremented successfully" });
     } catch (error) {
       console.error(error);
       res.status(500).json({

@@ -16,4 +16,26 @@ const HabitSchema: Schema = new Schema({
   lastIncrement: { type: Date, default: null },
 });
 
+HabitSchema.methods.increment = function () {
+  const now = new Date();
+
+  if (this.lastIncrement === null) {
+    this.streak += 1;
+    this.lastIncrement = now;
+    return true;
+  }
+
+  const diffInDays = Math.floor(
+    (now.getTime() - this.lastIncrement.getTime()) / (1000 * 60 * 60 * 24)
+  );
+
+  if (diffInDays >= this.frequency) {
+    this.streak += 1;
+    this.lastIncrement = now;
+    return true;
+  } else {
+    return false;
+  }
+};
+
 export default mongoose.model<IHabit>("Habit", HabitSchema);
