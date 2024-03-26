@@ -1,8 +1,6 @@
 // External Dependencies
 import express, { Response } from "express";
 import verifyToken from "../security/middleware/auth.middleware";
-import Habit from "../models/habit.model";
-import User from "../models/user.model";
 import AuthRequest from "../security/models/auth-request.model";
 import {
   addHabit,
@@ -59,8 +57,8 @@ habitsRouter.post(
   verifyToken,
   async (req: AuthRequest, res: Response) => {
     try {
-      const { habitId, name, description, frequency } = req.body;
-      await updateHabit(habitId, name, description, frequency);
+      const { habitId, name, description, days } = req.body;
+      await updateHabit(habitId, name, description, days);
       res.status(200).json({ message: "Habit updated successfully" });
     } catch (error) {
       console.error(error);

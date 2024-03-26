@@ -36,7 +36,7 @@ export async function updateHabit(
       $set: {
         name,
         description,
-        frequency: days * parseInt(process.env.DAYS_MS),
+        frequency: days * parseInt(process.env.DAY_MS),
       },
     }
   );
