@@ -91,6 +91,27 @@ habitsRouter.delete(
 );
 
 habitsRouter.delete(
+  "/deleteHabits",
+  verifyToken,
+  async (req: AuthRequest, res: Response) => {
+    try {
+      const { habitIds } = req.body;
+      const user = await User.findOne({ username: req.userId });
+
+      await Habit.deleteMany({ _id: { $in: habitIds } });
+
+      user.habits = user.habits.filter((habit) => habitIds.contains(habit));
+      await user.save();
+
+      res.status(201).json({ message: "Habits deleted successfully" });
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ erorr: "Failed to delete habits" });
+    }
+  }
+);
+
+habitsRouter.delete(
   "/deleteAllHabits",
   verifyToken,
   async (req: AuthRequest, res: Response) => {
