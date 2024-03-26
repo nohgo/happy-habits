@@ -3,6 +3,7 @@ import User from "../../models/user.model";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import verifyToken from "../middleware/auth.middleware";
+import Habit from "../../models/habit.model";
 
 export const authRouter = express.Router();
 authRouter.use(express.json());
@@ -25,7 +26,7 @@ authRouter.post("/register", async (req: Request, res: Response) => {
   }
 });
 
-authRouter.post("/login", async (req, res) => {
+authRouter.post("/login", async (req: Request, res: Response) => {
   try {
     const { username, password } = req.body;
 
@@ -49,7 +50,7 @@ authRouter.post("/login", async (req, res) => {
   }
 });
 
-authRouter.post("/updatePassword", async (req, res) => {
+authRouter.post("/updatePassword", async (req: Request, res: Response) => {
   try {
     const { username, password, newPassword } = req.body;
 
@@ -71,13 +72,26 @@ authRouter.post("/updatePassword", async (req, res) => {
     res.status(500).json({ error: "Failed to update password" });
   }
 });
-authRouter.delete("/deleteAccount", verifyToken, async (req, res) => {
-  try {
-    const { username } = req.body;
-    await User.deleteOne({ username });
-    res.status(200).json({ message: "Account deleted successfully" });
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ error: "Failed to delete account" });
+
+authRouter.delete(
+  "/deleteAccount",
+  verifyToken,
+  async (req: Request, res: Response) => {
+    try {
+      const { username, password } = req.body;
+      const user = await User.findOne({ username });
+      const passwordMatch = bcrypt.compare(password, user.password);
+      if (!passwordMatch) {
+        return res.status(401).json({ error: "Authentication failed" });
+      }
+
+      await Habit.deleteMany({ _id: { $in: user.habits } });
+      await User.deleteOne({ username });
+
+      res.status(200).json({ message: "Account deleted successfully" });
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ error: "Failed to delete account" });
+    }
   }
-});
+);
