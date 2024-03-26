@@ -4,6 +4,17 @@ import verifyToken from "../security/middleware/auth.middleware";
 import Habit from "../models/habit.model";
 import User from "../models/user.model";
 import AuthRequest from "../security/models/auth-request.model";
+import {
+  addHabit,
+  deleteMultipleHabits,
+  getHabits,
+  updateHabit,
+  deleteAllHabits,
+  deleteHabit,
+  incrementStreak,
+  resetStreak,
+  resetAllStreaks,
+} from "../services/habits.service";
 
 // Global Config
 export const habitsRouter = express.Router();
@@ -15,9 +26,7 @@ habitsRouter.get(
   verifyToken,
   async (req: AuthRequest, res: Response) => {
     try {
-      const user = await User.findOne({ username: req.userId });
-      const habits = await Habit.find({ _id: { $in: user.habits } });
-      res.status(200).send(habits);
+      res.status(200).send(await getHabits(req.userId));
     } catch (error) {
       console.error(error);
       res.status(500).json({ error: "Failed to fetch habits" });
@@ -30,17 +39,12 @@ habitsRouter.post(
   verifyToken,
   async (req: AuthRequest, res: Response) => {
     try {
-      const { name, description, days } = req.body;
-      const user = await User.findOne({ username: req.userId });
-      const habit = new Habit({
-        name,
-        description,
-        frequency: days * parseInt(process.env.DAY_MS),
-      });
-
-      await habit.save();
-      user.habits.push(habit._id);
-      await user.save();
+      await addHabit(
+        req.userId,
+        req.body.name,
+        req.body.description,
+        req.body.days
+      );
 
       res.status(201).json({ message: "Habit added successfully" });
     } catch (error) {
@@ -56,12 +60,8 @@ habitsRouter.post(
   async (req: AuthRequest, res: Response) => {
     try {
       const { habitId, name, description, frequency } = req.body;
-      await Habit.updateOne(
-        { _id: habitId },
-        { $set: { name, description, frequency } }
-      );
-
-      res.status(201).json({ message: "Habit updated successfully" });
+      await updateHabit(habitId, name, description, frequency);
+      res.status(200).json({ message: "Habit updated successfully" });
     } catch (error) {
       console.error(error);
       res.status(500).json({ error: "Failed to update habit" });
@@ -75,14 +75,9 @@ habitsRouter.delete(
   async (req: AuthRequest, res: Response) => {
     try {
       const { habitId } = req.body;
-      const user = await User.findOne({ username: req.userId });
-
-      await Habit.deleteOne({ _id: habitId });
-
-      user.habits = user.habits.filter((habit) => habit !== habitId);
-      await user.save();
-
-      res.status(201).json({ message: "Habit deleted successfully" });
+      const userId = req.userId;
+      await deleteHabit(userId, habitId);
+      res.status(204).json({ message: "Habit deleted successfully" });
     } catch (error) {
       console.error(error);
       res.status(500).json({ erorr: "Failed to delete habit" });
@@ -91,19 +86,15 @@ habitsRouter.delete(
 );
 
 habitsRouter.delete(
-  "/deleteHabits",
+  "/deleteMultipleHabits",
   verifyToken,
   async (req: AuthRequest, res: Response) => {
     try {
       const { habitIds } = req.body;
-      const user = await User.findOne({ username: req.userId });
+      const { userId } = req.body;
 
-      await Habit.deleteMany({ _id: { $in: habitIds } });
-
-      user.habits = user.habits.filter((habit) => habitIds.contains(habit));
-      await user.save();
-
-      res.status(201).json({ message: "Habits deleted successfully" });
+      await deleteMultipleHabits(userId, habitIds);
+      res.status(204).json({ message: "Habits deleted successfully" });
     } catch (error) {
       console.error(error);
       res.status(500).json({ erorr: "Failed to delete habits" });
@@ -116,11 +107,9 @@ habitsRouter.delete(
   verifyToken,
   async (req: AuthRequest, res: Response) => {
     try {
-      const user = await User.findOne({ username: req.userId });
-      await Habit.deleteMany({ _id: { $in: user.habits } });
-      user.habits = [];
-      await user.save();
-      res.status(201).json({ message: "All habits deleted successfully" });
+      const { userId } = req.body;
+      await deleteAllHabits(userId);
+      res.status(204).json({ message: "All habits deleted successfully" });
     } catch (error) {
       console.error(error);
       res.status(500).json({ error: "Failed to delete all habits" });
@@ -134,16 +123,10 @@ habitsRouter.post(
   async (req: AuthRequest, res: Response) => {
     try {
       const { habitId } = req.body;
-      const habit = await Habit.findOne({ _id: habitId });
-      const incremented = habit.increment();
-      await habit.save();
-      incremented
-        ? res
-            .status(201)
-            .json({ message: "Habit streak incremented successfully" })
-        : res
-            .status(400)
-            .json({ message: "Habit streak not incremented successfully" });
+      await incrementStreak(habitId);
+      res
+        .status(200)
+        .json({ message: "Habit streak incremented successfully" });
     } catch (error) {
       console.error(error);
       res.status(500).json({
@@ -159,10 +142,8 @@ habitsRouter.post(
   async (req: AuthRequest, res: Response) => {
     try {
       const { habitId } = req.body;
-      const habit = await Habit.findOne({ _id: habitId });
-      habit.streak = 0;
-      await habit.save();
-      res.status(201).json({ message: "Habit streak reset successfully" });
+      await resetStreak(habitId);
+      res.status(200).json({ message: "Habit streak reset successfully" });
     } catch (error) {
       console.error(error);
       res.status(500).json({
@@ -177,13 +158,9 @@ habitsRouter.post(
   verifyToken,
   async (req: AuthRequest, res: Response) => {
     try {
-      const user = await User.findOne({ username: req.userId });
-      await Habit.updateMany(
-        { _id: { $in: user.habits } },
-        { $set: { streak: 0 } }
-      );
-
-      res.status(201).json({ message: "All habit streaks reset successfully" });
+      const userId = req.userId;
+      await resetAllStreaks(userId);
+      res.status(200).json({ message: "All habit streaks reset successfully" });
     } catch (error) {
       console.error(error);
       res.status(500).json({

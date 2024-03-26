@@ -9,9 +9,13 @@ interface IUser extends Document {
 }
 
 const UserSchema = new Schema({
-  username: { type: String, unique: true, required: true },
+  username: { type: String, unique: true, required: true, index: true },
   password: { type: String, required: true },
-  habits: { type: Array<ObjectId>, default: new Array<ObjectId>() },
+  habits: {
+    type: Array<ObjectId>,
+    default: new Array<ObjectId>(),
+    ref: "Habit",
+  },
 });
 
 export default mongoose.model<IUser>("User", UserSchema);

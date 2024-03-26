@@ -25,6 +25,6 @@ try {
     console.log(`Server started at http://localhost:${port}`);
   });
 } catch (error) {
-  console.error("Database connection failed", error);
+  console.error(error);
   process.exit();
 }
