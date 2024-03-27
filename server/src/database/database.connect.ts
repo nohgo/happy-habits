@@ -1,9 +1,10 @@
 import mongoose from "mongoose";
 
-export async function connectDB() {
+export async function connectDB(dbName: string) {
   try {
     const dbUri = process.env.DB_CONN_STRING;
     await mongoose.connect(dbUri, {
+      dbName,
       autoCreate: true,
     });
   } catch (error) {

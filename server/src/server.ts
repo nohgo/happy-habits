@@ -19,7 +19,7 @@ const corsOptions = {
 app.use(cors(corsOptions));
 
 try {
-  connectDB();
+  connectDB(process.env.DB_NAME);
 
   app.use("/auth", authRouter);
   app.use("/habits", habitsRouter);
