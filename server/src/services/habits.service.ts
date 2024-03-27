@@ -23,9 +23,7 @@ export async function addHabit(
 }
 
 export async function getHabits(userId: string) {
-  const user = await (
-    await User.findOne({ username: userId })
-  ).populate("habits");
+  const user = await User.findOne({ username: userId }).populate("habits");
   return user.habits;
 }
 
