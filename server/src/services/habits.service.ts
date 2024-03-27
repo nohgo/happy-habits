@@ -7,6 +7,10 @@ export async function addHabit(
   description: string,
   frequency: number
 ) {
+  if (!name || !description || !frequency) {
+    throw new Error("Missing required fields");
+  }
+
   const user = await User.findOne({ username: userId });
   const habit = new Habit({
     name,
@@ -31,6 +35,9 @@ export async function updateHabit(
   description: string,
   frequency: number
 ) {
+  if (!habitId || !name || !description || !frequency) {
+    throw new Error("Missing required fields");
+  }
   await Habit.updateOne(
     { _id: habitId },
     {
@@ -44,6 +51,10 @@ export async function updateHabit(
 }
 
 export async function deleteHabit(userId: string, habitId: string) {
+  if (!userId || !habitId) {
+    throw new Error("Missing required fields");
+  }
+
   const user = await User.findOne({ username: userId });
   await Habit.deleteOne({ _id: habitId });
   user.habits = user.habits.filter((habit) => habit._id.toString() !== habitId);
@@ -54,6 +65,9 @@ export async function deleteMultipleHabits(
   userId: string,
   habitIds: Array<string>
 ) {
+  if (!userId || !habitIds) {
+    throw new Error("Missing required fields");
+  }
   const user = await User.findOne({ username: userId });
   await Habit.deleteMany({ _id: { $in: habitIds } });
   user.habits = [];
@@ -61,12 +75,18 @@ export async function deleteMultipleHabits(
 }
 
 export async function deleteAllHabits(userId: string) {
+  if (!userId) {
+    throw new Error("Missing required fields");
+  }
   const user = await User.findOne({ username: userId });
   await Habit.deleteMany({ _id: { $in: user.habits } });
   user.habits = [];
   user.save();
 }
 export async function incrementStreak(habitId: string) {
+  if (!habitId) {
+    throw new Error("Missing required fields");
+  }
   const habit = await Habit.findOne({ _id: habitId });
   const now = new Date();
 
@@ -90,6 +110,9 @@ export async function incrementStreak(habitId: string) {
 }
 
 export async function resetStreak(habitId: string) {
+  if (!habitId) {
+    throw new Error("Missing required fields");
+  }
   const habit = await Habit.findOne({ _id: habitId });
 
   habit.streak = 0;
@@ -97,6 +120,9 @@ export async function resetStreak(habitId: string) {
 }
 
 export async function resetAllStreaks(userId: string) {
+  if (!userId) {
+    throw new Error("Missing required fields");
+  }
   const user = await User.findOne({ username: userId });
   await Habit.updateMany(
     { _id: { $in: user.habits } },

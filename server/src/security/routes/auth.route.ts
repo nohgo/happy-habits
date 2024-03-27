@@ -13,11 +13,6 @@ authRouter.use(express.json());
 authRouter.post("/register", async (req: Request, res: Response) => {
   try {
     const { username, password } = req.body;
-    if (!username || !password) {
-      return res
-        .status(400)
-        .json({ error: "Username and password are required" });
-    }
     await register(username, password);
     res.status(201).json({ message: "User registered successfully" });
   } catch (error) {
@@ -29,11 +24,6 @@ authRouter.post("/register", async (req: Request, res: Response) => {
 authRouter.post("/login", async (req: Request, res: Response) => {
   try {
     const { username, password } = req.body;
-    if (!username || !password) {
-      return res
-        .status(400)
-        .json({ error: "Username and password are required" });
-    }
     res
       .status(200)
       .json({ type: "Bearer", token: await login(username, password) });
@@ -46,11 +36,6 @@ authRouter.post("/login", async (req: Request, res: Response) => {
 authRouter.post("/updatePassword", async (req: Request, res: Response) => {
   try {
     const { username, password, newPassword } = req.body;
-    if (!username || !password || !newPassword) {
-      return res
-        .status(400)
-        .json({ error: "Username and password are required" });
-    }
 
     await updatePassword(username, password, newPassword);
     res.status(200).json({ message: "Password updated successfully" });
@@ -66,11 +51,7 @@ authRouter.delete(
   async (req: Request, res: Response) => {
     try {
       const { username, password } = req.body;
-      if (!username || !password) {
-        return res
-          .status(400)
-          .json({ error: "Username and password are required" });
-      }
+
       await deleteAccount(username, password);
       res.status(200).json({ message: "Account deleted successfully" });
     } catch (error) {

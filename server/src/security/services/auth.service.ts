@@ -7,8 +7,11 @@ export async function register(
   username: string,
   password: string
 ): Promise<void> {
-  const hashedPassword = await bcrypt.hash(password, 10);
+  if (!username || !password) {
+    throw new Error("Missing required fields");
+  }
 
+  const hashedPassword = await bcrypt.hash(password, 10);
   const user = new User({
     username,
     password: hashedPassword,
@@ -20,6 +23,9 @@ export async function login(
   username: string,
   password: string
 ): Promise<string> {
+  if (!username || !password) {
+    throw new Error("Missing required fields");
+  }
   const user = await User.findOne({ username });
   if (!user) {
     throw new Error("User not found");
@@ -39,6 +45,9 @@ export async function updatePassword(
   password: string,
   newPassword: string
 ) {
+  if (!username || !password || !newPassword) {
+    throw new Error("Missing required fields");
+  }
   const user = await User.findOne({ username });
   if (!user) {
     throw new Error("User not found");
@@ -53,6 +62,9 @@ export async function updatePassword(
 }
 
 export async function deleteAccount(username: string, password: string) {
+  if (!username || !password) {
+    throw new Error("Missing required fields");
+  }
   const user = await User.findOne({ username });
   if (!user) {
     throw new Error("User not found");
