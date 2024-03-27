@@ -1,6 +1,5 @@
 import mongoose, { Schema, Document } from "mongoose";
 import { ObjectId } from "mongodb";
-mongoose.connect(process.env.DB_CONN_STRING);
 
 interface IUser extends Document {
   username: string;
@@ -9,8 +8,13 @@ interface IUser extends Document {
 }
 
 const UserSchema = new Schema({
-  username: { type: String, unique: true, required: true, index: true },
-  password: { type: String, required: true },
+  username: {
+    type: String,
+    unique: true,
+    required: [true, "username is required"],
+    index: true,
+  },
+  password: { type: String, required: [true, "password is required"] },
   habits: {
     type: [Schema.Types.ObjectId],
     default: [],

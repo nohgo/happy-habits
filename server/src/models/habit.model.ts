@@ -9,10 +9,10 @@ interface IHabit extends Document {
 }
 
 const HabitSchema: Schema = new Schema({
-  name: { type: String, required: true },
-  description: { type: String, required: true },
+  name: { type: String, required: [true, "name is required"] },
+  description: { type: String, required: [true, "description is required"] },
   streak: { type: Number, default: 0 },
-  frequency: { type: Number, required: true },
+  frequency: { type: Number, required: [true, "frequency is required"] },
   lastIncrement: { type: Date, default: null },
 });
 
