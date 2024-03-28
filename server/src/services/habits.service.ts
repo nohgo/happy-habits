@@ -22,8 +22,8 @@ export async function addHabit(
   await user.save();
 }
 
-export async function getHabits(userId: string) {
-  const user = await User.findOne({ username: userId }).populate("habits");
+export async function getHabits(username: string) {
+  const user = await User.findOne({ username }).populate("habits");
   return user.habits;
 }
 
