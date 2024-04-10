@@ -1,6 +1,6 @@
 import mongoose, { Schema, Document } from "mongoose";
 
-interface IHabit extends Document {
+export interface IHabit extends Document {
   name: string;
   description: string;
   streak: number;

@@ -1,5 +1,6 @@
 import User from "../models/user.model";
 import Habit from "../models/habit.model";
+import { IHabit } from "../models/habit.model";
 
 export async function addHabit(
   userId: string,
@@ -22,9 +23,9 @@ export async function addHabit(
   await user.save();
 }
 
-export async function getHabits(username: string) {
+export async function getHabits(username: string): Promise<IHabit[]> {
   const user = await User.findOne({ username }).populate("habits");
-  return user.habits;
+  return user.habits as unknown as IHabit[];
 }
 
 export async function updateHabit(
