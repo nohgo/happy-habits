@@ -5,11 +5,11 @@ export default function AuthButton({
   set,
 }: {
   text: string;
-  set: MouseEventHandler<HTMLButtonElement>;
+  set: Function;
 }) {
   return (
     <button
-      onClick={set}
+      onClick={() => set()}
       className="rounded-full w-64 h-14 bg-accent-main border border-accent-border transition hover:brightness-105 text-xl"
     >
       {text}

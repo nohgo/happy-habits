@@ -1,3 +1,5 @@
+import { useEffect, useState } from "react";
+
 interface IInputBox {
   id: string;
   placeholder: string;
@@ -11,9 +13,12 @@ export default function InputBox({
   hasPressed,
   set,
 }: IInputBox) {
-  if (hasPressed) {
-    set();
-  }
+  const [value, setValue] = useState("");
+  useEffect(() => {
+    if (hasPressed) {
+      set(value);
+    }
+  }, [hasPressed]);
   return (
     <div>
       <label htmlFor={id} className="block">
@@ -25,6 +30,7 @@ export default function InputBox({
         type="text"
         placeholder={placeholder}
         className="p-3 block rounded-sm focus:border-accent-border border border-black focus:outline-none w-72 h-10"
+        onChange={(e) => setValue(e.target.value)}
       />
     </div>
   );
