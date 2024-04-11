@@ -1,9 +1,19 @@
 interface IInputBox {
   id: string;
   placeholder: string;
+  hasPressed: boolean;
+  set: Function;
 }
 
-export default function InputBox({ id, placeholder }: IInputBox) {
+export default function InputBox({
+  id,
+  placeholder,
+  hasPressed,
+  set,
+}: IInputBox) {
+  if (hasPressed) {
+    set();
+  }
   return (
     <div>
       <label htmlFor={id} className="block">
