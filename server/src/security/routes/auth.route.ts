@@ -2,6 +2,8 @@ import express, { Request, Response } from "express";
 import verifyToken from "../middleware/auth.middleware";
 import {
   deleteAccount,
+  doesUsernameExist,
+  doesEmailExist,
   login,
   register,
   updatePassword,
@@ -60,3 +62,27 @@ authRouter.delete(
     }
   }
 );
+
+authRouter.get("/doesUsernameExist", async (req: Request, res: Response) => {
+  try {
+    const { username } = req.body;
+    (await doesUsernameExist(username))
+      ? res.status(200).json({})
+      : res.status(404).json({});
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Failed to check username" });
+  }
+});
+
+authRouter.get("/doesEmailExist", async (req: Request, res: Response) => {
+  try {
+    const { email } = req.body;
+    (await doesEmailExist(email))
+      ? res.status(200).json({})
+      : res.status(404).json({});
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Failed to check email" });
+  }
+});

@@ -94,3 +94,11 @@ export async function deleteAccount(
   await Habit.deleteMany({ _id: { $in: user.habits } });
   await User.deleteOne({ _id: user._id });
 }
+
+export async function doesUsernameExist(username: string): Promise<boolean> {
+  return (await User.findOne({ username })) !== null;
+}
+
+export async function doesEmailExist(email: string): Promise<boolean> {
+  return (await User.findOne({ email })) !== null;
+}
