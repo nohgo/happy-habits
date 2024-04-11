@@ -12,8 +12,8 @@ authRouter.use(express.json());
 
 authRouter.post("/register", async (req: Request, res: Response) => {
   try {
-    const { username, password } = req.body;
-    await register(username, password);
+    const { username, password, email } = req.body;
+    await register(username, email, password);
     res.status(201).json({ message: "User registered successfully" });
   } catch (error) {
     console.error(error);
@@ -23,10 +23,10 @@ authRouter.post("/register", async (req: Request, res: Response) => {
 
 authRouter.post("/login", async (req: Request, res: Response) => {
   try {
-    const { username, password } = req.body;
+    const { username, password, email } = req.body;
     res
       .status(200)
-      .json({ type: "Bearer", token: await login(username, password) });
+      .json({ type: "Bearer", token: await login(username, email, password) });
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: "Login failed" });
@@ -35,9 +35,9 @@ authRouter.post("/login", async (req: Request, res: Response) => {
 
 authRouter.post("/updatePassword", async (req: Request, res: Response) => {
   try {
-    const { username, password, newPassword } = req.body;
+    const { username, password, newPassword, email } = req.body;
 
-    await updatePassword(username, password, newPassword);
+    await updatePassword(username, email, password, newPassword);
     res.status(200).json({ message: "Password updated successfully" });
   } catch (error) {
     console.error(error);
@@ -50,9 +50,9 @@ authRouter.delete(
   verifyToken,
   async (req: Request, res: Response) => {
     try {
-      const { username, password } = req.body;
+      const { username, password, email } = req.body;
 
-      await deleteAccount(username, password);
+      await deleteAccount(username, email, password);
       res.status(200).json({ message: "Account deleted successfully" });
     } catch (error) {
       console.error(error);

@@ -3,6 +3,7 @@ import { ObjectId } from "mongodb";
 
 interface IUser extends Document {
   username: string;
+  email: string;
   password: string;
   habits: Array<ObjectId>;
 }
@@ -13,6 +14,11 @@ const UserSchema = new Schema({
     unique: true,
     required: [true, "username is required"],
     index: true,
+  },
+  email: {
+    type: String,
+    unique: true,
+    required: [true, "email is required"],
   },
   password: { type: String, required: [true, "password is required"] },
   habits: {
