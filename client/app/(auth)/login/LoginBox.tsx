@@ -1,7 +1,7 @@
 "use client";
 
 // Dependencies
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Link from "next/link";
 
 // Assets
@@ -15,7 +15,14 @@ export default function LoginClient() {
   const [password, setPassword] = useState("");
   const [hasPressed, setHasPressed] = useState(false);
 
-  console.log(usernameEmail, password);
+  //start of login prompt
+  useEffect(() => {
+    if (hasPressed) {
+      console.log(usernameEmail, password);
+      setHasPressed(false);
+    }
+  }, [hasPressed]);
+
   return (
     <AuthBox>
       <div className="text-3xl mt-10 dark:text-grayscale-50">
