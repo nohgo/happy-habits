@@ -21,7 +21,7 @@ export default function InputBox({
   }, [hasPressed]);
   return (
     <div>
-      <label htmlFor={id} className="block">
+      <label htmlFor={id} className="block dark:text-grayscale-50">
         {placeholder}
       </label>
       <input
