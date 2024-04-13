@@ -11,20 +11,23 @@ import InputBox from "../_ui/InputBox";
 import InputButton from "../_ui/InputButton";
 
 export default function LoginClient() {
-  const useSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const HandleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     const form = e.target as HTMLFormElement;
     const formData = new FormData(form);
-    const formJson = Object.fromEntries(formData.entries());
-    const fetcher = (url: string) => fetch(url).then((res) => res.json());
-    const { data, error } = useSWR("localhost:5050/auth/login", fetcher);
+    const fetcher = (url: string, credentials: FormData) =>
+      fetch(url).then((res) => res.json());
+    const { data, error } = useSWR(
+      ["localhost:5050/auth/login", formData],
+      ([url, formData]) => fetcher(url, formData)
+    );
 
-    console.log(Object.fromEntries(formData.entries()));
+    console.log(data, error);
   };
 
   return (
-    <form onSubmit={useSubmit}>
+    <form onSubmit={HandleSubmit}>
       <ContainerBox>
         <div className="text-3xl mt-10 dark:text-grayscale-50">
           Log in to Happy Habits
