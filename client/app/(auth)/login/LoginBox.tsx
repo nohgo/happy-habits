@@ -1,69 +1,46 @@
 "use client";
 
 // Dependencies
-import { useEffect, useState } from "react";
 import Link from "next/link";
 
 // Assets
-import Logo from "../../_ui/logo";
-import AuthBox from "../_ui/AuthBox";
+import ContainerBox from "../_ui/ContainerBox";
 import InputBox from "../_ui/InputBox";
-import AuthButton from "../_ui/AuthButton";
+import InputButton from "../_ui/InputButton";
 
 export default function LoginClient() {
-  const [usernameEmail, setUsernameEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [hasPressed, setHasPressed] = useState(false);
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
 
-  //start of login prompt
-  useEffect(() => {
-    if (hasPressed) {
-      console.log(usernameEmail, password);
-      setHasPressed(false);
-    }
-  }, [hasPressed]);
+    const form = e.target as HTMLFormElement;
+    const formData = new FormData(form);
 
+    console.log(Object.fromEntries(formData.entries()));
+  };
   return (
-    <AuthBox>
-      <div className="text-3xl mt-10 dark:text-grayscale-50">
-        Log in to Happy Habits
-      </div>
-      <InputBox
-        hasPressed={hasPressed}
-        id="email-username"
-        placeholder="Email or username"
-        set={(input: string): void => {
-          setUsernameEmail(input);
-        }}
-      />
-      <InputBox
-        hasPressed={hasPressed}
-        id="password"
-        placeholder="Password"
-        set={(input: string): void => {
-          setPassword(input);
-        }}
-      />
-      <div className="flex justify-center items-center flex-col">
-        <AuthButton
-          text="Log in"
-          set={(): void => {
-            setHasPressed(true);
-          }}
-        ></AuthButton>
-        <Link
-          href="/"
-          className="dark:text-grayscale-50 underline block transition hover:no-underline"
-        >
-          Forgot password
-        </Link>
-        <Link
-          href="/"
-          className="dark:text-grayscale-50 underline block transition hover:no-underline"
-        >
-          Don't have an account? Register
-        </Link>
-      </div>
-    </AuthBox>
+    <form onSubmit={handleSubmit}>
+      <ContainerBox>
+        <div className="text-3xl mt-10 dark:text-grayscale-50">
+          Log in to Happy Habits
+        </div>
+        <InputBox id="email-username" placeholder="Email or username" />
+        <InputBox id="password" placeholder="Password" />
+        <div className="flex justify-center items-center flex-col">
+          <InputButton text="Log in" />
+          <Link
+            href="/"
+            className="dark:text-grayscale-50 underline block transition hover:no-underline"
+          >
+            Forgot password
+          </Link>
+          <Link
+            href="/"
+            className="dark:text-grayscale-50 underline block transition hover:no-underline"
+          >
+            Don't have an account? Register
+          </Link>
+        </div>
+      </ContainerBox>
+    </form>
   );
 }
