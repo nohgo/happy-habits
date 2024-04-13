@@ -5,28 +5,34 @@ import jwt from "jsonwebtoken";
 
 export async function register(
   username: string,
+  email: string,
   password: string
 ): Promise<void> {
-  if (!username || !password) {
+  if (!username || !password || !email) {
     throw new Error("Missing required fields");
   }
 
   const hashedPassword = await bcrypt.hash(password, 10);
   const user = new User({
     username,
+    email,
     password: hashedPassword,
   });
 
   await user.save();
 }
 export async function login(
-  username: string,
+  emailUsername: string,
   password: string
 ): Promise<string> {
-  if (!username || !password) {
+  if (!emailUsername || !password) {
     throw new Error("Missing required fields");
   }
-  const user = await User.findOne({ username });
+
+  const user = emailUsername.includes("@")
+    ? await User.findOne({ email: emailUsername })
+    : await User.findOne({ username: emailUsername });
+
   if (!user) {
     throw new Error("User not found");
   }
@@ -42,13 +48,18 @@ export async function login(
 
 export async function updatePassword(
   username: string,
+  email: string,
   password: string,
   newPassword: string
 ) {
-  if (!username || !password || !newPassword) {
+  if (!(username || email) || !password || !newPassword) {
     throw new Error("Missing required fields");
   }
-  const user = await User.findOne({ username });
+
+  const user = username
+    ? await User.findOne({ username })
+    : await User.findOne({ email });
+
   if (!user) {
     throw new Error("User not found");
   }
@@ -61,11 +72,19 @@ export async function updatePassword(
   await user.save();
 }
 
-export async function deleteAccount(username: string, password: string) {
-  if (!username || !password) {
+export async function deleteAccount(
+  username: string,
+  email: string,
+  password: string
+) {
+  if (!(username || email) || !password) {
     throw new Error("Missing required fields");
   }
-  const user = await User.findOne({ username });
+
+  const user = username
+    ? await User.findOne({ username })
+    : await User.findOne({ email });
+
   if (!user) {
     throw new Error("User not found");
   }
@@ -74,4 +93,12 @@ export async function deleteAccount(username: string, password: string) {
   }
   await Habit.deleteMany({ _id: { $in: user.habits } });
   await User.deleteOne({ _id: user._id });
+}
+
+export async function doesUsernameExist(username: string): Promise<boolean> {
+  return (await User.findOne({ username })) !== null;
+}
+
+export async function doesEmailExist(email: string): Promise<boolean> {
+  return (await User.findOne({ email })) !== null;
 }
