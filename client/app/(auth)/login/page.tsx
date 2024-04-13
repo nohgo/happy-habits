@@ -1,5 +1,5 @@
 import LoginClient from "./LoginBox";
-import Logo from "../../_ui/logo";
+import Logo from "../../_ui/Logo";
 
 export const metadata = { title: "Login", description: "Login page" };
 

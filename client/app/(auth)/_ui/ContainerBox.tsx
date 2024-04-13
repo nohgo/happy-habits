@@ -1,6 +1,6 @@
 import React from "react";
 
-export default function AuthBox({
+export default function ContainerBox({
   children,
 }: Readonly<{
   children: React.ReactNode;

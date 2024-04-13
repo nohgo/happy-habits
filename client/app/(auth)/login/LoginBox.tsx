@@ -1,3 +1,4 @@
+/* eslint-disable react/no-unescaped-entities */
 "use client";
 
 // Dependencies
@@ -17,13 +18,14 @@ export default function LoginClient() {
 
     console.log(Object.fromEntries(formData.entries()));
   };
+
   return (
     <form onSubmit={handleSubmit}>
       <ContainerBox>
         <div className="text-3xl mt-10 dark:text-grayscale-50">
           Log in to Happy Habits
         </div>
-        <InputBox id="email-username" placeholder="Email or username" />
+        <InputBox id="emailUsername" placeholder="Email or username" />
         <InputBox id="password" placeholder="Password" />
         <div className="flex justify-center items-center flex-col">
           <InputButton text="Log in" />
