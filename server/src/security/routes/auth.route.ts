@@ -25,10 +25,10 @@ authRouter.post("/register", async (req: Request, res: Response) => {
 
 authRouter.post("/login", async (req: Request, res: Response) => {
   try {
-    const { username, password, email } = req.body;
+    const { emailUsername, password } = req.body;
     res
       .status(200)
-      .json({ type: "Bearer", token: await login(username, email, password) });
+      .json({ type: "Bearer", token: await login(emailUsername, password) });
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: "Login failed" });

@@ -22,16 +22,16 @@ export async function register(
   await user.save();
 }
 export async function login(
-  username: string,
-  email: string,
+  emailUsername: string,
   password: string
 ): Promise<string> {
-  if (!(username || email) || !password) {
+  if (!emailUsername || !password) {
     throw new Error("Missing required fields");
   }
-  const user = username
-    ? await User.findOne({ username })
-    : await User.findOne({ email });
+
+  const user = emailUsername.includes("@")
+    ? await User.findOne({ email: emailUsername })
+    : await User.findOne({ username: emailUsername });
 
   if (!user) {
     throw new Error("User not found");
