@@ -8,6 +8,7 @@ import { connectDB, disconnectDB } from "./database/database.connect";
 const port = process.env.PORT || 3001;
 
 const app = express();
+const apiRouter = express.Router();
 app.use(express.json());
 
 // required stuff
@@ -21,8 +22,9 @@ app.use(cors(corsOptions));
 try {
   connectDB(process.env.DB_NAME);
 
-  app.use("/auth", authRouter);
-  app.use("/habits", habitsRouter);
+  apiRouter.use("/auth", authRouter);
+  apiRouter.use("/habits", habitsRouter);
+  app.use("/api", apiRouter);
 
   app.listen({ port }, () => {
     console.log(`Server started at http://localhost:${port}`);
