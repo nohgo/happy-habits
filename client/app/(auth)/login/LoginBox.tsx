@@ -2,8 +2,6 @@
 
 // Dependencies
 import Link from "next/link";
-import useSWR from "swr";
-import { login } from "../../../../server/src/security/services/auth.service";
 
 // Assets
 import ContainerBox from "../_ui/ContainerBox";
@@ -17,7 +15,14 @@ export default function LoginClient() {
     const usernameEmail = formData.get("emailUsername") as string;
     const password = formData.get("password") as string;
 
-    console.log(await login(usernameEmail, password));
+    const response = await fetch("localhost:5050/api/auth/login", {
+      method: "POST",
+      body: JSON.stringify({
+        usernameEmail,
+        password,
+      }),
+    });
+    console.log(await response.json());
   }
 
   return (
