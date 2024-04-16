@@ -1,17 +1,27 @@
-import InputBox from "../../_ui/InputBox";
+import InputBox, { IInputBox } from "../../_ui/InputBox";
 import Button from "../../_ui/Button";
 
-interface IStep {
+export interface IStep extends IInputBox {
   action: (formData: FormData) => void;
   index: number;
-  placeholder: string;
-  id: string;
 }
 
-export default function Step({ action, index, placeholder, id }: IStep) {
+export default function Step({
+  action,
+  index,
+  placeholder,
+  id,
+  type,
+  invalidError,
+}: IStep) {
   return (
     <form action={action}>
-      <InputBox id={id} placeholder={placeholder} />
+      <InputBox
+        id={id}
+        placeholder={placeholder}
+        type={type}
+        invalidError={invalidError}
+      />
       <Button text={index === 2 ? "Register" : "Continue"} />
     </form>
   );

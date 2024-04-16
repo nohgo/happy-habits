@@ -30,6 +30,8 @@ export default function RegisterBox() {
       index: 0,
       placeholder: "Email",
       id: "email",
+      type: "email",
+      invalidError: "Enter a valid email.",
     },
     {
       action: async (formData: FormData) => {
@@ -44,6 +46,8 @@ export default function RegisterBox() {
       index: 1,
       placeholder: "Username",
       id: "username",
+      invalidError: "Enter a valid username.",
+      pattern: "[a-zA-Z0-9]{3,15}",
     },
     {
       action: async (formData: FormData) => {
@@ -57,17 +61,19 @@ export default function RegisterBox() {
       index: 2,
       placeholder: "Password",
       id: "password",
+      invalidError: "Enter a valid password.",
+      pattern: "(?=(.*[0-9]){2})(?=(.*[!@#$%^&*()-_=+{};:,<.>]){2}).{8,}",
     },
   ];
   return (
     <ContainerBox>
-      <div className="text-3xl mt-10 dark:text-grayscale-50">
+      <div className="mt-10 text-3xl dark:text-grayscale-50">
         Register for Happy Habits
       </div>
       {<Step key={step} {...steps[step]} />}
       <Link
         href="/login"
-        className="dark:text-grayscale-50 underline block transition hover:no-underline"
+        className="block underline transition hover:no-underline dark:text-grayscale-50"
       >
         Already have an account? Log in
       </Link>
