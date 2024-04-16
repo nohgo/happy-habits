@@ -1,5 +1,6 @@
 /* eslint-disable react/no-unescaped-entities */
 "use client";
+
 // Dependencies
 import Link from "next/link";
 import login from "../_lib/login";
@@ -22,14 +23,15 @@ export default function LoginBox() {
       setIsInvalid(true);
       return;
     }
+    setIsInvalid(false);
     const data = await res;
     document.cookie = `token=Bearer ${data.token}`;
     router.push("/");
   }
 
   return (
-    <form action={setCookies}>
-      <ContainerBox>
+    <ContainerBox>
+      <form action={setCookies}>
         <div className="text-3xl mt-10 dark:text-grayscale-50">
           Log in to Happy Habits
         </div>
@@ -37,6 +39,9 @@ export default function LoginBox() {
         <InputBox id="password" placeholder="Password" />
         <div className="flex justify-center items-center flex-col">
           <SubmitButton text="Log in" />
+          <div className={`${isInvalid ? "block" : "hidden"} text-red-500`}>
+            Login failed. Please try again.
+          </div>
           <Link
             href="/"
             className="dark:text-grayscale-50 underline block transition hover:no-underline"
@@ -50,7 +55,7 @@ export default function LoginBox() {
             Don't have an account? Register
           </Link>
         </div>
-      </ContainerBox>
-    </form>
+      </form>
+    </ContainerBox>
   );
 }

@@ -10,6 +10,7 @@ export default function InputBox({ id, placeholder }: IInputBox) {
         {placeholder}
       </label>
       <input
+        id={id}
         name={id}
         placeholder={placeholder}
         required

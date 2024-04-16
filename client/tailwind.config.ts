@@ -8,13 +8,15 @@ const config: Config = {
     "./app/**/*.{js,ts,jsx,tsx,mdx}",
   ],
   theme: {
-    colors: {
-      accent: colors.violet,
-      "accent-main": colors.violet[400],
-      "accent-border": colors.violet[500],
-      grayscale: colors.zinc,
-      "grayscale-bg-light": colors.zinc[200],
-      "grayscale-bg-dark": colors.zinc[800],
+    extend: {
+      colors: {
+        accent: colors.violet,
+        "accent-main": colors.violet[400],
+        "accent-border": colors.violet[500],
+        grayscale: colors.zinc,
+        "grayscale-bg-light": colors.zinc[200],
+        "grayscale-bg-dark": colors.zinc[800],
+      },
     },
   },
   variants: {
