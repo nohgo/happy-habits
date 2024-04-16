@@ -9,7 +9,7 @@ import { useRouter } from "next/navigation";
 // Assets
 import ContainerBox from "../_ui/ContainerBox";
 import InputBox from "../_ui/InputBox";
-import SubmitButton from "../_ui/SubmitButton";
+import Button from "../_ui/Button";
 
 export default function LoginBox() {
   const [isInvalid, setIsInvalid] = useState(false);
@@ -34,15 +34,19 @@ export default function LoginBox() {
           Log in to Happy Habits
         </div>
         <InputBox id="emailUsername" placeholder="Email or username" />
+
         <InputBox id="password" placeholder="Password" />
+
         <div className="flex justify-center items-center flex-col">
-          <SubmitButton text="Log in" />
+          <Button text="Log in" />
+
           <Link
             href="/"
             className="dark:text-grayscale-50 underline block transition hover:no-underline"
           >
             Forgot password
           </Link>
+
           <Link
             href="/"
             className="dark:text-grayscale-50 underline block transition hover:no-underline"

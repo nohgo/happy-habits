@@ -2,8 +2,8 @@ import express, { Request, Response } from "express";
 import verifyToken from "../middleware/auth.middleware";
 import {
   deleteAccount,
-  doesUsernameExist,
-  doesEmailExist,
+  isUsernameAvailable,
+  isEmailAvailable,
   login,
   register,
   updatePassword,
@@ -63,10 +63,10 @@ authRouter.delete(
   }
 );
 
-authRouter.get("/doesUsernameExist", async (req: Request, res: Response) => {
+authRouter.get("/isUsernameAvailable", async (req: Request, res: Response) => {
   try {
-    const { username } = req.body;
-    (await doesUsernameExist(username))
+    const { username } = req.query;
+    (await isUsernameAvailable(username as string))
       ? res.status(200).json({})
       : res.status(404).json({});
   } catch (error) {
@@ -75,10 +75,10 @@ authRouter.get("/doesUsernameExist", async (req: Request, res: Response) => {
   }
 });
 
-authRouter.get("/doesEmailExist", async (req: Request, res: Response) => {
+authRouter.get("/isEmailAvailable", async (req: Request, res: Response) => {
   try {
-    const { email } = req.body;
-    (await doesEmailExist(email))
+    const { email } = req.query;
+    (await isEmailAvailable(email as string))
       ? res.status(200).json({})
       : res.status(404).json({});
   } catch (error) {
