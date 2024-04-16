@@ -1,9 +1,9 @@
 /* eslint-disable react/no-unescaped-entities */
-"use client";
 
 // Dependencies
 import Link from "next/link";
 import useSWR from "swr";
+import { login } from "../../../../server/src/security/services/auth.service";
 
 // Assets
 import ContainerBox from "../_ui/ContainerBox";
@@ -11,23 +11,17 @@ import InputBox from "../_ui/InputBox";
 import InputButton from "../_ui/InputButton";
 
 export default function LoginClient() {
-  const HandleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
+  async function checkUser(formData: FormData) {
+    "use server";
 
-    const form = e.target as HTMLFormElement;
-    const formData = new FormData(form);
-    const fetcher = (url: string, credentials: FormData) =>
-      fetch(url).then((res) => res.json());
-    const { data, error } = useSWR(
-      ["localhost:5050/auth/login", formData],
-      ([url, formData]) => fetcher(url, formData)
-    );
+    const usernameEmail = formData.get("emailUsername") as string;
+    const password = formData.get("password") as string;
 
-    console.log(data, error);
-  };
+    console.log(await login(usernameEmail, password));
+  }
 
   return (
-    <form onSubmit={HandleSubmit}>
+    <form action={checkUser}>
       <ContainerBox>
         <div className="text-3xl mt-10 dark:text-grayscale-50">
           Log in to Happy Habits
