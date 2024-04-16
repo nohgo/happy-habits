@@ -1,7 +1,10 @@
 /* eslint-disable react/no-unescaped-entities */
+"use client";
 
 // Dependencies
 import Link from "next/link";
+import login from "../_lib/login";
+import { useState } from "react";
 
 // Assets
 import ContainerBox from "../_ui/ContainerBox";
@@ -9,24 +12,17 @@ import InputBox from "../_ui/InputBox";
 import InputButton from "../_ui/InputButton";
 
 export default function LoginClient() {
-  async function checkUser(formData: FormData) {
-    "use server";
+  const [response, setResponse] = useState();
 
-    const usernameEmail = formData.get("emailUsername") as string;
-    const password = formData.get("password") as string;
+  console.log(response);
 
-    const response = await fetch("localhost:5050/api/auth/login", {
-      method: "POST",
-      body: JSON.stringify({
-        usernameEmail,
-        password,
-      }),
-    });
-    console.log(await response.json());
+  async function setCookies(formData: FormData) {
+    const response = await login(formData);
+    setResponse(response);
   }
 
   return (
-    <form action={checkUser}>
+    <form action={setCookies}>
       <ContainerBox>
         <div className="text-3xl mt-10 dark:text-grayscale-50">
           Log in to Happy Habits
