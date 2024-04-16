@@ -1,4 +1,5 @@
 import { useFormStatus } from "react-dom";
+import Image from "next/image";
 
 export default function SubmitButton({ text }: { text: string }) {
   const { pending } = useFormStatus();
@@ -6,10 +7,17 @@ export default function SubmitButton({ text }: { text: string }) {
   return (
     <button
       type="submit"
-      className="disabled:brightness-75 mb-3 rounded-full w-64 h-14 bg-accent-main border border-accent-border transition hover:brightness-105 text-xl"
+      className="flex justify-center items-center disabled:brightness-75 mb-3 rounded-full w-64 h-14 bg-accent-main border border-accent-border transition hover:brightness-105 text-xl"
       disabled={pending}
     >
-      {text}
+      <Image
+        src="/loader.svg"
+        alt="Loading..."
+        className={`animate-spin ${pending ? "block" : "hidden"}`}
+        width="35"
+        height="35"
+      />
+      {pending ? "" : text}
     </button>
   );
 }

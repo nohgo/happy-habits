@@ -30,8 +30,8 @@ export default function LoginBox() {
   }
 
   return (
-    <ContainerBox>
-      <form action={setCookies}>
+    <form action={setCookies}>
+      <ContainerBox>
         <div className="text-3xl mt-10 dark:text-grayscale-50">
           Log in to Happy Habits
         </div>
@@ -55,7 +55,7 @@ export default function LoginBox() {
             Don't have an account? Register
           </Link>
         </div>
-      </form>
-    </ContainerBox>
+      </ContainerBox>
+    </form>
   );
 }
