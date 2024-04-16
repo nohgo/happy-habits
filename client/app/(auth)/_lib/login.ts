@@ -1,6 +1,4 @@
 "use server";
-import { Dispatch, SetStateAction } from "react";
-
 export default async function checkUser(formData: FormData) {
   const emailUsername = formData.get("emailUsername") as string;
   const password = formData.get("password") as string;
@@ -16,5 +14,5 @@ export default async function checkUser(formData: FormData) {
     }),
   });
 
-  return response.json();
+  return { res: response.json(), status: response.status };
 }

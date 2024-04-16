@@ -11,12 +11,12 @@ import InputButton from "../_ui/InputButton";
 
 export default function LoginClient() {
   async function setCookies(formData: FormData) {
-    const response = await login(formData);
+    const { res, status } = await login(formData);
 
-    if (response.status != 200) {
-      console.log("bad");
+    if (status != 200) {
+      return;
     }
-    const data = await response.json();
+    const data = await res;
     document.cookie = `token=Bearer ${data.token}`;
   }
 
