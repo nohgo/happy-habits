@@ -1,7 +1,7 @@
 import { useFormStatus } from "react-dom";
 import Image from "next/image";
 
-export default function SubmitButton({ text }: { text: string }) {
+export default function Button({ text }: { text: string }) {
   const { pending } = useFormStatus();
 
   return (

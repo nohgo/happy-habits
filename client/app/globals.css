@@ -1,3 +1,11 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+input:user-invalid {
+  outline-color: #ef4444;
+}
+
+input:user-invalid + span {
+  display: block;
+}

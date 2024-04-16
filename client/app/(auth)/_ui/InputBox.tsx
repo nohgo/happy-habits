@@ -1,21 +1,30 @@
 interface IInputBox {
   id: string;
   placeholder: string;
+  type?: string;
+  invalidError: string;
 }
 
-export default function InputBox({ id, placeholder }: IInputBox) {
+export default function InputBox({
+  id,
+  placeholder,
+  type,
+  invalidError,
+}: IInputBox) {
   return (
     <div>
-      <label htmlFor={id} className="block dark:text-grayscale-50">
+      <label htmlFor={id} className="mb-1 inline-block dark:text-grayscale-50">
         {placeholder}
       </label>
       <input
         id={id}
         name={id}
         placeholder={placeholder}
+        type={type || "text"}
         required
-        className="p-3 block rounded-sm focus:border-accent-border border border-black focus:outline-none w-72 h-10"
+        className="block h-10 w-72 rounded-sm p-3 outline outline-1 outline-grayscale-400 transition-all hover:outline-accent-border focus:outline-2 focus:outline-accent-border dark:bg-transparent dark:text-white dark:caret-white"
       />
+      <span className="hidden text-red-500">{invalidError}</span>
     </div>
   );
 }

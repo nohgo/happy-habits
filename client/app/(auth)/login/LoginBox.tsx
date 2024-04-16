@@ -10,7 +10,7 @@ import { useRouter } from "next/navigation";
 // Assets
 import ContainerBox from "../_ui/ContainerBox";
 import InputBox from "../_ui/InputBox";
-import SubmitButton from "../_ui/SubmitButton";
+import Button from "../_ui/Button";
 
 export default function LoginBox() {
   const [isInvalid, setIsInvalid] = useState(false);
@@ -30,32 +30,44 @@ export default function LoginBox() {
   }
 
   return (
-    <form action={setCookies}>
-      <ContainerBox>
-        <div className="text-3xl mt-10 dark:text-grayscale-50">
+    <ContainerBox>
+      <form
+        action={setCookies}
+        className="flex flex-grow flex-col items-center justify-between"
+      >
+        <div className="mt-10 text-3xl dark:text-grayscale-50">
           Log in to Happy Habits
         </div>
-        <InputBox id="emailUsername" placeholder="Email or username" />
-        <InputBox id="password" placeholder="Password" />
-        <div className="flex justify-center items-center flex-col">
-          <SubmitButton text="Log in" />
+        <InputBox
+          id="emailUsername"
+          placeholder="Email or username"
+          invalidError="Please enter a valid email or username."
+        />
+        <InputBox
+          id="password"
+          placeholder="Password"
+          type="password"
+          invalidError="Please enter a valid password."
+        />
+        <div className="flex flex-col items-center justify-center">
+          <Button text="Log in" />
           <div className={`${isInvalid ? "block" : "hidden"} text-red-500`}>
             Login failed. Please try again.
           </div>
           <Link
-            href="/"
-            className="dark:text-grayscale-50 underline block transition hover:no-underline"
+            href="/forgot-password"
+            className="block underline transition hover:no-underline dark:text-grayscale-50"
           >
             Forgot password
           </Link>
           <Link
-            href="/"
-            className="dark:text-grayscale-50 underline block transition hover:no-underline"
+            href="/register"
+            className="block underline transition hover:no-underline dark:text-grayscale-50"
           >
             Don't have an account? Register
           </Link>
         </div>
-      </ContainerBox>
-    </form>
+      </form>
+    </ContainerBox>
   );
 }
