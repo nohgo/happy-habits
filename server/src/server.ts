@@ -29,6 +29,19 @@ try {
   app.listen({ port }, () => {
     console.log(`Server started at http://localhost:${port}`);
   });
+  app.use(function (req: express.Request, res: express.Response, next) {
+    next({ status: 404 });
+  });
+
+  app.use(function (
+    err: any,
+    req: express.Request,
+    res: express.Response,
+    next: express.NextFunction
+  ) {
+    console.error(err);
+    res.status(err.status || 500).json();
+  });
 } catch (error) {
   console.error(error);
   disconnectDB();

@@ -95,10 +95,10 @@ export async function deleteAccount(
   await User.deleteOne({ _id: user._id });
 }
 
-export async function doesUsernameExist(username: string): Promise<boolean> {
-  return (await User.findOne({ username })) !== null;
+export async function isUsernameAvailable(username: string): Promise<boolean> {
+  return (await User.findOne({ username })) == null;
 }
 
-export async function doesEmailExist(email: string): Promise<boolean> {
-  return (await User.findOne({ email })) !== null;
+export async function isEmailAvailable(email: string): Promise<boolean> {
+  return (await User.findOne({ email })) == null;
 }

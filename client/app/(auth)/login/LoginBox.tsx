@@ -1,46 +1,52 @@
 /* eslint-disable react/no-unescaped-entities */
-
+"use client";
 // Dependencies
 import Link from "next/link";
+import login from "../_lib/login";
+import { useState } from "react";
+import { useRouter } from "next/navigation";
 
 // Assets
 import ContainerBox from "../_ui/ContainerBox";
 import InputBox from "../_ui/InputBox";
-import InputButton from "../_ui/InputButton";
+import Button from "../_ui/Button";
 
-export default function LoginClient() {
-  async function checkUser(formData: FormData) {
-    "use server";
+export default function LoginBox() {
+  const [isInvalid, setIsInvalid] = useState(false);
+  const router = useRouter();
 
-    const usernameEmail = formData.get("emailUsername") as string;
-    const password = formData.get("password") as string;
+  async function setCookies(formData: FormData) {
+    const { res, status } = await login(formData);
 
-    const response = await fetch("localhost:5050/api/auth/login", {
-      method: "POST",
-      body: JSON.stringify({
-        usernameEmail,
-        password,
-      }),
-    });
-    console.log(await response.json());
+    if (status != 200) {
+      setIsInvalid(true);
+      return;
+    }
+    const data = await res;
+    document.cookie = `token=Bearer ${data.token}`;
+    router.push("/");
   }
 
   return (
-    <form action={checkUser}>
+    <form action={setCookies}>
       <ContainerBox>
         <div className="text-3xl mt-10 dark:text-grayscale-50">
           Log in to Happy Habits
         </div>
         <InputBox id="emailUsername" placeholder="Email or username" />
+
         <InputBox id="password" placeholder="Password" />
+
         <div className="flex justify-center items-center flex-col">
-          <InputButton text="Log in" />
+          <Button text="Log in" />
+
           <Link
             href="/"
             className="dark:text-grayscale-50 underline block transition hover:no-underline"
           >
             Forgot password
           </Link>
+
           <Link
             href="/"
             className="dark:text-grayscale-50 underline block transition hover:no-underline"
