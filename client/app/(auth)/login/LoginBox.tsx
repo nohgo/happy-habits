@@ -1,5 +1,6 @@
 /* eslint-disable react/no-unescaped-entities */
 "use client";
+
 // Dependencies
 import Link from "next/link";
 import login from "../_lib/login";
@@ -22,39 +23,52 @@ export default function LoginBox() {
       setIsInvalid(true);
       return;
     }
+    setIsInvalid(false);
     const data = await res;
     document.cookie = `token=Bearer ${data.token}`;
     router.push("/");
   }
 
   return (
-    <form action={setCookies}>
-      <ContainerBox>
-        <div className="text-3xl mt-10 dark:text-grayscale-50">
+    <ContainerBox>
+      <form
+        action={setCookies}
+        className="flex flex-grow flex-col items-center justify-between"
+      >
+        <div className="mt-10 text-3xl dark:text-grayscale-50">
           Log in to Happy Habits
         </div>
-        <InputBox id="emailUsername" placeholder="Email or username" />
-
-        <InputBox id="password" placeholder="Password" />
-
-        <div className="flex justify-center items-center flex-col">
+        <InputBox
+          id="emailUsername"
+          placeholder="Email or username"
+          invalidError="Please enter a valid email or username."
+        />
+        <InputBox
+          id="password"
+          placeholder="Password"
+          type="password"
+          invalidError="Please enter a valid password."
+        />
+        <div className="flex flex-col items-center justify-center">
           <Button text="Log in" />
-
+          <div className={`${isInvalid ? "block" : "hidden"} text-red-500`}>
+            Login failed. Please try again.
+          </div>
           <Link
-            href="/"
-            className="dark:text-grayscale-50 underline block transition hover:no-underline"
+            href="/forgot-password"
+            className="block underline transition hover:no-underline dark:text-grayscale-50"
           >
             Forgot password
           </Link>
 
           <Link
-            href="/"
-            className="dark:text-grayscale-50 underline block transition hover:no-underline"
+            href="/register"
+            className="block underline transition hover:no-underline dark:text-grayscale-50"
           >
             Don't have an account? Register
           </Link>
         </div>
-      </ContainerBox>
-    </form>
+      </form>
+    </ContainerBox>
   );
 }
