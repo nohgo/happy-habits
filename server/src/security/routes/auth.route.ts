@@ -7,6 +7,7 @@ import {
   login,
   register,
   updatePassword,
+  forgotPasswordSend,
 } from "../services/auth.service";
 
 export const authRouter = express.Router();
@@ -84,5 +85,16 @@ authRouter.get("/isEmailAvailable", async (req: Request, res: Response) => {
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: "Failed to check email" });
+  }
+});
+
+authRouter.post("/forgotPassword", async (req: Request, res: Response) => {
+  try {
+    const { email } = req.body;
+    await forgotPasswordSend(email);
+    res.status(200).json({ message: "Email sent" });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Failed to send email" });
   }
 });
