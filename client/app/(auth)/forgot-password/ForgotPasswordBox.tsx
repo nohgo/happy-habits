@@ -4,9 +4,21 @@
 import ContainerBox from "../_ui/ContainerBox";
 import InputBox from "../_ui/InputBox";
 import Button from "../_ui/Button";
+import sendEmail from "./_lib/send-email";
+import { useState } from "react";
 
 export default function ForgotPasswordBox() {
-  async function sendEmail(formData: FormData) {}
+  const [isInvalid, setIsInvalid] = useState(false);
+
+  async function forgotPassword(formData: FormData) {
+    const { res, status } = await sendEmail(formData);
+
+    if (status != 200) {
+      setIsInvalid(true);
+      return;
+    }
+    setIsInvalid(false);
+  }
 
   return (
     <ContainerBox>
@@ -23,7 +35,11 @@ export default function ForgotPasswordBox() {
           type="email"
           invalidError="Please enter a valid email address."
         />
-        <Button text="Reset password" />
+        <Button
+          text="Reset password"
+          isInvalid={isInvalid}
+          invalidMessage="Failed to send email. Please try again."
+        />
       </form>
     </ContainerBox>
   );

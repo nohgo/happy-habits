@@ -3,7 +3,7 @@
 
 // Dependencies
 import Link from "next/link";
-import login from "../_lib/login";
+import checkUser from "./_lib/check-user";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 
@@ -17,7 +17,7 @@ export default function LoginBox() {
   const router = useRouter();
 
   async function setCookies(formData: FormData) {
-    const { res, status } = await login(formData);
+    const { res, status } = await checkUser(formData);
 
     if (status != 200) {
       setIsInvalid(true);
@@ -50,7 +50,11 @@ export default function LoginBox() {
           invalidError="Please enter a valid password."
         />
         <div className="flex flex-col items-center justify-center">
-          <Button text="Log in" isInvalid={isInvalid} />
+          <Button
+            text="Log in"
+            isInvalid={isInvalid}
+            invalidMessage="Failed to log in. Please try again."
+          />
           <Link
             href="/forgot-password"
             className="block underline transition hover:no-underline dark:text-grayscale-50"
