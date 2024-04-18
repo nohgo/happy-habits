@@ -38,7 +38,7 @@ export default function ForgotPasswordBox() {
         <Button
           text="Reset password"
           isInvalid={isInvalid}
-          invalidMessage="Failed to send email. Please try again."
+          invalidMessage="Something went wrong. Please try again."
         />
       </form>
     </ContainerBox>
