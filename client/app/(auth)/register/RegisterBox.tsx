@@ -56,7 +56,7 @@ export default function RegisterBox() {
           password: formData.get("password") as string,
         };
         const worked = await register(newUser);
-        worked ? router.push("/login") : router.push("/register");
+        worked ? router.push("/login") : alert("Registration failed.");
       },
       index: 2,
       placeholder: "Password",
@@ -67,16 +67,8 @@ export default function RegisterBox() {
   ];
   return (
     <ContainerBox>
-      <div className="mt-10 text-3xl dark:text-grayscale-50">
-        Register for Happy Habits
-      </div>
       {<Step key={step} {...steps[step]} />}
-      <Link
-        href="/login"
-        className="block underline transition hover:no-underline dark:text-grayscale-50"
-      >
-        Already have an account? Log in
-      </Link>
+      
     </ContainerBox>
   );
 }
