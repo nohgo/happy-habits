@@ -37,7 +37,7 @@ export async function login(
     throw new Error("User not found");
   }
 
-  if (!bcrypt.compare(password, user.password)) {
+  if (!(await bcrypt.compare(password, user.password))) {
     throw new Error("Invalid password");
   }
 
