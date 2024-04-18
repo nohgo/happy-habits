@@ -50,10 +50,7 @@ export default function LoginBox() {
           invalidError="Please enter a valid password."
         />
         <div className="flex flex-col items-center justify-center">
-          <Button text="Log in" />
-          <div className={`${isInvalid ? "block" : "hidden"} text-red-500`}>
-            Login failed. Please try again.
-          </div>
+          <Button text="Log in" isInvalid={isInvalid} />
           <Link
             href="/forgot-password"
             className="block underline transition hover:no-underline dark:text-grayscale-50"

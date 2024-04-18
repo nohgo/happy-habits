@@ -1,7 +1,12 @@
 import { useFormStatus } from "react-dom";
 import Image from "next/image";
 
-export default function Button({ text }: { text: string }) {
+interface IButton {
+  text: string;
+  isInvalid: boolean;
+}
+
+export default function Button({ text, isInvalid }: IButton) {
   const { pending } = useFormStatus();
 
   return (
@@ -18,6 +23,9 @@ export default function Button({ text }: { text: string }) {
         height="35"
       />
       {pending ? "" : text}
+      <div className={`${isInvalid ? "block" : "hidden"} text-red-500`}>
+        Login failed. Please try again.
+      </div>
     </button>
   );
 }

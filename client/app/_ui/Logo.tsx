@@ -1,19 +1,18 @@
 import Image from "next/image";
 import Link from "next/link";
 
-export default function Logo({
-  size = 200,
-  route,
-}: {
+interface ILogo {
   size?: number;
   route: string;
-}) {
+}
+
+export default function Logo({ size = 200, route }: ILogo) {
   return (
-    <Link href={route} className="inline-block ml-10 mt-5">
+    <Link href={route} className="ml-10 mt-5 inline-block">
       <Image
         src="/happy-habits-light.svg"
         alt="Happy Habits Logo"
-        className="dark:hidden block"
+        className="block dark:hidden"
         width={size}
         height={size}
         priority
