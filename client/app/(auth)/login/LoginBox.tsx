@@ -25,7 +25,7 @@ export default function LoginBox() {
     }
     setIsInvalid(false);
     const data = await res;
-    document.cookie = `token=Bearer ${data.token}`;
+    document.cookie = `token=Bearer ${data.token}; Secure; HttpOnly`;
     router.push("/");
   }
 
