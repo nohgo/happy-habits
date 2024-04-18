@@ -27,8 +27,7 @@ export default function RegisterBox() {
           }));
           setStep(step + 1);
           setIsInvalid(false);
-        }
-        else {
+        } else {
           setIsInvalid(true);
         }
       },
@@ -49,8 +48,7 @@ export default function RegisterBox() {
           }));
           setStep(step + 1);
           setIsInvalid(false);
-        }
-        else {
+        } else {
           setIsInvalid(true);
         }
       },
@@ -58,7 +56,7 @@ export default function RegisterBox() {
       placeholder: "Username",
       id: "username",
       invalidError: "Enter a valid username.",
-      pattern: "[a-zA-Z0-9]{3,15}",
+      pattern: "(?!.*@)[a-zA-Z0-9]{3,15}",
       isInvalid: isInvalid,
       invalidMessage: "Username is already taken.",
     },
@@ -69,10 +67,9 @@ export default function RegisterBox() {
           password: formData.get("password") as string,
         };
         if (await register(newUser)) {
-        router.push("/login");
-        setIsInvalid(false);
-        }
-        else setIsInvalid(true);
+          router.push("/login");
+          setIsInvalid(false);
+        } else setIsInvalid(true);
       },
       index: 2,
       placeholder: "Password",
@@ -83,10 +80,5 @@ export default function RegisterBox() {
       invalidMessage: "Something went wrong. Please try again.",
     },
   ];
-  return (
-    <ContainerBox>
-      {<Step key={step} {...steps[step]} />}
-      
-    </ContainerBox>
-  );
+  return <ContainerBox>{<Step key={step} {...steps[step]} />}</ContainerBox>;
 }
