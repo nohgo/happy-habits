@@ -129,3 +129,18 @@ export async function forgotPasswordSend(email: string): Promise<void> {
     "../email/template/reset-password.template.handlebars"
   );
 }
+
+export async function resetPassword(userId: string, newPassword: string) {
+  if (!userId || !newPassword) {
+    throw new Error("Missing required fields");
+  }
+
+  const user = await User.findOne({ username: userId });
+
+  if (!user) {
+    throw new Error("User not found");
+  }
+
+  user.password = await bcrypt.hash(newPassword, 10);
+  await user.save();
+}

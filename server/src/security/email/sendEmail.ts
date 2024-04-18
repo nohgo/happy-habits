@@ -29,6 +29,7 @@ export default async (
     };
   };
 
+  console.log(compiledTemplate(payload));
   // Send email
   transporter.sendMail(options());
 };
