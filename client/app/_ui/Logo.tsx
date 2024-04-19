@@ -10,7 +10,7 @@ export default function Logo({ size = 200, route }: ILogo) {
   return (
     <Link href={route} className="ml-10 mt-5 inline-block">
       <Image
-        src="/happy-habits-light.svg"
+        src="/happy-habits-light-mode.svg"
         alt="Happy Habits Logo"
         className="block dark:hidden"
         width={size}
@@ -18,7 +18,7 @@ export default function Logo({ size = 200, route }: ILogo) {
         priority
       />
       <Image
-        src="/happy-habits-dark.svg"
+        src="/happy-habits-dark-mode.svg"
         alt="Happy Habits Logo"
         className="hidden dark:block"
         width={size}

@@ -61,7 +61,6 @@ export default function LoginBox() {
           >
             Forgot password
           </Link>
-
           <Link
             href="/register"
             className="block underline transition hover:no-underline dark:text-grayscale-50"
