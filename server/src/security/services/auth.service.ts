@@ -42,7 +42,7 @@ export async function login(
     throw new Error("Invalid password");
   }
 
-  return jwt.sign({ userId: user.username }, process.env.SECRET_KEY, {
+  return jwt.sign({ username: user.username }, process.env.SECRET_KEY, {
     expiresIn: "24h",
   });
 }
@@ -114,7 +114,7 @@ export async function forgotPasswordSend(email: string): Promise<void> {
     throw new Error("User not found");
   }
   const token = jwt.sign(
-    { userId: user.username },
+    { username: user.username },
     process.env.PASSWORD_RESET_KEY,
     { expiresIn: "1h" }
   );
@@ -130,12 +130,12 @@ export async function forgotPasswordSend(email: string): Promise<void> {
   );
 }
 
-export async function resetPassword(userId: string, newPassword: string) {
-  if (!userId || !newPassword) {
+export async function resetPassword(username: string, newPassword: string) {
+  if (!username || !newPassword) {
     throw new Error("Missing required fields");
   }
 
-  const user = await User.findOne({ username: userId });
+  const user = await User.findOne({ username: username });
 
   if (!user) {
     throw new Error("User not found");

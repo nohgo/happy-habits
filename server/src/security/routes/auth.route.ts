@@ -108,8 +108,8 @@ authRouter.post(
   async (req: AuthRequest, res: Response) => {
     try {
       const { newPassword } = req.body;
-      const userId = req.userId;
-      await resetPassword(userId, newPassword);
+      const username = req.username;
+      await resetPassword(username, newPassword);
       res.status(200).json({ message: "Password reset successfully" });
     } catch (error) {
       console.error(error);
