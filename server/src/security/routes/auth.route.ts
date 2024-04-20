@@ -7,7 +7,11 @@ import {
   login,
   register,
   updatePassword,
+  forgotPasswordSend,
+  resetPassword,
 } from "../services/auth.service";
+import { verifyResetToken } from "../middleware/auth.middleware";
+import AuthRequest from "../models/auth-request.model";
 
 export const authRouter = express.Router();
 authRouter.use(express.json());
@@ -86,3 +90,30 @@ authRouter.get("/isEmailAvailable", async (req: Request, res: Response) => {
     res.status(500).json({ error: "Failed to check email" });
   }
 });
+
+authRouter.post("/forgotPassword", async (req: Request, res: Response) => {
+  try {
+    const { email } = req.body;
+    await forgotPasswordSend(email);
+    res.status(200).json({ message: "Email sent" });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Failed to send email" });
+  }
+});
+
+authRouter.post(
+  "/resetPassword",
+  verifyResetToken,
+  async (req: AuthRequest, res: Response) => {
+    try {
+      const { newPassword } = req.body;
+      const username = req.username;
+      await resetPassword(username, newPassword);
+      res.status(200).json({ message: "Password reset successfully" });
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ error: "Failed to reset password" });
+    }
+  }
+);

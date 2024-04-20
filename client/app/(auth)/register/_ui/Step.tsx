@@ -5,6 +5,8 @@ import Link from "next/link";
 export interface IStep extends IInputBox {
   action: (formData: FormData) => void;
   index: number;
+  isInvalid: boolean;
+  invalidMessage: string;
 }
 
 export default function Step({
@@ -14,6 +16,8 @@ export default function Step({
   id,
   type,
   invalidError,
+  isInvalid,
+  invalidMessage,
 }: IStep) {
   return (
     <form action={action} className="flex flex-col justify-between items-center flex-grow">
@@ -27,7 +31,7 @@ export default function Step({
         invalidError={invalidError}
       />
       <div>
-      <Button text={index === 2 ? "Register" : "Continue"} />
+      <Button text={index === 2 ? "Register" : "Continue"} isInvalid = {isInvalid} invalidMessage={invalidMessage}/>
       <Link
         href="/login"
         className="block underline transition hover:no-underline dark:text-grayscale-50"

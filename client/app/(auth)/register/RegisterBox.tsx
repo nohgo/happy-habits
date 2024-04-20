@@ -11,6 +11,7 @@ import { useRouter } from "next/navigation";
 export default function RegisterBox() {
   const router = useRouter();
   const [step, setStep] = useState(0);
+  const [isInvalid, setIsInvalid] = useState(false);
   const [user, setUser] = useState({
     email: "",
     username: "",
@@ -25,6 +26,10 @@ export default function RegisterBox() {
             email: formData.get("email") as string,
           }));
           setStep(step + 1);
+          setIsInvalid(false);
+        }
+        else {
+          setIsInvalid(true);
         }
       },
       index: 0,
@@ -32,6 +37,8 @@ export default function RegisterBox() {
       id: "email",
       type: "email",
       invalidError: "Enter a valid email.",
+      isInvalid: isInvalid,
+      invalidMessage: "Email is already taken.",
     },
     {
       action: async (formData: FormData) => {
@@ -41,6 +48,10 @@ export default function RegisterBox() {
             username: formData.get("username") as string,
           }));
           setStep(step + 1);
+          setIsInvalid(false);
+        }
+        else {
+          setIsInvalid(true);
         }
       },
       index: 1,
@@ -48,6 +59,8 @@ export default function RegisterBox() {
       id: "username",
       invalidError: "Enter a valid username.",
       pattern: "[a-zA-Z0-9]{3,15}",
+      isInvalid: isInvalid,
+      invalidMessage: "Username is already taken.",
     },
     {
       action: async (formData: FormData) => {
@@ -55,14 +68,19 @@ export default function RegisterBox() {
           ...user,
           password: formData.get("password") as string,
         };
-        const worked = await register(newUser);
-        worked ? router.push("/login") : alert("Registration failed.");
+        if (await register(newUser)) {
+        router.push("/login");
+        setIsInvalid(false);
+        }
+        else setIsInvalid(true);
       },
       index: 2,
       placeholder: "Password",
       id: "password",
       invalidError: "Enter a valid password.",
       pattern: "(?=(.*[0-9]){2})(?=(.*[!@#$%^&*()-_=+{};:,<.>]){2}).{8,}",
+      isInvalid: isInvalid,
+      invalidMessage: "Something went wrong. Please try again.",
     },
   ];
   return (

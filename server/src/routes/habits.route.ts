@@ -24,7 +24,7 @@ habitsRouter.get(
   verifyToken,
   async (req: AuthRequest, res: Response) => {
     try {
-      res.status(200).send(await getHabits(req.userId));
+      res.status(200).send(await getHabits(req.username));
     } catch (error) {
       console.error(error);
       res.status(500).json({ error: "Failed to fetch habits" });
@@ -38,7 +38,7 @@ habitsRouter.post(
   async (req: AuthRequest, res: Response) => {
     try {
       await addHabit(
-        req.userId,
+        req.username,
         req.body.name,
         req.body.description,
         req.body.frequency
@@ -58,7 +58,7 @@ habitsRouter.post(
   async (req: AuthRequest, res: Response) => {
     try {
       const { habitId, name, description, frequency } = req.body;
-      await updateHabit(habitId, name, description, frequency);
+      await updateHabit(req.username, habitId, name, description, frequency);
       res.status(200).json({ message: "Habit updated successfully" });
     } catch (error) {
       console.error(error);
@@ -73,8 +73,8 @@ habitsRouter.delete(
   async (req: AuthRequest, res: Response) => {
     try {
       const { habitId } = req.body;
-      const userId = req.userId;
-      await deleteHabit(userId, habitId);
+      const username = req.username;
+      await deleteHabit(username, habitId);
       res.status(204).json({ message: "Habit deleted successfully" });
     } catch (error) {
       console.error(error);
@@ -89,9 +89,9 @@ habitsRouter.delete(
   async (req: AuthRequest, res: Response) => {
     try {
       const { habitIds } = req.body;
-      const { userId } = req.body;
+      const { username } = req.body;
 
-      await deleteMultipleHabits(userId, habitIds);
+      await deleteMultipleHabits(username, habitIds);
       res.status(204).json({ message: "Habits deleted successfully" });
     } catch (error) {
       console.error(error);
@@ -105,8 +105,8 @@ habitsRouter.delete(
   verifyToken,
   async (req: AuthRequest, res: Response) => {
     try {
-      const userId = req.userId;
-      await deleteAllHabits(userId);
+      const username = req.username;
+      await deleteAllHabits(username);
       res.status(204).json({ message: "All habits deleted successfully" });
     } catch (error) {
       console.error(error);
@@ -121,7 +121,7 @@ habitsRouter.post(
   async (req: AuthRequest, res: Response) => {
     try {
       const { habitId } = req.body;
-      await incrementStreak(habitId);
+      await incrementStreak(req.username, habitId);
       res
         .status(200)
         .json({ message: "Habit streak incremented successfully" });
@@ -140,7 +140,7 @@ habitsRouter.post(
   async (req: AuthRequest, res: Response) => {
     try {
       const { habitId } = req.body;
-      await resetStreak(habitId);
+      await resetStreak(req.username, habitId);
       res.status(200).json({ message: "Habit streak reset successfully" });
     } catch (error) {
       console.error(error);
@@ -156,8 +156,8 @@ habitsRouter.post(
   verifyToken,
   async (req: AuthRequest, res: Response) => {
     try {
-      const userId = req.userId;
-      await resetAllStreaks(userId);
+      const username = req.username;
+      await resetAllStreaks(username);
       res.status(200).json({ message: "All habit streaks reset successfully" });
     } catch (error) {
       console.error(error);
