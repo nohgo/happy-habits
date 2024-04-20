@@ -119,7 +119,7 @@ export async function forgotPasswordSend(email: string): Promise<void> {
     { expiresIn: "1h" }
   );
   const payload = {
-    link: `${process.env.CLIENT_URL}/resetPassword?token=${token}`,
+    link: `${process.env.CLIENT_URL}/reset-password?token=${token}`,
     name: user.username,
   };
   await sendEmail(
