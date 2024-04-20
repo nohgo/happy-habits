@@ -3,7 +3,7 @@ export default async function sendEmail(formData: FormData) {
   const email = formData.get("email") as string;
 
   const response = await fetch(
-    "http://localhost:5050/api/auth/forgot-password",
+    "http://localhost:5050/api/auth/forgotPassword",
     {
       method: "POST",
       headers: {
@@ -14,6 +14,5 @@ export default async function sendEmail(formData: FormData) {
       }),
     },
   );
-
   return { res: response.json(), status: response.status };
 }
