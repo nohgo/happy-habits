@@ -8,6 +8,7 @@ import sendEmail from "../_lib/send-email";
 import { useState } from "react";
 import resetPassword from "../_lib/reset-password";
 import { useEffect } from "react";
+import { useRouter } from "next/navigation";
 
 export default function ForgotPasswordBox({
   isForgotPassword,
@@ -15,6 +16,8 @@ export default function ForgotPasswordBox({
   isForgotPassword: boolean;
 }) {
   const [token, setToken] = useState<string | null>(null);
+
+  const router = useRouter();
 
   useEffect(() => {
     const token = new URLSearchParams(new URL(window.location.href).search).get(
@@ -33,6 +36,7 @@ export default function ForgotPasswordBox({
         idtype: "email",
         placeholder: "Email address",
         invalidError: "Please enter a valid email address.",
+        route: "forgot-password/success",
       }
     : {
         title: "Reset Password",
@@ -41,6 +45,7 @@ export default function ForgotPasswordBox({
         idtype: "password",
         placeholder: "New Password",
         invalidError: "Please enter a valid password.",
+        route: "login",
       };
 
   async function forgotPassword(formData: FormData) {
@@ -51,7 +56,7 @@ export default function ForgotPasswordBox({
       return;
     }
     setIsInvalid(false);
-    //! REROUTE TO PAGE THAT SAYS THEY SUCCESFULLY RESET PASSWORD
+    router.push(props.route);
   }
 
   return (
