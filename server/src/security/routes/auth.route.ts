@@ -1,5 +1,4 @@
 import express, { Request, Response } from "express";
-import verifyToken from "../middleware/auth.middleware";
 import {
   deleteAccount,
   isUsernameAvailable,
@@ -9,8 +8,14 @@ import {
   updatePassword,
   forgotPasswordSend,
   resetPassword,
+  verifyEmailSend,
+  verifyEmail,
 } from "../services/auth.service";
-import { verifyResetToken } from "../middleware/auth.middleware";
+import {
+  verifyToken,
+  verifyResetToken,
+  verifyEmailToken,
+} from "../middleware/auth.middleware";
 import AuthRequest from "../models/auth-request.model";
 
 export const authRouter = express.Router();
@@ -35,11 +40,13 @@ authRouter.post("/login", async (req: Request, res: Response) => {
       .json({ type: "Bearer", token: await login(emailUsername, password) });
   } catch (error) {
     console.error(error);
-    res.status(500).json({ error: "Login failed" });
+    res
+      .status(error.message === "Email not verified" ? 501 : 500)
+      .json({ error: "Login failed" });
   }
 });
 
-authRouter.post("/updatePassword", async (req: Request, res: Response) => {
+authRouter.post("/update-password", async (req: Request, res: Response) => {
   try {
     const { username, password, newPassword, email } = req.body;
 
@@ -52,7 +59,7 @@ authRouter.post("/updatePassword", async (req: Request, res: Response) => {
 });
 
 authRouter.delete(
-  "/deleteAccount",
+  "/delete-account",
   verifyToken,
   async (req: Request, res: Response) => {
     try {
@@ -67,19 +74,22 @@ authRouter.delete(
   }
 );
 
-authRouter.get("/isUsernameAvailable", async (req: Request, res: Response) => {
-  try {
-    const { username } = req.query;
-    (await isUsernameAvailable(username as string))
-      ? res.status(200).json({})
-      : res.status(404).json({});
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ error: "Failed to check username" });
+authRouter.get(
+  "/is-username-available",
+  async (req: Request, res: Response) => {
+    try {
+      const { username } = req.query;
+      (await isUsernameAvailable(username as string))
+        ? res.status(200).json({})
+        : res.status(404).json({});
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ error: "Failed to check username" });
+    }
   }
-});
+);
 
-authRouter.get("/isEmailAvailable", async (req: Request, res: Response) => {
+authRouter.get("/is-email-available", async (req: Request, res: Response) => {
   try {
     const { email } = req.query;
     (await isEmailAvailable(email as string))
@@ -91,19 +101,22 @@ authRouter.get("/isEmailAvailable", async (req: Request, res: Response) => {
   }
 });
 
-authRouter.post("/forgotPassword", async (req: Request, res: Response) => {
-  try {
-    const { email } = req.body;
-    await forgotPasswordSend(email);
-    res.status(200).json({ message: "Email sent" });
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ error: "Failed to send email" });
+authRouter.post(
+  "/forgot-password-send",
+  async (req: Request, res: Response) => {
+    try {
+      const { email } = req.body;
+      await forgotPasswordSend(email);
+      res.status(200).json({ message: "Email sent" });
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ error: "Failed to send email" });
+    }
   }
-});
+);
 
 authRouter.post(
-  "/resetPassword",
+  "/reset-password",
   verifyResetToken,
   async (req: AuthRequest, res: Response) => {
     try {
@@ -114,6 +127,21 @@ authRouter.post(
     } catch (error) {
       console.error(error);
       res.status(500).json({ error: "Failed to reset password" });
+    }
+  }
+);
+
+authRouter.post(
+  "verify-email-send",
+  verifyEmailToken,
+  async (req: Request, res: Response) => {
+    try {
+      const { email } = req.body;
+      await verifyEmailSend(email);
+      res.status(200).json({ message: "Email sent" });
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ error: "Failed to send email" });
     }
   }
 );

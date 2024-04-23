@@ -42,6 +42,10 @@ export async function login(
     throw new Error("Invalid password");
   }
 
+  if (!user.isEmailVerified) {
+    throw new Error("Email not verified");
+  }
+
   return jwt.sign({ username: user.username }, process.env.SECRET_KEY, {
     expiresIn: "24h",
   });
@@ -136,11 +140,53 @@ export async function resetPassword(username: string, newPassword: string) {
   }
 
   const user = await User.findOne({ username: username });
-
   if (!user) {
     throw new Error("User not found");
   }
 
   user.password = await bcrypt.hash(newPassword, 10);
+  await user.save();
+}
+
+export async function verifyEmailSend(email: string): Promise<void> {
+  if (!email) {
+    throw new Error("Missing required fields");
+  }
+
+  const user = await User.findOne({ email });
+  if (!user) {
+    throw new Error("User not found");
+  }
+
+  const token = jwt.sign(
+    { username: user.username },
+    process.env.VERIFY_EMAIL_KEY,
+    { expiresIn: "1h" }
+  );
+
+  const payload = {
+    link: `${process.env.CLIENT_URL}/verify-email?token=${token}`,
+    name: user.username,
+  };
+
+  await sendEmail(
+    user.email,
+    "Verify Email",
+    payload,
+    "../email/template/verify-email.template.handlebars"
+  );
+}
+
+export async function verifyEmail(email: string) {
+  if (!email) {
+    throw new Error("Missing required fields");
+  }
+
+  const user = await User.findOne({ email });
+  if (!user) {
+    throw new Error("User not found");
+  }
+
+  user.isEmailVerified = true;
   await user.save();
 }
