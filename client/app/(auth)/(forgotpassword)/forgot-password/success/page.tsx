@@ -1,6 +1,11 @@
 import ContainerBox from "../../../_ui/ContainerBox";
 import AuthBasic from "../../../_ui/AuthBasic";
 
+export const metadata = {
+  title: "Success",
+  description: "Email Sent Successfully",
+};
+
 export default function page() {
   return (
     <AuthBasic>
