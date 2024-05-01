@@ -16,3 +16,11 @@ if (!process.env.SECRET_KEY) {
     `SECRET_KEY=${secretKey}\n`
   );
 }
+
+if (!process.env.PASSWORD_RESET_KEY) {
+  const secretKey = generateSecretKey(32);
+  fs.appendFileSync(
+    path.join(__dirname + "/../", ".env"),
+    `PASSWORD_RESET_KEY=${secretKey}\n`
+  );
+}

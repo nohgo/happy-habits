@@ -2,6 +2,7 @@ import User from "../../models/user.model";
 import Habit from "../../models/habit.model";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
+import sendEmail from "../email/sendEmail";
 
 export async function register(
   username: string,
@@ -37,11 +38,11 @@ export async function login(
     throw new Error("User not found");
   }
 
-  if (!bcrypt.compare(password, user.password)) {
+  if (!(await bcrypt.compare(password, user.password))) {
     throw new Error("Invalid password");
   }
 
-  return jwt.sign({ userId: user.username }, process.env.SECRET_KEY, {
+  return jwt.sign({ username: user.username }, process.env.SECRET_KEY, {
     expiresIn: "24h",
   });
 }
@@ -101,4 +102,45 @@ export async function isUsernameAvailable(username: string): Promise<boolean> {
 
 export async function isEmailAvailable(email: string): Promise<boolean> {
   return (await User.findOne({ email })) == null;
+}
+
+export async function forgotPasswordSend(email: string): Promise<void> {
+  if (!email) {
+    throw new Error("Missing required fields");
+  }
+
+  const user = await User.findOne({ email });
+  if (!user) {
+    throw new Error("User not found");
+  }
+  const token = jwt.sign(
+    { username: user.username },
+    process.env.PASSWORD_RESET_KEY,
+    { expiresIn: "1h" }
+  );
+  const payload = {
+    link: `${process.env.CLIENT_URL}/reset-password?token=${token}`,
+    name: user.username,
+  };
+  await sendEmail(
+    user.email,
+    "Password Reset",
+    payload,
+    "../email/template/reset-password.template.handlebars"
+  );
+}
+
+export async function resetPassword(username: string, newPassword: string) {
+  if (!username || !newPassword) {
+    throw new Error("Missing required fields");
+  }
+
+  const user = await User.findOne({ username: username });
+
+  if (!user) {
+    throw new Error("User not found");
+  }
+
+  user.password = await bcrypt.hash(newPassword, 10);
+  await user.save();
 }
