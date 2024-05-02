@@ -7,7 +7,7 @@ import sendEmail from "../email/sendEmail";
 export async function register(
   username: string,
   email: string,
-  password: string
+  password: string,
 ): Promise<void> {
   if (!username || !password || !email) {
     throw new Error("Missing required fields");
@@ -24,7 +24,7 @@ export async function register(
 }
 export async function login(
   emailUsername: string,
-  password: string
+  password: string,
 ): Promise<string> {
   if (!emailUsername || !password) {
     throw new Error("Missing required fields");
@@ -55,7 +55,7 @@ export async function updatePassword(
   username: string,
   email: string,
   password: string,
-  newPassword: string
+  newPassword: string,
 ) {
   if (!(username || email) || !password || !newPassword) {
     throw new Error("Missing required fields");
@@ -80,7 +80,7 @@ export async function updatePassword(
 export async function deleteAccount(
   username: string,
   email: string,
-  password: string
+  password: string,
 ) {
   if (!(username || email) || !password) {
     throw new Error("Missing required fields");
@@ -120,7 +120,7 @@ export async function forgotPasswordSend(email: string): Promise<void> {
   const token = jwt.sign(
     { username: user.username },
     process.env.PASSWORD_RESET_KEY,
-    { expiresIn: "1h" }
+    { expiresIn: "1h" },
   );
   const payload = {
     link: `${process.env.CLIENT_URL}/reset-password?token=${token}`,
@@ -130,7 +130,7 @@ export async function forgotPasswordSend(email: string): Promise<void> {
     user.email,
     "Password Reset",
     payload,
-    "../email/template/reset-password.template.handlebars"
+    "../email/template/reset-password.template.handlebars",
   );
 }
 
@@ -157,11 +157,13 @@ export async function verifyEmailSend(email: string): Promise<void> {
   if (!user) {
     throw new Error("User not found");
   }
-
+  if (user.isEmailVerified) {
+    throw new Error("User already verified");
+  }
   const token = jwt.sign(
     { username: user.username },
     process.env.VERIFY_EMAIL_KEY,
-    { expiresIn: "1h" }
+    { expiresIn: "1h" },
   );
 
   const payload = {
@@ -173,16 +175,16 @@ export async function verifyEmailSend(email: string): Promise<void> {
     user.email,
     "Verify Email",
     payload,
-    "../email/template/verify-email.template.handlebars"
+    "../email/template/verify-email.template.handlebars",
   );
 }
 
-export async function verifyEmail(email: string) {
-  if (!email) {
+export async function verifyEmail(username: string) {
+  if (!username) {
     throw new Error("Missing required fields");
   }
 
-  const user = await User.findOne({ email });
+  const user = await User.findOne({ username });
   if (!user) {
     throw new Error("User not found");
   }

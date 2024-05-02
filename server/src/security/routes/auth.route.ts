@@ -71,7 +71,7 @@ authRouter.delete(
       console.error(error);
       res.status(500).json({ error: "Failed to delete account" });
     }
-  }
+  },
 );
 
 authRouter.get(
@@ -86,7 +86,7 @@ authRouter.get(
       console.error(error);
       res.status(500).json({ error: "Failed to check username" });
     }
-  }
+  },
 );
 
 authRouter.get("/is-email-available", async (req: Request, res: Response) => {
@@ -112,7 +112,7 @@ authRouter.post(
       console.error(error);
       res.status(500).json({ error: "Failed to send email" });
     }
-  }
+  },
 );
 
 authRouter.post(
@@ -128,20 +128,31 @@ authRouter.post(
       console.error(error);
       res.status(500).json({ error: "Failed to reset password" });
     }
-  }
+  },
 );
 
-authRouter.post(
-  "verify-email-send",
-  verifyEmailToken,
-  async (req: Request, res: Response) => {
-    try {
-      const { email } = req.body;
-      await verifyEmailSend(email);
-      res.status(200).json({ message: "Email sent" });
-    } catch (error) {
-      console.error(error);
-      res.status(500).json({ error: "Failed to send email" });
-    }
+authRouter.post("/verify-email-send", async (req: Request, res: Response) => {
+  try {
+    const { email } = req.body;
+    await verifyEmailSend(email);
+    res.status(200).json({ message: "Email sent" });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Failed to send email" });
   }
+});
+
+authRouter.post(
+  "/verify-email",
+  verifyEmailToken,
+  async (req: AuthRequest, res: Response) => {
+    try {
+      const username = req.username;
+      await verifyEmail(username);
+      console.log("here");
+      res.status(200).send();
+    } catch (error) {
+      res.status(500).send();
+    }
+  },
 );
