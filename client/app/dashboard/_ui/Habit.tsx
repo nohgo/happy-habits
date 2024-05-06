@@ -1,6 +1,7 @@
 // preliminary assumptions -- this will be the child of a flexbox
 
-interface IHabit {
+export interface IHabit {
+  _id: string;
   name: string;
   description: string;
   streak: number;
@@ -9,6 +10,7 @@ interface IHabit {
 }
 
 export default function Habit({
+  _id,
   name,
   description,
   streak,

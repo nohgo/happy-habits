@@ -1,4 +1,4 @@
-export const metadata = { title: "Login", description: "Login page" };
+export const metadata = { title: "Dashboard", description: "Dashboard" };
 
 export default function Dashboard() {
   return <h1>Dashboard</h1>;
