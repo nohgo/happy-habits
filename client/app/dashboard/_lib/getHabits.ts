@@ -1,7 +1,8 @@
+"use server";
 import { IHabit } from "../_ui/Habit";
 import { cookies } from "next/headers";
 
-export default async function getHabits(): Promise<IHabit[]> {
+export default async function getHabits() {
   const authorization = cookies().get("token")?.value;
 
   if (!authorization) throw new Error("User has no authorization token");
@@ -16,5 +17,5 @@ export default async function getHabits(): Promise<IHabit[]> {
       },
     },
   );
-  return response as unknown as IHabit[];
+  return (await response.json()) as IHabit[];
 }
