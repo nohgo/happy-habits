@@ -1,4 +1,7 @@
 "use server";
+
+import { cookies } from "next/headers";
+
 export default async function checkUser(formData: FormData) {
   const emailUsername = formData.get("emailUsername") as string;
   const password = formData.get("password") as string;
@@ -14,5 +17,11 @@ export default async function checkUser(formData: FormData) {
     }),
   });
 
-  return { res: response.json(), status: response.status };
+  console.log("hello");
+  cookies().set("token", `Bearer ${(await response.json()).token}`, {
+    secure: true,
+    httpOnly: true,
+  });
+
+  return { status: response.status };
 }

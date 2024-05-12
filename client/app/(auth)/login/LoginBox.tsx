@@ -17,16 +17,12 @@ export default function LoginBox() {
   const router = useRouter();
 
   async function setCookies(formData: FormData) {
-    const { res, status } = await checkUser(formData);
+    const { status } = await checkUser(formData);
 
     if (status != 200) {
       setIsInvalid(true);
       return;
     }
-    setIsInvalid(false);
-    const data = await res;
-    console.log(data.token);
-    document.cookie = `token=Bearer ${data.token}; Secure; HttpOnly`;
     router.push("/");
   }
 
