@@ -9,7 +9,6 @@ export default async function getHabits() {
   const response = await fetch(
     "http://localhost:5050/api/habits/getAllHabits",
     {
-      credentials: "include",
       method: "GET",
       headers: {
         "Content-Type": "application/json",

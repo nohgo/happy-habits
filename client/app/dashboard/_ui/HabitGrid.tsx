@@ -6,16 +6,7 @@ import getHabits from "../_lib/getHabits";
 export default function HabitGrid({}) {
   const [habits, setHabits] = useState([] as IHabit[]);
   useEffect(() => {
-    async function findHabits(): Promise<void> {
-      try {
-        const habits = await getHabits();
-        setHabits(habits);
-        console.log(habits);
-      } catch (err) {
-        console.log("Error occured when fetching books");
-      }
-    }
-    findHabits();
+    getHabits().then((data) => setHabits(data));
   }, []);
 
   return habits.map((item) => <Habit {...item} />);
