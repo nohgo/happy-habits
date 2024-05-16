@@ -23,7 +23,7 @@ export default function Habit({
       <p>{description}</p>
       <p>Streak: {streak}</p>
       <p>Frequency: {frequency}</p>
-      <p>LastIncrement: {lastIncrement.toString()}</p>
+      <p>LastIncrement: {lastIncrement ? lastIncrement.toString() : "N/A"}</p>
     </div>
   );
 }

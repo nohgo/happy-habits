@@ -17,9 +17,11 @@ export default async function checkUser(formData: FormData) {
     }),
   });
 
+  // switch secure to true before prod
   cookies().set("token", `Bearer ${(await response.json()).token}`, {
-    secure: true,
+    secure: false,
     httpOnly: true,
+    maxAge: 60000 * 30,
   });
 
   return { status: response.status };
