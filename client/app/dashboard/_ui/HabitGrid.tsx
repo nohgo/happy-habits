@@ -9,5 +9,11 @@ export default function HabitGrid({}) {
     getHabits().then((data) => setHabits(data));
   }, []);
 
-  return habits.map((item) => <Habit {...item} />);
+  return (
+    <div className="flex justify-around">
+      {habits.map((item: IHabit) => (
+        <Habit {...item} />
+      ))}
+    </div>
+  );
 }

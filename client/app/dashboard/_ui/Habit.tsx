@@ -18,7 +18,7 @@ export default function Habit({
   lastIncrement,
 }: IHabit) {
   return (
-    <div>
+    <div className="border-2 border-black">
       <h1>{name}</h1>
       <p>{description}</p>
       <p>Streak: {streak}</p>
