@@ -23,7 +23,7 @@ export default function LoginBox() {
       setIsInvalid(true);
       return;
     }
-    router.push("/");
+    router.push("/dashboard");
   }
 
   return (

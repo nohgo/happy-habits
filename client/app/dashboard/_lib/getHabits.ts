@@ -2,7 +2,6 @@
 import { cookies } from "next/headers";
 
 export default async function getHabits() {
-  console.log(cookies().getAll());
   const authorization = cookies().get("token")?.value;
 
   if (!authorization) throw new Error("User has no authorization token");

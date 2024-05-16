@@ -17,7 +17,6 @@ export default async function checkUser(formData: FormData) {
     }),
   });
 
-  console.log("hello");
   cookies().set("token", `Bearer ${(await response.json()).token}`, {
     secure: true,
     httpOnly: true,
