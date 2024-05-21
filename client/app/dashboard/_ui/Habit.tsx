@@ -18,8 +18,8 @@ export default function Habit({
   lastIncrement,
 }: IHabit) {
   return (
-    <div className="border-2 border-black">
-      <h1>{name}</h1>
+    <div className="mr-2 border-2 border-black bg-grayscale-300">
+      <h1 className="">{name}</h1>
       <p>{description}</p>
       <p>Streak: {streak}</p>
       <p>Frequency: {frequency}</p>
