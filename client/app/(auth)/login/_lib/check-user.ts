@@ -24,5 +24,5 @@ export default async function checkUser(formData: FormData) {
     maxAge: 60000 * 30,
   });
 
-  return { status: response.status };
+  return response.status;
 }
