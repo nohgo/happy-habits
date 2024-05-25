@@ -3,7 +3,7 @@ export const metadata = { title: "Dashboard", description: "Dashboard" };
 
 export default function Dashboard() {
   return (
-    <div className="min-h-screen overflow-y-scroll bg-grayscale-50">
+    <div className="flex min-h-screen flex-row overflow-y-scroll bg-grayscale-50">
       <HabitGrid />{" "}
     </div>
   );
