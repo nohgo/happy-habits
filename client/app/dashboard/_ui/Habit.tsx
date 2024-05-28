@@ -1,7 +1,5 @@
 // preliminary assumptions -- this will be the child of a flexbox
 
-import Button from "@/app/(auth)/_ui/Button";
-import { useState } from "react";
 import ProgressBar from "./ProgressBar";
 
 export interface IHabit {
