@@ -1,6 +1,6 @@
 // External Dependencies
 import express, { Response } from "express";
-import verifyToken from "../security/middleware/auth.middleware";
+import { verifyToken } from "../security/middleware/auth.middleware";
 import AuthRequest from "../security/models/auth-request.model";
 import {
   addHabit,

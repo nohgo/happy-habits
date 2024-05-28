@@ -2,7 +2,7 @@
 export async function emailAvailable(formData: FormData) {
   const email = formData.get("email") as string;
   const response = await fetch(
-    `http://localhost:5050/api/auth/isEmailAvailable?email=${email}`,
+    `http://localhost:5050/api/auth/is-email-available?email=${email}`,
     {
       method: "GET",
       headers: {
@@ -22,7 +22,7 @@ export async function emailAvailable(formData: FormData) {
 export async function usernameAvailable(formData: FormData) {
   const username = formData.get("username") as string;
   const response = await fetch(
-    `http://localhost:5050/api/auth/isEmailAvailable?email=${username}`,
+    `http://localhost:5050/api/auth/is-username-available?username=${username}`,
     {
       method: "GET",
       headers: {
@@ -39,6 +39,27 @@ export async function usernameAvailable(formData: FormData) {
       return false;
   }
 }
+
+export async function verifyEmail(email: string) {
+  const response = await fetch(
+    `http://localhost:5050/api/auth/verify-email?email=${email}`,
+    {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    }
+  );
+  switch (response.status) {
+    case 200:
+      return true;
+    case 404:
+      return false;
+    default:
+      return false;
+  }
+}
+
 interface IRegister {
   email: string;
   username: string;

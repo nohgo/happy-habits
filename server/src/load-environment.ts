@@ -24,3 +24,11 @@ if (!process.env.PASSWORD_RESET_KEY) {
     `PASSWORD_RESET_KEY=${secretKey}\n`
   );
 }
+
+if (!process.env.VERIFY_EMAIL_KEY) {
+  const secretKey = generateSecretKey(32);
+  fs.appendFileSync(
+    path.join(__dirname + "/../", ".env"),
+    `VERIFY_EMAIL_KEY=${secretKey}\n`
+  );
+}

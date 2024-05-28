@@ -20,6 +20,9 @@ export default function LoginBox() {
     const status = await checkUser(formData);
 
     if (status != 200) {
+      if (status === 501) {
+        router.push("/verify-email");
+      }
       setIsInvalid(true);
       return;
     }

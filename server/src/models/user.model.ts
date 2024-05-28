@@ -4,6 +4,7 @@ import { ObjectId } from "mongodb";
 interface IUser extends Document {
   username: string;
   email: string;
+  isEmailVerified: boolean;
   password: string;
   habits: Array<ObjectId>;
 }
@@ -20,6 +21,7 @@ const UserSchema = new Schema({
     unique: true,
     required: [true, "email is required"],
   },
+  isEmailVerified: { type: Boolean, default: false },
   password: { type: String, required: [true, "password is required"] },
   habits: {
     type: [Schema.Types.ObjectId],

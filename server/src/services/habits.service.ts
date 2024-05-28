@@ -42,6 +42,7 @@ export async function updateHabit(
   if (!(username && habitId && name && description && frequency)) {
     throw new Error("Missing required fields");
   }
+  
   const user = await User.findOne({ username });
   if (!user) throw new Error("User not found");
   if (!user.habits.includes(new ObjectId(habitId)))
@@ -77,6 +78,7 @@ export async function deleteMultipleHabits(
   if (!username || !habitIds) {
     throw new Error("Missing required fields");
   }
+
   const user = await User.findOne({ username: username });
   await Habit.deleteMany({ _id: { $in: habitIds } });
   user.habits = [];
@@ -87,19 +89,22 @@ export async function deleteAllHabits(username: string) {
   if (!username) {
     throw new Error("Missing required fields");
   }
+
   const user = await User.findOne({ username: username });
   await Habit.deleteMany({ _id: { $in: user.habits } });
   user.habits = [];
   user.save();
 }
+
 export async function incrementStreak(username: string, habitId: string) {
   if (!habitId || !username) {
     throw new Error("Missing required fields");
   }
+
   const user = await User.findOne({ username });
   if (!user) throw new Error("User not found");
   if (!user.habits.includes(new ObjectId(habitId)))
-    throw new Error("Habit not found");
+    {throw new Error("Habit not found");}
 
   const habit = await Habit.findOne({ _id: habitId });
   const now = new Date();
@@ -127,10 +132,13 @@ export async function resetStreak(username: string, habitId: string) {
   if (!habitId || !username) {
     throw new Error("Missing required fields");
   }
+
   const user = await User.findOne({ username });
   if (!user) throw new Error("User not found");
-  if (!user.habits.includes(new ObjectId(habitId)))
+  if (!user.habits.includes(new ObjectId(habitId))) {
     throw new Error("Habit not found");
+  }
+
   const habit = await Habit.findOne({ _id: habitId });
 
   habit.streak = 0;
