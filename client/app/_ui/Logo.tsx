@@ -8,7 +8,7 @@ interface ILogo {
 
 export default function Logo({ size = 200, route }: ILogo) {
   return (
-    <Link href={route} className="ml-10 mt-5 inline-block">
+    <Link href={route} className="inline-block">
       <Image
         src="/happy-habits-light-mode.svg"
         alt="Happy Habits Logo"
