@@ -42,7 +42,7 @@ export async function updateHabit(
   if (!(username && habitId && name && description && frequency)) {
     throw new Error("Missing required fields");
   }
-  
+
   const user = await User.findOne({ username });
   if (!user) throw new Error("User not found");
   if (!user.habits.includes(new ObjectId(habitId)))
@@ -103,8 +103,9 @@ export async function incrementStreak(username: string, habitId: string) {
 
   const user = await User.findOne({ username });
   if (!user) throw new Error("User not found");
-  if (!user.habits.includes(new ObjectId(habitId)))
-    {throw new Error("Habit not found");}
+  if (!user.habits.includes(habitId as unknown as ObjectId)) {
+    throw new Error("Habit not found");
+  }
 
   const habit = await Habit.findOne({ _id: habitId });
   const now = new Date();
@@ -112,6 +113,8 @@ export async function incrementStreak(username: string, habitId: string) {
   if (habit.lastIncrement === null) {
     habit.streak += 1;
     habit.lastIncrement = now;
+    await habit.save();
+    return;
   }
 
   const diffInDays = Math.floor(
