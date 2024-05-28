@@ -6,9 +6,9 @@ export async function addHabit(
   username: string,
   name: string,
   description: string,
-  frequency: number
+  frequency: number,
 ) {
-  if (!name || !description || !frequency) {
+  if (!(username && name && description && frequency)) {
     throw new Error("Missing required fields");
   }
 
@@ -19,7 +19,7 @@ export async function addHabit(
     frequency,
   });
   await habit.save();
-  user.habits.push(habit._id);
+  user.habits.push(habit._id as ObjectId);
   await user.save();
 }
 
@@ -37,9 +37,9 @@ export async function updateHabit(
   habitId: string,
   name: string,
   description: string,
-  frequency: number
+  frequency: number,
 ) {
-  if (!username || !habitId || !name || !description || !frequency) {
+  if (!(username && habitId && name && description && frequency)) {
     throw new Error("Missing required fields");
   }
   const user = await User.findOne({ username });
@@ -55,7 +55,7 @@ export async function updateHabit(
         description,
         frequency,
       },
-    }
+    },
   );
 }
 
@@ -72,7 +72,7 @@ export async function deleteHabit(username: string, habitId: string) {
 
 export async function deleteMultipleHabits(
   username: string,
-  habitIds: Array<string>
+  habitIds: Array<string>,
 ) {
   if (!username || !habitIds) {
     throw new Error("Missing required fields");
@@ -110,7 +110,7 @@ export async function incrementStreak(username: string, habitId: string) {
   }
 
   const diffInDays = Math.floor(
-    (now.getTime() - habit.lastIncrement.getTime()) / (1000 * 60 * 60 * 24)
+    (now.getTime() - habit.lastIncrement.getTime()) / (1000 * 60 * 60 * 24),
   );
 
   if (diffInDays >= habit.frequency) {
@@ -144,6 +144,6 @@ export async function resetAllStreaks(username: string) {
   const user = await User.findOne({ username: username });
   await Habit.updateMany(
     { _id: { $in: user.habits } },
-    { $set: { streak: 0 } }
+    { $set: { streak: 0 } },
   );
 }
