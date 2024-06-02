@@ -15,7 +15,7 @@ export default function ProgressBar({
     width: `${percentFilled * 100}%`,
   };
 
-  return percentFilled === 1 ? (
+  return percentFilled >= 1 ? (
     <button
       className="h-12 rounded-2xl border border-accent-border bg-accent-main text-2xl transition hover:brightness-90"
       onClick={onClick}

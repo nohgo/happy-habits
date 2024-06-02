@@ -1,5 +1,6 @@
 // preliminary assumptions -- this will be the child of a flexbox
 
+import incrementStreak from "../_lib/incrementStreak";
 import ProgressBar from "./ProgressBar";
 
 export interface IHabit {
@@ -33,7 +34,7 @@ export default function Habit({
       <p className="">{description}</p>
       <ProgressBar
         percentFilled={percentFilled}
-        onClick={() => console.log("clicked")}
+        onClick={() => incrementStreak(_id)}
         progressText={msToDateString(
           new Date(lastIncrement).getTime() + frequency * 86400000 - Date.now(),
         )}
