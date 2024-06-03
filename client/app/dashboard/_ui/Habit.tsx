@@ -49,9 +49,9 @@ function msToDateString(ms: number): string {
     result += Math.floor(ms / 86400000) + "d ";
     ms %= 86400000;
   }
-  if (ms >= 360000) {
+  if (ms >= 3600000) {
     result += Math.floor(ms / 3600000) + "h ";
-    ms %= 360000;
+    ms %= 3600000;
   }
   if (ms >= 60000) {
     result += Math.floor(ms / 60000) + "m ";
