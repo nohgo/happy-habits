@@ -1,5 +1,6 @@
 "use server";
 
+import { revalidatePath } from "next/cache";
 import { cookies } from "next/headers";
 
 export default async function incrementStreak(habitId: String): Promise<void> {
@@ -16,5 +17,6 @@ export default async function incrementStreak(habitId: String): Promise<void> {
     body: JSON.stringify({
       habitId,
     }),
-  });
+  }),
+    revalidatePath("/");
 }

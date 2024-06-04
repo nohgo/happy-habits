@@ -1,9 +1,7 @@
-import { MouseEventHandler } from "react";
-
 interface IProgressBar {
   percentFilled: number;
   progressText: string;
-  onClick: MouseEventHandler<HTMLButtonElement>;
+  onClick: Function;
 }
 
 export default function ProgressBar({
@@ -15,10 +13,13 @@ export default function ProgressBar({
     width: `${percentFilled * 100}%`,
   };
 
+  const onPress = () => {
+    onClick().then(location.reload());
+  };
   return percentFilled >= 1 ? (
     <button
       className="h-12 rounded-2xl border border-accent-border bg-accent-main text-2xl transition hover:brightness-90"
-      onClick={onClick}
+      onClick={onPress}
     >
       Increment
     </button>

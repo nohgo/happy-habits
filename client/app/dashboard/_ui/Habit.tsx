@@ -34,7 +34,7 @@ export default function Habit({
       <p className="">{description}</p>
       <ProgressBar
         percentFilled={percentFilled}
-        onClick={() => incrementStreak(_id)}
+        onClick={async () => await incrementStreak(_id)}
         progressText={msToDateString(
           new Date(lastIncrement).getTime() + frequency * 86400000 - Date.now(),
         )}

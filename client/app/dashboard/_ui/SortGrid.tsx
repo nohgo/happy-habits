@@ -23,6 +23,7 @@ export default function SortGrid() {
         <h1 className="w-full text-left text-3xl">Sort by</h1>
         {sortButtonText.map((text, index) => (
           <SortButton
+            key={index}
             text={text}
             setSelected={setSelected}
             selected={selected}
