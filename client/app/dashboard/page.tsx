@@ -1,7 +1,6 @@
 import Logo from "@/app/_ui/Logo";
 import Image from "next/image";
-import SortGrid from "./_ui/SortGrid";
-import HabitGrid from "./_ui/HabitGrid";
+import GridContainer from "./_ui/GridContainer";
 
 export const metadata = {
   title: "Dashboard | Happy Habits",
@@ -16,8 +15,7 @@ export default function Dashboard() {
         <Image src="user-icon.svg" alt="User menu" width={50} height={50} />
       </div>
       <div className="mb-10 mt-5 flex h-[85%] justify-between">
-        <SortGrid />
-        <HabitGrid />
+        <GridContainer />
       </div>
     </div>
   );

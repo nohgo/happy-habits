@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import getHabits from "../_lib/getHabits";
 import Habit, { IHabit } from "./Habit";
 
-export default function HabitGrid() {
+export default function HabitGrid({ sortedBy }: { sortedBy: number }) {
   const [habits, setHabits] = useState([] as IHabit[]);
   useEffect(() => {
     getHabits().then((data) => setHabits(data));

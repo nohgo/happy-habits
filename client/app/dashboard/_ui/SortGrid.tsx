@@ -1,10 +1,13 @@
 "use client";
-import { useState } from "react";
 import SortButton from "./SortButton";
 
-export default function SortGrid() {
-  const [selected, setSelected] = useState(-1);
-
+export default function SortGrid({
+  sortedBy,
+  setSortedBy,
+}: {
+  sortedBy: number;
+  setSortedBy: Function;
+}) {
   const sortButtonText = [
     "✏️ Name",
     "📝 Description",
@@ -25,9 +28,9 @@ export default function SortGrid() {
           <SortButton
             key={index}
             text={text}
-            setSelected={setSelected}
-            selected={selected}
-            toSelect={index}
+            setSortedBy={setSortedBy}
+            sortedBy={sortedBy}
+            toSortBy={index}
           />
         ))}
       </div>
