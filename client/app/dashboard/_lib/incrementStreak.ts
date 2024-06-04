@@ -18,5 +18,5 @@ export default async function incrementStreak(habitId: String): Promise<void> {
       habitId,
     }),
   }),
-    revalidatePath("/");
+    revalidatePath("/dashboard");
 }

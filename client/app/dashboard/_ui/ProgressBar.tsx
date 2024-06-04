@@ -13,8 +13,9 @@ export default function ProgressBar({
     width: `${percentFilled * 100}%`,
   };
 
-  const onPress = () => {
-    onClick().then(location.reload());
+  const onPress = async () => {
+    await onClick();
+    location.reload();
   };
   return percentFilled >= 1 ? (
     <button
