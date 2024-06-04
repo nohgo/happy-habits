@@ -15,7 +15,7 @@ export default function Dashboard() {
         <Logo route="" />
         <Image src="user-icon.svg" alt="User menu" width={50} height={50} />
       </div>
-      <div className="mb-10 mt-5 flex flex-grow justify-between">
+      <div className="mb-10 mt-5 flex h-[85%] justify-between">
         <SortGrid />
         <HabitGrid />
       </div>
