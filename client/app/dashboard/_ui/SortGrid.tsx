@@ -4,9 +4,11 @@ import SortButton from "./SortButton";
 export default function SortGrid({
   sortedBy,
   setSortedBy,
+  setSearchContents,
 }: {
   sortedBy: number;
   setSortedBy: Function;
+  setSearchContents: Function;
 }) {
   const sortButtonText = [
     "✏️ Name",
@@ -21,6 +23,7 @@ export default function SortGrid({
       <input
         placeholder="🔍 Search"
         className="h-16 w-full rounded-xl p-5 text-xl outline outline-transparent transition-all hover:brightness-90 focus:outline-accent-400"
+        onChange={(e) => setSearchContents(e.target.value)}
       />
       <div className="flex h-3/4 w-full flex-col justify-between">
         <h1 className="w-full text-left text-3xl">Sort by</h1>

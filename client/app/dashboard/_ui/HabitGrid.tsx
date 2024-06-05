@@ -10,8 +10,15 @@ import {
   lastIncrementedComparator,
 } from "../_lib/comparators";
 
-export default function HabitGrid({ sortedBy }: { sortedBy: number }) {
+export default function HabitGrid({
+  sortedBy,
+  searchContents,
+}: {
+  sortedBy: number;
+  searchContents: string;
+}) {
   const [habits, setHabits] = useState([] as IHabit[]);
+  const [finalHabits, setFinalHabits] = useState([] as IHabit[]);
   const comparators = [
     nameComparator,
     descriptionComparator,
@@ -21,15 +28,28 @@ export default function HabitGrid({ sortedBy }: { sortedBy: number }) {
   ];
 
   useEffect(() => {
-    getHabits().then((data) => setHabits(data));
+    getHabits().then((data) => {
+      setHabits(data);
+      setFinalHabits(data);
+    });
   }, []);
 
-  if (sortedBy != -1) {
-    habits.sort(comparators[sortedBy]);
-  }
+  useEffect(() => {
+    if (searchContents != "") {
+      console.log(searchContents);
+      setFinalHabits(
+        finalHabits.filter((x) => x.name.includes(searchContents)),
+      );
+    } else {
+      setFinalHabits(habits);
+    }
+    if (sortedBy != -1) {
+      setFinalHabits(finalHabits.sort(comparators[sortedBy]));
+    }
+  }, [searchContents, sortedBy]);
   return (
     <div className="ml-2 grid basis-3/4 grid-cols-3 gap-3 overflow-y-scroll rounded-xl bg-grayscale-300 p-5">
-      {habits.map((item: IHabit, index: number) => (
+      {finalHabits.map((item: IHabit, index: number) => (
         <Habit key={index} {...item} />
       ))}
     </div>
