@@ -10,6 +10,7 @@ import {
   lastIncrementedComparator,
 } from "../_lib/comparators";
 import { useRouter } from "next/navigation";
+import AddHabit from "./AddHabit";
 
 export default function HabitGrid({
   sortedBy,
@@ -56,6 +57,7 @@ export default function HabitGrid({
       {finalHabits.map((item: IHabit, index: number) => (
         <Habit key={index} {...item} />
       ))}
+      <AddHabit />
     </div>
   );
 }

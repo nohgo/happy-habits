@@ -7,6 +7,7 @@ export interface IInputBox {
   type?: string;
   pattern?: string;
   invalidError: string;
+  min?: string;
 }
 
 export default function InputBox({
@@ -15,6 +16,7 @@ export default function InputBox({
   type,
   invalidError,
   pattern,
+  min,
 }: IInputBox) {
   const [isVisible, setIsVisible] = useState(
     type === "password" ? false : true,
@@ -33,7 +35,8 @@ export default function InputBox({
           type={isVisible ? type || "text" : "password"}
           pattern={pattern || ".*"}
           required
-          className={`block h-10 w-72 rounded-sm p-3 outline outline-1 outline-grayscale-400 transition-all hover:outline-accent-border focus:outline-2 focus:outline-accent-border dark:bg-transparent dark:text-white dark:caret-white`}
+          className={`block h-10 w-72 rounded-sm p-3 outline outline-1 outline-grayscale-400 transition-all hover:outline-accent-border focus:outline-2 focus:outline-accent-border`}
+          min={min || ""}
         />
         <button
           type="button"
