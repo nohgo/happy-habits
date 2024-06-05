@@ -26,12 +26,14 @@ export default function Habit({
       (Date.now() - new Date(lastIncrement).getTime()) / (frequency * 86400000); // 86400000 is the number of milliseconds in a day
   }
   return (
-    <div className="flex h-72 flex-col justify-between rounded-xl bg-grayscale-400 p-5">
-      <div className="flex justify-between">
-        <h1 className="text-3xl">{name}</h1>
-        <p className="text-2xl">🔥{streak}</p>
+    <div className="flex h-80 flex-col justify-between rounded-xl bg-grayscale-400 p-5">
+      <div>
+        <div className="flex justify-between">
+          <h1 className="text-3xl">{name}</h1>
+          <p className="text-2xl">🔥{streak}</p>
+        </div>
+        <p className="">{description}</p>
       </div>
-      <p className="">{description}</p>
       <ProgressBar
         percentFilled={percentFilled}
         onClick={async () => await incrementStreak(_id)}
