@@ -23,7 +23,7 @@ export default function Habit({
   let percentFilled = 1;
   if (lastIncrement) {
     percentFilled =
-      (Date.now() - new Date(lastIncrement).getTime()) / (frequency * 86400000); // 8640000 is the number of milliseconds in a day
+      (Date.now() - new Date(lastIncrement).getTime()) / (frequency * 86400000); // 86400000 is the number of milliseconds in a day
   }
   return (
     <div className="flex flex-col justify-between rounded-xl bg-grayscale-400 p-5">

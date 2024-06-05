@@ -14,7 +14,7 @@ export function descriptionComparator(a: IHabit, b: IHabit): number {
   if (a.description < b.description) {
     return -1;
   }
-  if (a.name > b.name) {
+  if (a.description > b.description) {
     return 1;
   }
   return 0;

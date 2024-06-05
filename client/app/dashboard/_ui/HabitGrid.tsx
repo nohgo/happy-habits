@@ -9,6 +9,7 @@ import {
   frequencyComparator,
   lastIncrementedComparator,
 } from "../_lib/comparators";
+import { useRouter } from "next/navigation";
 
 export default function HabitGrid({
   sortedBy,
@@ -26,6 +27,7 @@ export default function HabitGrid({
     frequencyComparator,
     lastIncrementedComparator,
   ];
+  const router = useRouter();
 
   useEffect(() => {
     getHabits().then((data) => {
@@ -35,17 +37,19 @@ export default function HabitGrid({
   }, []);
 
   useEffect(() => {
+    let newHabits = finalHabits;
     if (searchContents != "") {
       console.log(searchContents);
-      setFinalHabits(
-        finalHabits.filter((x) => x.name.includes(searchContents)),
-      );
+      newHabits = habits.filter((x) => x.name.includes(searchContents));
     } else {
-      setFinalHabits(habits);
+      newHabits = habits;
     }
     if (sortedBy != -1) {
-      setFinalHabits(finalHabits.sort(comparators[sortedBy]));
+      console.log(sortedBy);
+      newHabits = newHabits.sort(comparators[sortedBy]);
     }
+    setFinalHabits(newHabits);
+    router.refresh();
   }, [searchContents, sortedBy]);
   return (
     <div className="ml-2 grid basis-3/4 grid-cols-3 gap-3 overflow-y-scroll rounded-xl bg-grayscale-300 p-5">
