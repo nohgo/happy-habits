@@ -1,5 +1,6 @@
 // preliminary assumptions -- this will be the child of a flexbox
 
+import Image from "next/image";
 import deleteHabit from "../_lib/deleteHabit";
 import incrementStreak from "../_lib/incrementStreak";
 import ProgressBar from "./ProgressBar";
@@ -29,20 +30,27 @@ export default function Habit({
   return (
     <div className="flex h-80 flex-col justify-between rounded-xl bg-grayscale-400 p-5">
       <div>
-        <div className="flex justify-between">
-          <h1 className="text-3xl">{name}</h1>
-          <p className="text-2xl">🔥{streak}</p>
-          <button
-            onClick={async () => {
-              await deleteHabit(_id);
-              location.reload();
-            }}
-            className="text-5xl text-red-500 transition-all hover:brightness-75"
-          >
-            X
-          </button>
+        <div className="flex items-center justify-between">
+          <h1 className="text-2xl">{name}</h1>
+          <div className="flex items-center">
+            <p className="text-2xl">🔥{streak}</p>
+            <button
+              onClick={async () => {
+                await deleteHabit(_id);
+                location.reload();
+              }}
+              className="ml-2 rounded-full p-2 text-5xl text-red-500 transition-all hover:bg-black/25 focus:bg-black/50"
+            >
+              <Image
+                src="/trash-can.png"
+                width={30}
+                height={30}
+                alt="Delete this habit"
+              />
+            </button>
+          </div>
         </div>
-        <p className="">{description}</p>
+        <p>{description}</p>
       </div>
       <ProgressBar
         percentFilled={percentFilled}
