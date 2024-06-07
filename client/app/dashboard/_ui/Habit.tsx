@@ -1,5 +1,6 @@
 // preliminary assumptions -- this will be the child of a flexbox
 
+import deleteHabit from "../_lib/deleteHabit";
 import incrementStreak from "../_lib/incrementStreak";
 import ProgressBar from "./ProgressBar";
 
@@ -31,6 +32,15 @@ export default function Habit({
         <div className="flex justify-between">
           <h1 className="text-3xl">{name}</h1>
           <p className="text-2xl">🔥{streak}</p>
+          <button
+            onClick={async () => {
+              await deleteHabit(_id);
+              location.reload();
+            }}
+            className="text-5xl text-red-500 transition-all hover:brightness-75"
+          >
+            X
+          </button>
         </div>
         <p className="">{description}</p>
       </div>

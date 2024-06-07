@@ -18,7 +18,7 @@ export default function AddHabit() {
       </div>
       <button
         onClick={() => setInputting(false)}
-        className={`text-5xl text-red-500 transition-all hover:brightness-75 ${inputting ? "absolute" : "hidden"} right-5 top-5`}
+        className={`text-5xl text-red-500 transition-all hover:brightness-75 ${inputting ? "absolute" : "hidden"} right-1 top-1`}
       >
         X
       </button>
