@@ -11,6 +11,7 @@ import {
 } from "../_lib/comparators";
 import { useRouter } from "next/navigation";
 import AddHabit from "./AddHabit";
+import HabitSkeleton from "./HabitSkeleton";
 
 export default function HabitGrid({
   sortedBy,
@@ -28,10 +29,12 @@ export default function HabitGrid({
     frequencyComparator,
     lastIncrementedComparator,
   ];
+  const [loading, setLoading] = useState(true);
   const router = useRouter();
 
   useEffect(() => {
     getHabits().then((data) => {
+      setLoading(false);
       setHabits(data);
       setFinalHabits(data);
     });
@@ -55,7 +58,12 @@ export default function HabitGrid({
   return (
     <div className="ml-2 grid basis-3/4 grid-cols-3 gap-3 overflow-y-scroll rounded-xl bg-grayscale-300 p-5">
       {finalHabits.map((item: IHabit, index: number) => (
-        <Habit key={index} {...item} />
+        <>
+          <Habit key={index} {...item} />
+        </>
+      ))}
+      {[...Array(15)].map((_, index) => (
+        <HabitSkeleton key={index} loading={loading} />
       ))}
       <AddHabit />
     </div>
