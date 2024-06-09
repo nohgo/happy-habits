@@ -17,7 +17,7 @@ export default function LoginBox() {
   const router = useRouter();
 
   async function setCookies(formData: FormData) {
-    const status = await checkUser(formData);
+    const status = await checkUser(formData).catch(() => 404);
 
     if (status != 200) {
       if (status === 501) {

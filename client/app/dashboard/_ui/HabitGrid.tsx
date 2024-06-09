@@ -21,6 +21,7 @@ export default function HabitGrid({
   searchContents: string;
 }) {
   const [habits, setHabits] = useState([] as IHabit[]);
+  const [error, setError] = useState(false);
   const [finalHabits, setFinalHabits] = useState([] as IHabit[]);
   const comparators = [
     nameComparator,
@@ -33,11 +34,13 @@ export default function HabitGrid({
   const router = useRouter();
 
   useEffect(() => {
-    getHabits().then((data) => {
-      setLoading(false);
-      setHabits(data);
-      setFinalHabits(data);
-    });
+    getHabits()
+      .then((data) => {
+        setLoading(false);
+        setHabits(data);
+        setFinalHabits(data);
+      })
+      .catch(() => setError(true));
   }, []);
 
   useEffect(() => {
@@ -55,6 +58,13 @@ export default function HabitGrid({
     setFinalHabits(newHabits);
     router.refresh();
   }, [searchContents, sortedBy]);
+  if (error) {
+    return (
+      <div className="ml-2 grid basis-3/4 grid-cols-3 gap-3 overflow-y-scroll rounded-xl bg-grayscale-300 p-5 text-red-500">
+        Something went wrong. Please refresh.
+      </div>
+    );
+  }
   return (
     <div className="ml-2 grid basis-3/4 grid-cols-3 gap-3 overflow-y-scroll rounded-xl bg-grayscale-300 p-5">
       {finalHabits.map((item: IHabit, index: number) => (
