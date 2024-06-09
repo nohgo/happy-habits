@@ -71,31 +71,6 @@ export async function deleteHabit(username: string, habitId: string) {
   user.save();
 }
 
-export async function deleteMultipleHabits(
-  username: string,
-  habitIds: Array<string>,
-) {
-  if (!username || !habitIds) {
-    throw new Error("Missing required fields");
-  }
-
-  const user = await User.findOne({ username: username });
-  await Habit.deleteMany({ _id: { $in: habitIds } });
-  user.habits = [];
-  user.save();
-}
-
-export async function deleteAllHabits(username: string) {
-  if (!username) {
-    throw new Error("Missing required fields");
-  }
-
-  const user = await User.findOne({ username: username });
-  await Habit.deleteMany({ _id: { $in: user.habits } });
-  user.habits = [];
-  user.save();
-}
-
 export async function incrementStreak(username: string, habitId: string) {
   if (!habitId || !username) {
     throw new Error("Missing required fields");
@@ -129,32 +104,4 @@ export async function incrementStreak(username: string, habitId: string) {
   }
 
   await habit.save();
-}
-
-export async function resetStreak(username: string, habitId: string) {
-  if (!habitId || !username) {
-    throw new Error("Missing required fields");
-  }
-
-  const user = await User.findOne({ username });
-  if (!user) throw new Error("User not found");
-  if (!user.habits.includes(new ObjectId(habitId))) {
-    throw new Error("Habit not found");
-  }
-
-  const habit = await Habit.findOne({ _id: habitId });
-
-  habit.streak = 0;
-  await habit.save();
-}
-
-export async function resetAllStreaks(username: string) {
-  if (!username) {
-    throw new Error("Missing required fields");
-  }
-  const user = await User.findOne({ username: username });
-  await Habit.updateMany(
-    { _id: { $in: user.habits } },
-    { $set: { streak: 0 } },
-  );
 }
