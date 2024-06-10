@@ -27,7 +27,7 @@ export default function InputBox({
       <label htmlFor={id} className="mb-1 inline-block dark:text-grayscale-50">
         {placeholder}
       </label>
-      <div className="relative">
+      <div className="relative w-fit">
         <input
           id={id}
           name={id}

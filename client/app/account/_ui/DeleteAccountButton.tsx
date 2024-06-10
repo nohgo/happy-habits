@@ -11,9 +11,9 @@ export default function DeleteAccountButton({}) {
     invalidError: "Please enter a valid password",
   };
   return (
-    <div>
-      <h1 className="text-2xl dark:text-white">Delete Account</h1>
-      <form className="px-5" action={deleteAccount}>
+    <div className="py-4">
+      <h1 className="text-4xl dark:text-white">Delete Account:</h1>
+      <form className="" action={deleteAccount}>
         <InputBox {...inputBoxProps} />
         <button
           type="submit"
