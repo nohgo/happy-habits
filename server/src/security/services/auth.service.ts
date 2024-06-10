@@ -51,32 +51,6 @@ export async function login(
   });
 }
 
-export async function updatePassword(
-  username: string,
-  email: string,
-  password: string,
-  newPassword: string,
-) {
-  if (!(username || email) || !password || !newPassword) {
-    throw new Error("Missing required fields");
-  }
-
-  const user = username
-    ? await User.findOne({ username })
-    : await User.findOne({ email });
-
-  if (!user) {
-    throw new Error("User not found");
-  }
-  if (!bcrypt.compare(password, user.password)) {
-    throw new Error("Invalid password");
-  }
-
-  const hashedNewPassword = await bcrypt.hash(newPassword, 10);
-  user.password = hashedNewPassword;
-  await user.save();
-}
-
 export async function deleteAccount(
   username: string,
   email: string,

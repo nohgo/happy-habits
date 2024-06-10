@@ -2,13 +2,13 @@
 export async function emailAvailable(formData: FormData) {
   const email = formData.get("email") as string;
   const response = await fetch(
-    `http://localhost:5050/api/auth/is-email-available?email=${email}`,
+    `http://localhost:5050/api/user/is-email-available?email=${email}`,
     {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
       },
-    }
+    },
   );
   switch (response.status) {
     case 200:
@@ -22,13 +22,13 @@ export async function emailAvailable(formData: FormData) {
 export async function usernameAvailable(formData: FormData) {
   const username = formData.get("username") as string;
   const response = await fetch(
-    `http://localhost:5050/api/auth/is-username-available?username=${username}`,
+    `http://localhost:5050/api/user/is-username-available?username=${username}`,
     {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
       },
-    }
+    },
   );
   switch (response.status) {
     case 200:
@@ -42,13 +42,13 @@ export async function usernameAvailable(formData: FormData) {
 
 export async function verifyEmail(email: string) {
   const response = await fetch(
-    `http://localhost:5050/api/auth/verify-email?email=${email}`,
+    `http://localhost:5050/api/user/verify-email?email=${email}`,
     {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
       },
-    }
+    },
   );
   switch (response.status) {
     case 200:
@@ -68,7 +68,7 @@ interface IRegister {
 export default async function register(user: IRegister) {
   console.log(user);
 
-  const response = await fetch("http://localhost:5050/api/auth/register", {
+  const response = await fetch("http://localhost:5050/api/user/register", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",

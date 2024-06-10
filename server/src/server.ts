@@ -22,7 +22,7 @@ app.use(cors(corsOptions));
 try {
   connectDB(process.env.DB_NAME);
 
-  apiRouter.use("/auth", authRouter);
+  apiRouter.use("/user", authRouter);
   apiRouter.use("/habits", habitsRouter);
   app.use("/api", apiRouter);
 
@@ -37,7 +37,7 @@ try {
     err: any,
     req: express.Request,
     res: express.Response,
-    next: express.NextFunction
+    next: express.NextFunction,
   ) {
     console.error(err);
     res.status(err.status || 500).json();

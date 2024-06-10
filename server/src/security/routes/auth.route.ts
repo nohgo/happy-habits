@@ -5,7 +5,6 @@ import {
   isEmailAvailable,
   login,
   register,
-  updatePassword,
   forgotPasswordSend,
   resetPassword,
   verifyEmailSend,
@@ -46,33 +45,17 @@ authRouter.post("/login", async (req: Request, res: Response) => {
   }
 });
 
-authRouter.post("/update-password", async (req: Request, res: Response) => {
+authRouter.delete("", verifyToken, async (req: Request, res: Response) => {
   try {
-    const { username, password, newPassword, email } = req.body;
+    const { username, password, email } = req.body;
 
-    await updatePassword(username, email, password, newPassword);
-    res.status(200).json({ message: "Password updated successfully" });
+    await deleteAccount(username, email, password);
+    res.status(200).json({ message: "Account deleted successfully" });
   } catch (error) {
     console.error(error);
-    res.status(500).json({ error: "Failed to update password" });
+    res.status(500).json({ error: "Failed to delete account" });
   }
 });
-
-authRouter.delete(
-  "/delete-account",
-  verifyToken,
-  async (req: Request, res: Response) => {
-    try {
-      const { username, password, email } = req.body;
-
-      await deleteAccount(username, email, password);
-      res.status(200).json({ message: "Account deleted successfully" });
-    } catch (error) {
-      console.error(error);
-      res.status(500).json({ error: "Failed to delete account" });
-    }
-  },
-);
 
 authRouter.get(
   "/is-username-available",
@@ -101,22 +84,19 @@ authRouter.get("/is-email-available", async (req: Request, res: Response) => {
   }
 });
 
-authRouter.post(
-  "/forgot-password-send",
-  async (req: Request, res: Response) => {
-    try {
-      const { email } = req.body;
-      await forgotPasswordSend(email);
-      res.status(200).json({ message: "Email sent" });
-    } catch (error) {
-      console.error(error);
-      res.status(500).json({ error: "Failed to send email" });
-    }
-  },
-);
+authRouter.post("/forgot-password", async (req: Request, res: Response) => {
+  try {
+    const { email } = req.body;
+    await forgotPasswordSend(email);
+    res.status(200).json({ message: "Email sent" });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Failed to send email" });
+  }
+});
 
-authRouter.post(
-  "/reset-password",
+authRouter.put(
+  "/password",
   verifyResetToken,
   async (req: AuthRequest, res: Response) => {
     try {
@@ -131,7 +111,7 @@ authRouter.post(
   },
 );
 
-authRouter.post("/verify-email-send", async (req: Request, res: Response) => {
+authRouter.get("/verify-email", async (req: Request, res: Response) => {
   try {
     const { email } = req.body;
     await verifyEmailSend(email);

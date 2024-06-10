@@ -72,7 +72,7 @@ habitsRouter.delete(
   },
 );
 
-habitsRouter.post(
+habitsRouter.put(
   "/increment/:id",
   verifyToken,
   async (req: AuthRequest, res: Response) => {
