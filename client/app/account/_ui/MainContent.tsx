@@ -1,5 +1,6 @@
 import DeleteAccountButton from "./DeleteAccountButton";
 import LogoutButton from "./LogoutButton";
+import ResetPassword from "./ResetPassword";
 
 export default function MainContent({}) {
   return (
@@ -7,7 +8,8 @@ export default function MainContent({}) {
       <h1 className="text-center text-7xl font-bold dark:text-white">
         Account
       </h1>
-      <LogoutButton /> <DeleteAccountButton />
+      <LogoutButton /> <ResetPassword />
+      <DeleteAccountButton />
     </div>
   );
 }
