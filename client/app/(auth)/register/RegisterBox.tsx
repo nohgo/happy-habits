@@ -74,6 +74,7 @@ export default function RegisterBox() {
       index: 2,
       placeholder: "Password",
       id: "password",
+      type: "password",
       invalidError: "Enter a valid password.",
       pattern: "(?=(.*[0-9]){2})(?=(.*[!@#$%^&*()-_=+{};:,<.>]){2}).{8,}",
       isInvalid: isInvalid,
