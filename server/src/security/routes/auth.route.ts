@@ -25,6 +25,7 @@ authRouter.post("/register", async (req: Request, res: Response) => {
   try {
     const { username, password, email } = req.body;
     await register(username, email, password);
+    await verifyEmailSend(email);
     res.status(201).json({ message: "User registered successfully" });
   } catch (error) {
     console.error(error);
