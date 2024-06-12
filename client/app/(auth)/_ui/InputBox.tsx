@@ -32,7 +32,7 @@ export default function InputBox({
           id={id}
           name={id}
           placeholder={placeholder}
-          type={isVisible ? type || "text" : "password"}
+          type={isVisible ? "text" : "password"}
           pattern={pattern || ".*"}
           required
           className={`block h-10 w-72 rounded-sm p-3 outline outline-1 outline-grayscale-400 transition-all hover:outline-accent-border focus:outline-2 focus:outline-accent-border`}

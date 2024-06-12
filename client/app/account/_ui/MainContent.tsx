@@ -8,7 +8,8 @@ export default function MainContent({}) {
       <h1 className="text-center text-7xl font-bold dark:text-white">
         Account
       </h1>
-      <LogoutButton /> <ResetPassword />
+      <LogoutButton />
+      <ResetPassword />
       <DeleteAccountButton />
     </div>
   );
