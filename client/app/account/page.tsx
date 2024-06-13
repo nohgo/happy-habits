@@ -8,12 +8,12 @@ export const metadata = {
   title: "Happy Habits | Account",
 };
 
-export default function Account({}) {
+export default function Account() {
   return (
     <div className="h-screen bg-gradient-to-t from-grayscale-300 to-grayscale-50 px-10 pt-5 dark:from-grayscale-950 dark:to-grayscale-600">
       <div className="flex items-center justify-between">
         <Logo route="/dashboard" />
-        <Link href={"/account"}>
+        <Link href="/account">
           {" "}
           <Image
             src="user-icon.svg"

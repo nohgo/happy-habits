@@ -32,7 +32,7 @@ export default function InputBox({
           id={id}
           name={id}
           placeholder={placeholder}
-          type={isVisible ? type || "text" : "password"}
+          type={isVisible ? "text" : "password"}
           pattern={pattern || ".*"}
           required
           className={`block h-10 w-72 rounded-sm p-3 outline outline-1 outline-grayscale-400 transition-all hover:outline-accent-border focus:outline-2 focus:outline-accent-border`}
@@ -40,7 +40,7 @@ export default function InputBox({
         />
         <button
           type="button"
-          className={`${type === "password" ? "dark:hidden" : "hidden"} absolute inset-y-0 right-0 my-auto h-4 cursor-default pr-3 hover:opacity-75 active:invert`}
+          className={`${type === "password" ? "hidden dark:block" : "hidden"} absolute inset-y-0 right-0 my-auto h-4 cursor-default pr-3 hover:opacity-75 active:invert`}
           onMouseDown={() => setIsVisible(!isVisible)}
           onMouseUp={() => setIsVisible(!isVisible)}
         >
@@ -53,7 +53,7 @@ export default function InputBox({
         </button>
         <button
           type="button"
-          className={`${type === "password" ? "hidden dark:block" : "hidden"} absolute inset-y-0 right-0 my-auto h-4 cursor-default pr-3 hover:opacity-75 active:invert`}
+          className={`${type === "password" ? "dark:hidden" : "hidden"} absolute inset-y-0 right-0 my-auto h-4 cursor-default pr-3 hover:opacity-75 active:invert`}
           onMouseDown={() => setIsVisible(!isVisible)}
           onMouseUp={() => setIsVisible(!isVisible)}
         >
