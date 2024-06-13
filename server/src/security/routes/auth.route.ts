@@ -47,9 +47,9 @@ authRouter.post("/login", async (req: Request, res: Response) => {
 
 authRouter.delete("", verifyToken, async (req: Request, res: Response) => {
   try {
-    const { username, password, email } = req.body;
+    const { username, password } = req.body;
 
-    await deleteAccount(username, email, password);
+    await deleteAccount(username, password);
     res.status(200).json({ message: "Account deleted successfully" });
   } catch (error) {
     console.error(error);
