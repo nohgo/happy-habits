@@ -19,7 +19,7 @@ export function verifyToken(req: AuthRequest, res: Response, next: Function) {
 export function verifyResetToken(
   req: AuthRequest,
   res: Response,
-  next: Function
+  next: Function,
 ) {
   var token = req.headers["auth-reset-token"] as string;
   if (!token) return res.status(401).json({ error: "Access denied" });
@@ -27,7 +27,7 @@ export function verifyResetToken(
     token = token.substring(7);
     const decoded = jwt.verify(
       token,
-      process.env.PASSWORD_RESET_KEY
+      process.env.PASSWORD_RESET_KEY,
     ) as JwtPayload;
     req.username = decoded.username;
     next();
@@ -39,7 +39,7 @@ export function verifyResetToken(
 export function verifyEmailToken(
   req: AuthRequest,
   res: Response,
-  next: Function
+  next: Function,
 ) {
   var token = req.headers["auth-verify-token"] as string;
   if (!token) return res.status(401).json({ error: "Access denied" });
@@ -47,11 +47,12 @@ export function verifyEmailToken(
     token = token.substring(7);
     const decoded = jwt.verify(
       token,
-      process.env.VERIFY_EMAIL_KEY
+      process.env.VERIFY_EMAIL_KEY,
     ) as JwtPayload;
     req.username = decoded.username;
     next();
   } catch (error) {
+    console.error(error);
     res.status(401).json({ error: "Invalid token" });
   }
 }

@@ -43,6 +43,7 @@ export async function login(
   }
 
   if (!user.isEmailVerified) {
+    verifyEmailSend(emailUsername); // replace emailUsername with just email eventually
     throw new Error("Email not verified");
   }
 
@@ -122,18 +123,23 @@ export async function resetPassword(username: string, newPassword: string) {
   await user.save();
 }
 
-export async function verifyEmailSend(email: string): Promise<void> {
-  if (!email) {
+export async function verifyEmailSend(emailUsername: string): Promise<void> {
+  if (!emailUsername) {
     throw new Error("Missing required fields");
   }
 
-  const user = await User.findOne({ email });
+  const user = emailUsername.includes("@")
+    ? await User.findOne({ email: emailUsername })
+    : await User.findOne({ username: emailUsername });
+
   if (!user) {
     throw new Error("User not found");
   }
+
   if (user.isEmailVerified) {
     throw new Error("User already verified");
   }
+
   const token = jwt.sign(
     { username: user.username },
     process.env.VERIFY_EMAIL_KEY,

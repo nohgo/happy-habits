@@ -146,7 +146,6 @@ authRouter.post(
     try {
       const username = req.username;
       await verifyEmail(username);
-      console.log("here");
       res.status(200).send();
     } catch (error) {
       res.status(500).send();

@@ -7,11 +7,12 @@ export default async (
   email: string,
   subject: string,
   payload: { link: string; name: string },
-  template: string
+  template: string,
 ) => {
   const transporter = nodemailer.createTransport({
     host: process.env.EMAIL_HOST,
     port: 465,
+    secure: true,
     auth: {
       user: process.env.EMAIL_USERNAME,
       pass: process.env.EMAIL_PASSWORD,
