@@ -52,18 +52,12 @@ export async function login(
   });
 }
 
-export async function deleteAccount(
-  username: string,
-  email: string,
-  password: string,
-) {
-  if (!(username || email) || !password) {
+export async function deleteAccount(username: string, password: string) {
+  if (!username || !password) {
     throw new Error("Missing required fields");
   }
 
-  const user = username
-    ? await User.findOne({ username })
-    : await User.findOne({ email });
+  const user = await User.findOne({ username });
 
   if (!user) {
     throw new Error("User not found");
