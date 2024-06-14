@@ -130,8 +130,8 @@ authRouter.put(
 
 authRouter.get("/verify-email", async (req: Request, res: Response) => {
   try {
-    const { email } = req.body;
-    await verifyEmailSend(email);
+    const { email } = req.query;
+    await verifyEmailSend(email as string);
     res.status(200).json({ message: "Email sent" });
   } catch (error) {
     console.error(error);

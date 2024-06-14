@@ -11,22 +11,21 @@ import { useRouter } from "next/navigation";
 import ContainerBox from "../_ui/ContainerBox";
 import InputBox from "../_ui/InputBox";
 import Button from "../_ui/Button";
+import { verifyEmail } from "../register/_lib/register";
 
 export default function LoginBox() {
   const [isInvalid, setIsInvalid] = useState(false);
   const router = useRouter();
 
   async function setCookies(formData: FormData) {
-    const status = await checkUser(formData).catch(() => 404);
+    const status: number = await checkUser(formData).catch(() => 404);
 
-    if (status != 200) {
-      if (status === 501) {
-        router.push("/verify-email");
-      }
-      setIsInvalid(true);
-      return;
-    }
-    router.push("/dashboard");
+    if (status == 200) {
+      router.push("/dashboard");
+    } else if (status == 501) {
+      await verifyEmail(formData.get("emailUsername") as string);
+      router.push("/verify-email");
+    } else setIsInvalid(true);
   }
 
   return (

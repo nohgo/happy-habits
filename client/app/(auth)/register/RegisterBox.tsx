@@ -2,7 +2,6 @@
 
 import ContainerBox from "../_ui/ContainerBox";
 import { useState } from "react";
-import Link from "next/link";
 import Step from "./_ui/Step";
 import { emailAvailable, usernameAvailable } from "./_lib/register";
 import register from "./_lib/register";

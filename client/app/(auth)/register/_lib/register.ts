@@ -42,7 +42,7 @@ export async function usernameAvailable(formData: FormData) {
 
 export async function verifyEmail(email: string) {
   const response = await fetch(
-    `http://localhost:5050/api/user/verify-email?email=${email}`,
+    `http://localhost:5050/api/user/verify-email?email=${encodeURI(email)}`,
     {
       method: "GET",
       headers: {
@@ -82,8 +82,6 @@ export default async function register(user: IRegister) {
   switch (response.status) {
     case 201:
       return true;
-    case 400:
-      return false;
     default:
       return false;
   }
