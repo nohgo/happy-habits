@@ -16,6 +16,7 @@ import {
   verifyEmailToken,
 } from "../middleware/auth.middleware";
 import AuthRequest from "../models/auth-request.model";
+import User from "../../models/user.model";
 
 export const authRouter = express.Router();
 authRouter.use(express.json());
@@ -54,6 +55,21 @@ authRouter.delete("", verifyToken, async (req: Request, res: Response) => {
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: "Failed to delete account" });
+  }
+});
+
+authRouter.get("", verifyToken, async (req: AuthRequest, res: Response) => {
+  try {
+    const username = req.username;
+    const user = await User.findOne({ username });
+    if (!user) {
+      throw new Error("Cannot find user");
+    }
+    const email = user.email;
+    res.status(200).json({ username, email });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Failed to get username" });
   }
 });
 
