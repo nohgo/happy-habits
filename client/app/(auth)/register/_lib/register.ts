@@ -66,8 +66,6 @@ interface IRegister {
   password: string;
 }
 export default async function register(user: IRegister) {
-  console.log(user);
-
   const response = await fetch("http://localhost:5050/api/user/register", {
     method: "POST",
     headers: {

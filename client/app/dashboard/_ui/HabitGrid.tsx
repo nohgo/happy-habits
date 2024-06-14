@@ -46,13 +46,11 @@ export default function HabitGrid({
   useEffect(() => {
     let newHabits = finalHabits;
     if (searchContents != "") {
-      console.log(searchContents);
       newHabits = habits.filter((x) => x.name.includes(searchContents));
     } else {
       newHabits = habits;
     }
     if (sortedBy != -1) {
-      console.log(sortedBy);
       newHabits = newHabits.sort(comparators[sortedBy]);
     }
     setFinalHabits(newHabits);
