@@ -2,7 +2,7 @@
 
 import { cookies } from "next/headers";
 
-export default async function checkUser(formData: FormData) {
+export default async function login(formData: FormData) {
   const emailUsername = formData.get("emailUsername") as string;
   const password = formData.get("password") as string;
 

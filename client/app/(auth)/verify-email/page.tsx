@@ -1,10 +1,8 @@
 "use client";
 import Logo from "@/app/_ui/Logo";
-import Link from "next/link";
-import Image from "next/image";
 import { useEffect, useState } from "react";
 import { useSearchParams } from "next/navigation";
-import { verifyEmail } from "./_lib/verifyEmail";
+import verifyEmail from "./_lib/verifyEmail";
 export default function VerifyEmail() {
   const [status, setStatus] = useState(-1);
   const [token, setToken] = useState<string | null>(null);
