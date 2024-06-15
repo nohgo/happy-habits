@@ -4,31 +4,26 @@ import Link from "next/link";
 import Image from "next/image";
 import { useEffect, useState } from "react";
 import { useSearchParams } from "next/navigation";
-import { runVerifyEmail, verifyEmail } from "./_lib/verifyEmail";
+import { verifyEmail } from "./_lib/verifyEmail";
 export default function VerifyEmail() {
   const [status, setStatus] = useState(-1);
   const [token, setToken] = useState<string | null>(null);
   const searchParams = useSearchParams();
 
   useEffect(() => {
-    setToken(searchParams.get("token"));
-  }, []);
-
-  useEffect(() => {
     if (token) {
       verifyEmail(token).then((fetchStatus) => {
         setStatus(fetchStatus);
       });
+    } else {
+      setToken(searchParams.get("token"));
     }
   }, [token]);
 
   return (
     <div className="h-screen bg-gradient-to-t from-grayscale-300 to-grayscale-50 px-10 pt-5 dark:from-grayscale-950 dark:to-grayscale-600">
       <div className="flex items-center justify-between">
-        <Logo route="/dashboard" />
-        <Link href="/account">
-          <Image src="user-icon.svg" alt="User menu" width={50} height={50} />
-        </Link>
+        <Logo route="" />
       </div>
       <div className="mt-5 flex h-5/6 flex-col justify-around space-y-5 rounded-2xl bg-grayscale-300 p-10 dark:bg-grayscale-bg-dark">
         <div>
