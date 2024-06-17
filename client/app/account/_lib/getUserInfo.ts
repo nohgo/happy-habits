@@ -13,6 +13,9 @@ export default async function getUserInfo() {
       authorization,
     },
   });
-
-  return await response.json();
+  if (response.status != 200) throw new Error();
+  return (await response.json()) as unknown as {
+    email: string;
+    username: string;
+  };
 }
