@@ -13,7 +13,7 @@ export interface IInputBox {
 export default function InputBox({
   id,
   placeholder,
-  type,
+  type = "text",
   invalidError,
   pattern,
   min,
@@ -32,7 +32,7 @@ export default function InputBox({
           id={id}
           name={id}
           placeholder={placeholder}
-          type={isVisible ? "text" : "password"}
+          type={type === "password" ? (isVisible ? "text" : "password") : type}
           pattern={pattern || ".*"}
           required
           className={`block h-10 w-72 rounded-sm p-3 outline outline-1 outline-grayscale-400 transition-all hover:outline-accent-border focus:outline-2 focus:outline-accent-border`}
