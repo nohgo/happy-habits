@@ -1,6 +1,7 @@
 import { useState } from "react";
 import addHabit from "../_lib/addHabit";
 import InputBox from "@/app/(auth)/_ui/InputBox";
+import Image from "next/image";
 
 export default function AddHabit() {
   const [inputting, setInputting] = useState(false);
@@ -18,9 +19,15 @@ export default function AddHabit() {
       </div>
       <button
         onClick={() => setInputting(false)}
-        className={`text-5xl text-red-500 transition-all hover:brightness-75 ${inputting ? "absolute" : "hidden"} right-1 top-1`}
+        className={`flex h-10 w-10 transition-all hover:brightness-75 ${inputting ? "absolute" : "hidden"} right-1 top-1`}
       >
-        X
+        <Image
+          src="/close.svg"
+          width={1}
+          height={1}
+          className="grow"
+          alt="Delete habit"
+        />
       </button>
       <form
         action={addHabit}
@@ -52,7 +59,6 @@ export default function AddHabit() {
             Add
           </button>
         </div>
-        <p className=""></p>
       </form>
     </div>
   );
