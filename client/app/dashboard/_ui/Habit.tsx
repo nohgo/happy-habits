@@ -70,21 +70,21 @@ export default function Habit({
           <p className="text-3xl">Delete this habit?</p>
           <div className="space-x-10">
             <button
-              onClick={() => {
-                setDeleting(false);
-              }}
-              className="rounded-xl border border-grayscale-400 bg-grayscale-300 p-5 transition-all hover:brightness-90"
-            >
-              Cancel
-            </button>
-            <button
               onClick={async () => {
                 await deleteHabit(_id);
                 location.reload();
               }}
-              className="rounded-xl border border-red-600 bg-red-500 p-5 transition-all hover:brightness-90"
+              className="rounded-xl bg-red-500 px-5 py-2 transition-all hover:brightness-90"
             >
               Delete
+            </button>
+            <button
+              onClick={() => {
+                setDeleting(false);
+              }}
+              className="rounded-xl bg-grayscale-300 px-5 py-2 transition-all hover:brightness-90"
+            >
+              Cancel
             </button>
           </div>
         </div>
