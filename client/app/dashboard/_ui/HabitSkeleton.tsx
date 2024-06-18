@@ -1,5 +1,4 @@
 "use client";
-import Image from "next/image";
 
 export default function HabitSkeleton({ loading }: { loading: boolean }) {
   return (
@@ -13,11 +12,11 @@ export default function HabitSkeleton({ loading }: { loading: boolean }) {
           <div className="h-7 w-7 rounded-full bg-grayscale-300"></div>
         </div>
       </div>
-      {[...Array(2)].map(() => (
-        <>
-          <div className="h-5 w-full animate-pulse rounded-full bg-grayscale-300"></div>
-          <div className="h-5 w-3/4 animate-pulse rounded-full bg-grayscale-300"></div>
-        </>
+      {[...Array(4)].map((_, index) => (
+        <div
+          key={index}
+          className="h-5 w-full animate-pulse rounded-full bg-grayscale-300"
+        ></div>
       ))}
       <div className="h-10 w-full animate-pulse rounded-full bg-grayscale-300"></div>
     </div>

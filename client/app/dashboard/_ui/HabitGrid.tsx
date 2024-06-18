@@ -67,7 +67,7 @@ export default function HabitGrid({
     <div className="ml-2 grid basis-3/4 grid-cols-3 gap-3 overflow-y-scroll rounded-xl bg-grayscale-300 p-5">
       {finalHabits.map((item: IHabit, index: number) => (
         <>
-          <Habit key={index} {...item} />
+          <Habit key={item._id} {...item} />
         </>
       ))}
       {[...Array(15)].map((_, index) => (

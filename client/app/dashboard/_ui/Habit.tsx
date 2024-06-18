@@ -30,7 +30,7 @@ export default function Habit({
       (Date.now() - new Date(lastIncrement).getTime()) / (frequency * 86400000); // 86400000 is the number of milliseconds in a day
   }
   return (
-    <div className="flex h-80 flex-col justify-between rounded-xl bg-grayscale-400 p-5">
+    <div className="my-auto flex h-80 flex-col justify-between rounded-xl bg-grayscale-400 p-5">
       {!deleting ? (
         <>
           <div>

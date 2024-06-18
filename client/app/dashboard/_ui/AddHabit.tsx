@@ -10,7 +10,7 @@ export default function AddHabit() {
       onClick={() => {
         if (!inputting) setInputting(true);
       }}
-      className={`relative flex h-80 items-center justify-around rounded-xl bg-grayscale-400 p-5 transition-all ${!inputting ? "cursor-pointer hover:brightness-75" : "cursor-auto"}`}
+      className={`relative my-auto flex h-80 items-center justify-around rounded-xl bg-grayscale-400 p-5 transition-all ${!inputting ? "cursor-pointer hover:brightness-75" : "cursor-auto"}`}
     >
       <div
         className={`text-7xl text-accent-600 ${inputting ? "hidden" : "block"}`}
