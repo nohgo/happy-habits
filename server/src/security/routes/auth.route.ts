@@ -47,10 +47,10 @@ authRouter.post("/login", async (req: Request, res: Response) => {
   }
 });
 
-authRouter.delete("", verifyToken, async (req: Request, res: Response) => {
+authRouter.delete("", verifyToken, async (req: AuthRequest, res: Response) => {
   try {
-    const { username, password } = req.body;
-
+    const { password } = req.body;
+    const username = req.username;
     await deleteAccount(username, password);
     res.status(200).json({ message: "Account deleted successfully" });
   } catch (error) {

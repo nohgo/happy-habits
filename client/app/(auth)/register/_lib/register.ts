@@ -40,26 +40,6 @@ export async function usernameAvailable(formData: FormData) {
   }
 }
 
-export async function verifyEmail(email: string) {
-  const response = await fetch(
-    `http://localhost:5050/api/user/verify-email?email=${encodeURI(email)}`,
-    {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-      },
-    },
-  );
-  switch (response.status) {
-    case 200:
-      return true;
-    case 404:
-      return false;
-    default:
-      return false;
-  }
-}
-
 interface IRegister {
   email: string;
   username: string;

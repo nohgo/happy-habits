@@ -3,7 +3,7 @@
 
 // Dependencies
 import Link from "next/link";
-import checkUser from "./_lib/check-user";
+import checkUser from "./_lib/login";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 
@@ -11,7 +11,7 @@ import { useRouter } from "next/navigation";
 import ContainerBox from "../_ui/ContainerBox";
 import InputBox from "../_ui/InputBox";
 import Button from "../_ui/Button";
-import { verifyEmail } from "../register/_lib/register";
+import { verifyEmailSend } from "../verify-email/_lib/verifyEmail";
 
 export default function LoginBox() {
   const [isInvalid, setIsInvalid] = useState(false);
@@ -23,7 +23,7 @@ export default function LoginBox() {
     if (status == 200) {
       router.push("/dashboard");
     } else if (status == 501) {
-      await verifyEmail(formData.get("emailUsername") as string);
+      await verifyEmailSend(formData.get("emailUsername") as string);
       router.push("/verify-email");
     } else setIsInvalid(true);
   }
