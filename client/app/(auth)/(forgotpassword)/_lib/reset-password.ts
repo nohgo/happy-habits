@@ -9,7 +9,7 @@ export default async function resetPassword(
   const password = formData.get("password") as string;
 
   const response = await fetch("http://localhost:5050/api/user/password", {
-    method: "POST",
+    method: "PUT",
     headers: {
       "Content-Type": "application/json",
       "auth-reset-token": "Bearer " + token,

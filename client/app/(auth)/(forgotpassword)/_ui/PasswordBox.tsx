@@ -1,6 +1,7 @@
 /* eslint-disable react/no-unescaped-entities */
 "use client";
 
+import { Suspense } from "react";
 import ContainerBox from "../../_ui/ContainerBox";
 import InputBox from "../../_ui/InputBox";
 import Button from "../../_ui/Button";
@@ -8,7 +9,7 @@ import sendEmail from "../_lib/send-email";
 import { useState } from "react";
 import resetPassword from "../_lib/reset-password";
 import { useEffect } from "react";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 
 export default function ForgotPasswordBox({
   isForgotPassword,
@@ -16,14 +17,13 @@ export default function ForgotPasswordBox({
   isForgotPassword: boolean;
 }) {
   const [token, setToken] = useState<string | null>(null);
-
+  const searchParams = useSearchParams();
   const router = useRouter();
 
   useEffect(() => {
-    const token = new URLSearchParams(new URL(window.location.href).search).get(
-      "token",
-    );
-    setToken(token);
+    if (!isForgotPassword) {
+      setToken(searchParams.get("token"));
+    }
   }, []);
 
   const [isInvalid, setIsInvalid] = useState(false);
@@ -61,25 +61,27 @@ export default function ForgotPasswordBox({
 
   return (
     <ContainerBox>
-      <form
-        action={forgotPassword}
-        className="flex flex-grow flex-col items-center justify-between px-10"
-      >
-        <div className="mt-10 text-3xl dark:text-grayscale-50">
-          {props.title}
-        </div>
-        <InputBox
-          id={props.idtype}
-          placeholder={props.placeholder}
-          type={props.idtype}
-          invalidError={props.invalidError}
-        />
-        <Button
-          text={props.buttonText}
-          isInvalid={isInvalid}
-          invalidMessage="Something went wrong. Please try again."
-        />
-      </form>
+      <Suspense>
+        <form
+          action={forgotPassword}
+          className="flex flex-grow flex-col items-center justify-between px-10"
+        >
+          <div className="mt-10 text-3xl dark:text-grayscale-50">
+            {props.title}
+          </div>
+          <InputBox
+            id={props.idtype}
+            placeholder={props.placeholder}
+            type={props.idtype}
+            invalidError={props.invalidError}
+          />
+          <Button
+            text={props.buttonText}
+            isInvalid={isInvalid}
+            invalidMessage="Something went wrong. Please try again."
+          />
+        </form>
+      </Suspense>
     </ContainerBox>
   );
 }

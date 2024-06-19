@@ -1,4 +1,5 @@
 "use client";
+import { Suspense } from "react";
 import Logo from "@/app/_ui/Logo";
 import { useEffect, useState } from "react";
 import { useSearchParams } from "next/navigation";
@@ -25,20 +26,22 @@ export default function VerifyEmail() {
       </div>
       <div className="mt-5 flex h-5/6 flex-col justify-around space-y-5 rounded-2xl bg-grayscale-300 p-10 dark:bg-grayscale-bg-dark">
         <div>
-          <h1 className="text-center text-4xl dark:text-white">
-            {status === 200
-              ? "Your account has been verified successfully."
-              : status === 500
-                ? "The link you clicked is either invalid or expired."
-                : "A link has been sent to your email to verify your account."}
-          </h1>
-          <h2 className="text-center text-2xl dark:text-white">
-            {status === 200
-              ? "You can now log in to your account by returning to the login page."
-              : status === 500
-                ? "Please try logging in again and checking your email."
-                : "Be sure to check your spam folder."}
-          </h2>
+          <Suspense>
+            <h1 className="text-center text-4xl dark:text-white">
+              {status === 200
+                ? "Your account has been verified successfully."
+                : status === 500
+                  ? "The link you clicked is either invalid or expired."
+                  : "A link has been sent to your email to verify your account."}
+            </h1>
+            <h2 className="text-center text-2xl dark:text-white">
+              {status === 200
+                ? "You can now log in to your account by returning to the login page."
+                : status === 500
+                  ? "Please try logging in again and checking your email."
+                  : "Be sure to check your spam folder."}
+            </h2>
+          </Suspense>
         </div>
       </div>
     </div>
