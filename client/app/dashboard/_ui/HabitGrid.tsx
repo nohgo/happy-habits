@@ -12,7 +12,6 @@ import {
 import { useRouter } from "next/navigation";
 import AddHabit from "./AddHabit";
 import HabitSkeleton from "./HabitSkeleton";
-import { OverlayScrollbars } from "overlayscrollbars";
 
 export default function HabitGrid({
   sortedBy,
