@@ -19,7 +19,7 @@ export default function LogoBlock({}) {
         priority
       />
       <h1 className="font-bold ml-10 w-1/3 pt-14 text-7xl dark:text-white">
-        A habit tracker built for happy people
+        A habit tracker built for happy people.
       </h1>
     </div>
   );
