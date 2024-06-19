@@ -8,7 +8,7 @@ export default async function incrementStreak(habitId: String): Promise<void> {
 
   if (!authorization) throw new Error("User has no authorization token");
 
-  await fetch(`http://localhost:5050/api/habits/increment/${habitId}`, {
+  await fetch(`${process.env.SERVER_URL}/api/habits/increment/${habitId}`, {
     method: "PUT",
     headers: {
       "Content-Type": "application/json",

@@ -7,7 +7,7 @@ export default async function deleteAccount(formData: FormData) {
   if (!authorization) throw new Error("User does not have authorization");
 
   const password = formData.get("password") as string;
-  const response = await fetch("http://localhost:5050/api/user", {
+  const response = await fetch(`${process.env.SERVER_URL}/api/user`, {
     method: "DELETE",
     headers: {
       "Content-Type": "application/json",

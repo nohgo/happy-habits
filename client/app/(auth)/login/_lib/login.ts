@@ -6,7 +6,7 @@ export default async function login(formData: FormData) {
   const emailUsername = formData.get("emailUsername") as string;
   const password = formData.get("password") as string;
 
-  const response = await fetch("http://localhost:5050/api/user/login", {
+  const response = await fetch(`${process.env.SERVER_URL}/api/user/login`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",

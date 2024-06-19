@@ -3,7 +3,7 @@ export default async function sendEmail(formData: FormData) {
   const email = formData.get("email") as string;
 
   const response = await fetch(
-    "http://localhost:5050/api/user/forgot-password",
+    `${process.env.SERVER_URL}/api/user/forgot-password`,
     {
       method: "POST",
       headers: {

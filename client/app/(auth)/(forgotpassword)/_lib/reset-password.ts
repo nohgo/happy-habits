@@ -8,7 +8,7 @@ export default async function resetPassword(
   }
   const password = formData.get("password") as string;
 
-  const response = await fetch("http://localhost:5050/api/user/password", {
+  const response = await fetch(`${process.env.SERVER_URL}/api/user/password`, {
     method: "PUT",
     headers: {
       "Content-Type": "application/json",

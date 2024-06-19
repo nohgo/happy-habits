@@ -6,7 +6,7 @@ export default async function getHabits() {
 
   if (!authorization) throw new Error("User has no authorization token");
 
-  const response = await fetch("http://localhost:5050/api/habits", {
+  const response = await fetch(`${process.env.SERVER_URL}/api/habits`, {
     method: "GET",
     headers: {
       "Content-Type": "application/json",
