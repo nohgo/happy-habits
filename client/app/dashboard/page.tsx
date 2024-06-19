@@ -12,7 +12,7 @@ export default function Dashboard() {
   return (
     <div className="flex h-screen flex-col justify-between bg-gradient-to-t from-grayscale-200 to-grayscale-50 px-10 pt-5 dark:from-grayscale-950 dark:to-grayscale-600">
       <div className="flex items-center justify-between">
-        <Logo route="" />
+        <Logo route="/" />
         <Link href={"/account"}>
           {" "}
           <Image

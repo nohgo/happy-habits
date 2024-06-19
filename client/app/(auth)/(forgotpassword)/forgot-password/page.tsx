@@ -1,5 +1,6 @@
 import PasswordBox from "../_ui/PasswordBox";
 import AuthBasic from "../../_ui/AuthBasic";
+import { Suspense } from "react";
 
 export const metadata = {
   title: "Forgot Password",
@@ -9,7 +10,9 @@ export const metadata = {
 export default function ForgotPassword() {
   return (
     <AuthBasic>
-      <PasswordBox isForgotPassword={true} />
+      <Suspense>
+        <PasswordBox isForgotPassword={true} />
+      </Suspense>
     </AuthBasic>
   );
 }

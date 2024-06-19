@@ -24,7 +24,7 @@ export default function ForgotPasswordBox({
     if (!isForgotPassword) {
       setToken(searchParams.get("token"));
     }
-  }, []);
+  }, [isForgotPassword, searchParams]);
 
   const [isInvalid, setIsInvalid] = useState(false);
 

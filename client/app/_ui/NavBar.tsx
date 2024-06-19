@@ -5,8 +5,17 @@ export default function NavBar({}) {
   return (
     <div className="flex justify-between dark:text-white">
       <Logo route="" />
-      <div>
-        <Link className="mr-2 text-2xl" href="/login">
+      <div className="space-x-5">
+        <Link
+          className="rounded-lg bg-accent-main p-3 text-2xl transition-all hover:brightness-75"
+          href="/dashboard"
+        >
+          Dashboard
+        </Link>
+        <Link
+          className="text-2xl transition-all hover:brightness-75"
+          href="/login"
+        >
           Log in
         </Link>{" "}
         <Link

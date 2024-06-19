@@ -18,7 +18,7 @@ export default function LogoBlock({}) {
         className="hidden dark:block"
         priority
       />
-      <h1 className="font-bold ml-10 w-1/3 pt-14 text-7xl dark:text-white">
+      <h1 className="ml-10 w-1/3 pt-14 text-7xl font-bold dark:text-white">
         A habit tracker built for happy people.
       </h1>
     </div>

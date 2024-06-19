@@ -35,8 +35,8 @@ export default function Habit({
         <>
           <div>
             <div className={`flex items-center justify-between`}>
-              <h1 className="text-2xl">{name}</h1>
-              <div className="flex items-center">
+              <h1 className="basis-1/2 text-2xl">{name}</h1>
+              <div className="flex basis-1/3 items-center justify-end">
                 <p className="text-2xl">🔥{streak}</p>
                 <button
                   onClick={async () => {
