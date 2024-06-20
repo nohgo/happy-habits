@@ -19,7 +19,7 @@ export default async function login(formData: FormData) {
 
   // switch secure to true before prod
   cookies().set("token", `Bearer ${(await response.json()).token}`, {
-    secure: false,
+    secure: true,
     httpOnly: true,
     maxAge: 60000 * 30,
   });
