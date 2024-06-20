@@ -21,6 +21,7 @@ app.use(cors(corsOptions));
 
 try {
   connectDB(process.env.DB_NAME);
+  console.log("Database connected");
 
   apiRouter.use("/user", authRouter);
   apiRouter.use("/habits", habitsRouter);
