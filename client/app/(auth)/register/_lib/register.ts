@@ -46,7 +46,7 @@ interface IRegister {
   password: string;
 }
 export default async function register(user: IRegister) {
-  const response = await fetch(`${process.env.SERVER_URL}/api/user/register}`, {
+  const response = await fetch(`${process.env.SERVER_URL}/api/user/register`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
